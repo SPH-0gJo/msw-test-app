@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 //import "./index.css";
 import "@/resources/scss/main.scss";
-// import App from "./App";
+import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./views/Login/Login";
 import Default from "./views/Default";
@@ -16,7 +16,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Routes>
-      <Route path="/">
+      <Route path="/" element={<App />}>
         <Route index element={<Default />} />
         <Route path="dashboard" element={<DashBoard />}>
           <Route path="one" />
