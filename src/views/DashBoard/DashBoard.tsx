@@ -1,11 +1,8 @@
 import React from "react";
+import Tableau from "./Tableau";
 
 const DashBoard = function () {
-  return (
-    <div>
-      <h2>DashBoard Page</h2>
-    </div>
-  );
+  return <Tableau />;
 };
 
 export default DashBoard;
