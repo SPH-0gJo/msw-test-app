@@ -1,6 +1,8 @@
 import React from "react";
 import Logo from "@/resources/images/logo-light.png";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { useStores } from "@/index";
+import { useNavigate } from "react-router-dom";
 
 type Inputs = {
   userId: string;
@@ -17,6 +19,9 @@ const Login = function () {
     mode: "onSubmit",
   });
 
+  const { authStore } = useStores();
+  const navigate = useNavigate();
+
   console.log(errors);
 
   const inputChangeHandler = function () {
@@ -24,8 +29,18 @@ const Login = function () {
   };
 
   //유효성 검사 후 error가 없을 때만 호출됨
-  const formSubmitHandler: SubmitHandler<Inputs> = function (data) {
+  const formSubmitHandler: SubmitHandler<Inputs> = async function (data) {
     console.log("submit data", data);
+
+    try {
+      //로그인 요청
+      await authStore.login(data.userId, data.password);
+      //메인 화면으로 이동
+      navigate("/");
+    } catch (error) {
+      //에러 출력
+      console.error("login error", error);
+    }
   };
 
   return (
