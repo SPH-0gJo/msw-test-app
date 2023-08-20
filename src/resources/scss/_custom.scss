@@ -4,6 +4,144 @@
   overflow: hidden;
 }
 
+.login-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-image: url("~@/resources/images/nyj-bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.35);
+  }
+
+  .login-inner {
+    position: relative;
+    top: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .login-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 30px;
+
+      img {
+        height: 40px;
+      }
+
+      .logo-type {
+        font-size: 18px;
+        font-weight: 500;
+        color: #fff;
+      }
+    }
+
+    .login-box {
+      background: rgb(16 18 27 / 50%);
+      backdrop-filter: blur(2px);
+      border-radius: 30px;
+      padding: 50px 60px;
+      width: 450px;
+
+      .form-row {
+
+        &:not(:last-child) {
+          margin-bottom: 20px;
+        }
+
+        .form-label {
+          color: #fff;
+          margin-bottom:5px;
+          padding-left: 10px;
+        }
+
+        .form-control {
+          border-radius: 30px;
+          border: 1px solid #fff;
+          background-color: transparent;
+          color: #fff;
+          font-size: 16px;
+          padding: 10px 20px;
+        }
+
+      }
+
+      .validation-text {
+        text-align: center;
+        color: rgba(255,255,255,0.7);
+      }
+
+      .login-btn {
+        padding: 10px 20px;
+        width: 100%;
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+.login-container {
+
+  &::before {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.login-inner.v2 {
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 0;
+  bottom: 0;
+
+  .login-box {
+    background: rgba(255,255,255,0.8);
+    border-radius: 0;
+    padding: 50px 110px;
+    width: 40vw;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .login-logo {
+
+      .logo-type {
+        color: #000;
+      }
+    }
+
+    .form-row {
+      .form-label {
+        color: #000;
+      }
+
+      .form-control {
+        color: #000;
+        border: 1px solid #000;
+      }
+    }
+
+
+    .validation-text {
+      color: #000;
+    }
+  }
+}
+
 .logo-box {
   height: 70px;
   width: 230px;
