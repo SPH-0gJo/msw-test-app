@@ -1,6 +1,6 @@
 import React from "react";
 import Logo from "@/resources/images/logo-light.png";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
   userId: string;
@@ -23,6 +23,11 @@ const Login = function () {
     clearErrors();
   };
 
+  //유효성 검사 후 error가 없을 때만 호출됨
+  const formSubmitHandler: SubmitHandler<Inputs> = function (data) {
+    console.log("submit data", data);
+  };
+
   return (
     <div className="login-container">
       <div className="login-inner">
@@ -31,11 +36,7 @@ const Login = function () {
             <img src={Logo} alt="남양주 Logo" />
             <span className="logo-type">생생 시민소리 분석시스템</span>
           </div>
-          <form
-            onSubmit={handleSubmit((data) => {
-              console.log("submit data", data);
-            })}
-          >
+          <form onSubmit={handleSubmit(formSubmitHandler)}>
             <div className="form-row">
               <label htmlFor="userId" className="form-label">
                 아이디
