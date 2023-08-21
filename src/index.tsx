@@ -43,6 +43,7 @@ root.render(
             </RequireAuth>
           }
         >
+          {/* "/" 요청시 라우팅 */}
           <Route index element={<Default />} />
           <Route path="dashboard" element={<DashBoard />}>
             <Route path="one" />
@@ -60,6 +61,8 @@ root.render(
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />
+        {/* "/없는경로" 요청시 라우팅 */}
+        <Route path="*" element={<Default />} />
       </Routes>
     </BrowserRouter>
   </StoreProvider>

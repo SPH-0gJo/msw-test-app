@@ -1,11 +1,8 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 
 const Default = function () {
-  return (
-    <div>
-      <h2>Default Page</h2>
-    </div>
-  );
+  return <Navigate to="/dashboard" />;
 };
 
 export default Default;
