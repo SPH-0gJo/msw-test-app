@@ -103,8 +103,8 @@ const Login = function () {
             </div>
             {(errors.userId || errors.password) && (
               <p className="validation-text">
-                <i className="mdi mdi-alert-outline text-danger" /> 아이디 또는
-                비밀번호를 입력하세요.
+                <i className="mdi mdi-alert-outline text-danger" />
+                아이디 또는 비밀번호를 입력하세요.
               </p>
             )}
             {errors.root?.apiError && (
