@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import AuthRepository from "@/modules/Login/AuthRepository";
 
-type ErrorData = {
+export type ErrorData = {
   code: number;
   msg: string;
 };
