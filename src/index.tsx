@@ -6,15 +6,31 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./views/Login/Login";
 import Default from "./views/Default";
-import DashBoard from "./views/DashBoard/DashBoard";
+
 import Users from "./views/System/Users/Users";
 import AuthStore from "./modules/Login/AuthStore";
 import UserStore from "./modules/User/UserStore";
 import RequireAuth from "./views/Login/RequireAuth";
+import { MenuInfo, menuInfoList } from "./shared/var/menu";
+import Dashboard from "./views/Dashboard/Dashboard";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
+const getRoutes = function (menuInfoList: MenuInfo[]) {
+  return menuInfoList.map(({ path, children }) => {
+    if (children) {
+      return (
+        <Route path={path} element={<Dashboard />}>
+          {getRoutes(children)}
+        </Route>
+      );
+    } else {
+      return <Route path={path} />;
+    }
+  });
+};
 
 export class RootStore {
   userStore: UserStore;
@@ -45,7 +61,8 @@ root.render(
         >
           {/* "/" 요청시 라우팅 */}
           <Route index element={<Default />} />
-          <Route path="dashboard" element={<DashBoard />}>
+          {getRoutes(menuInfoList)}
+          {/* <Route path="dashboard" element={<Dashboard />}>
             <Route path="one" />
             <Route path="two">
               <Route path="twoOne" />
@@ -55,7 +72,7 @@ root.render(
                 <Route path="threeOneTwo" />
               </Route>
             </Route>
-          </Route>
+          </Route> */}
           <Route path="system">
             <Route path="users" element={<Users />} />
           </Route>
