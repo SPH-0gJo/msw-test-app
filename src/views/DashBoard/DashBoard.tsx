@@ -1,8 +1,8 @@
 import React from "react";
 import Tableau from "./Tableau";
 
-const DashBoard = function () {
+const Dashboard = function () {
   return <Tableau />;
 };
 
-export default DashBoard;
+export default Dashboard;
