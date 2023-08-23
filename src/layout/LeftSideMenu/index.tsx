@@ -3,6 +3,8 @@ import DashLeftSideMenu from "./DashLeftSideMenu";
 import { useLocation } from "react-router-dom";
 import SysLeftSideMenu from "./SysLeftSideMenu";
 
+import "./index.scss";
+
 const LeftSideMenu = function () {
   const { pathname } = useLocation();
   console.log("----pathname----", pathname);

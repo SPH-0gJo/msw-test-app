@@ -1,0 +1,18 @@
+//level 1 
+// .left-side-menu .side-menu-wrap ul>li.is-open>a {
+//     color: #fff;
+//     font-weight: 400;
+// }
+
+//그외
+// ul>li>a:hover,
+// ul>li>a:focus,
+// ul>li>a:active {
+//     color: rgba(255, 255, 255, 0.9);
+// }
+
+.left-side-menu .side-menu-wrap ul.side-menu-level2 > li.is-open > a, 
+.left-side-menu .side-menu-wrap ul.side-menu-level2 > li.active-page > a, 
+.left-side-menu .side-menu-wrap ul.side-menu-level3 > li.active-page > a {
+    color: rgba(255, 255, 255, 0.9);
+}
