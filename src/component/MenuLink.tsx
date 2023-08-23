@@ -9,7 +9,13 @@ function MenuLink({ to, children }: { to: string; children: React.ReactNode }) {
   console.log("----MenuLink Render----", pathname);
 
   return (
-    <li className={isActive ? "active-page" : ""}>
+    <li
+      className={isActive ? "active-page" : ""}
+      onClick={(evt) => {
+        //li 태그 이벤트 전파 방지
+        evt.stopPropagation();
+      }}
+    >
       <NavLink to={to} className="side-nav-link" end>
         {children}
       </NavLink>
