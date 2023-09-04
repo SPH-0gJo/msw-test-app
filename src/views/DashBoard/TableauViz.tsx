@@ -19,8 +19,8 @@ function TableauViz({ ticket, url }: { ticket: string; url: string }) {
         <param name="embed_code_version" value={3} />
         <param name="site_root" value="" />
         <param name="name" value={url} />
-        <param name="tabs" value="yes" />
-        <param name="toolbar" value="yes" />
+        <param name="tabs" value="false" />
+        <param name="toolbar" value="false" />
         <param name="showAppBanner" value="false" />
         <param name="ticket" value={ticket} />
       </object>
