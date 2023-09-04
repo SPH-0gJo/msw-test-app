@@ -1,5 +1,6 @@
 import React from "react";
 import Logo from "@/resources/images/logo-light.png";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 const TopNavBar = function () {
   return (
@@ -18,11 +19,18 @@ const TopNavBar = function () {
           <div className="user-menu-icon">
             <i className="fe-user" />
           </div>
-          <div className="user-menu-dropdown">
+          {/* <div className="user-menu-dropdown">
             <a href="#">
               관리자 <i className="mdi mdi-chevron-down" />
             </a>
-          </div>
+          </div> */}
+          <NavDropdown title={"사용자명"} id="basic-nav-dropdown">
+            <NavDropdown.Item href="#action/3.1">로그아웃</NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#action/3.4">
+              관리자 페이지
+            </NavDropdown.Item>
+          </NavDropdown>
         </div>
       </div>
     </div>
