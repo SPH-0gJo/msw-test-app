@@ -38,6 +38,9 @@ const Dashboard = function () {
             setTicket(ticket);
           }
         })
+        .catch((e: any) => {
+          console.error(e);
+        })
         .finally(() => {
           setLoading(false);
         });
