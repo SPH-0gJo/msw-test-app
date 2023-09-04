@@ -13,7 +13,6 @@ type HasSubMenuLinkProps = {
   title: string;
   level: number;
   to: string;
-  url?: string;
 };
 
 // const getLinkClassName = function (isMenuActive: boolean, isOpen: boolean) {
@@ -28,34 +27,6 @@ const getLinkClassName = function (isMenuActive: boolean, isOpen: boolean) {
   return `${openClass}`;
 };
 
-const getIsSubMenuActive = function (
-  subMenues: MenuInfo[],
-  pathname: string
-): boolean {
-  let isActive = false;
-
-  for (let i = 0; i < subMenues.length; i++) {
-    const subMenu = subMenues[i];
-    isActive = isActive || subMenu.to === pathname;
-    if (subMenu.children) {
-      isActive = isActive || getIsSubMenuActive(subMenu.children, pathname);
-    }
-  }
-
-  return isActive;
-
-  //return subMenues.some((e) => e.to === pathname);
-};
-
-const _getIsSubMenuActive = function (
-  subMenues: MenuInfo[],
-  pathname: string
-): boolean {
-  return subMenues.some(
-    (e) => e.to === pathname || _getIsSubMenuActive(e.children || [], pathname)
-  );
-};
-
 function HasSubMenuLink({
   subMenues,
   icon,
@@ -65,26 +36,20 @@ function HasSubMenuLink({
 }: HasSubMenuLinkProps) {
   const { pathname } = useLocation();
 
-  const isMenuActive = useMemo(() => {
-    const isMe = to === pathname;
-    const isAnySubMenu = _getIsSubMenuActive(subMenues, pathname);
-
-    // const isAnySubMenu = subMenues.reduce(
-    //   (prev, { to }) => prev || to === pathname,
-    //   false
-    // );
-
-    console.log("isMenuActive", isMe, isAnySubMenu);
-    return isMe || isAnySubMenu;
-  }, [to, pathname, subMenues]);
+  const isMenuActive = useMemo(
+    () =>
+      to === pathname ||
+      subMenues.reduce((prev, { to }) => prev || to === pathname, false),
+    [to, pathname, subMenues]
+  );
 
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("----HasSubMenuLink Render----", to, pathname);
+  console.log("----HasSubMenuLink Render----", isOpen);
 
   return (
     <li
-      className={`has-sub ${isMenuActive ? "is-open" : ""}`}
+      className={`has-sub ${getLinkClassName(isMenuActive, isOpen)}`}
       onClick={() => {
         //onclick을 여기 달아서, 밑에 subMenu 누르면 이벤트가 전파되고, state가 바뀌어 리렌더링된다.
         //setIsOpen((prevState) => !prevState);
@@ -100,7 +65,7 @@ function HasSubMenuLink({
           evt.stopPropagation();
         }}
         className={`side-menu side-menu-level${level + 1}`}
-        style={{ display: isMenuActive ? "" : "none" }}
+        style={{ display: isOpen || isMenuActive ? "" : "none" }}
       >
         {getMenuLinks(subMenues, level + 1)}
       </ul>

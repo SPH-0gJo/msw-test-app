@@ -18,6 +18,7 @@ const addRefreshSubscriber = (callback: any) => {
   refreshSubscribers.push(callback);
 };
 
+axios.defaults.baseURL = "/nyj-api";
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
 // 서버에 API 요청 후, JWT 만료로 응답받을 시에 로그인 화면으로 redirect
@@ -108,7 +109,7 @@ axios.interceptors.response.use(
     } else if (status === 401 || status === 403) {
       // /auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
       console.log("login 페이지 이동");
-      //window.location.href = "/login";
+      window.location.href = "/login";
     }
 
     return Promise.reject(error);
@@ -122,7 +123,11 @@ axios.interceptors.request.use(
 
     //헤더에 삽입
     //로그인인 경우는 Bearer 토큰 추가하면 서버에서 에러반환,,
-    if (config.url !== "/auth/login" && accessToken) {
+    if (
+      config.url !== "/auth/login" &&
+      config.url !== "/auth/refresh" &&
+      accessToken
+    ) {
       config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;

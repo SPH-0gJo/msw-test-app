@@ -4,7 +4,7 @@ import { MenuInfo, menuInfoList } from "@/shared/var/menu";
 import React from "react";
 
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
-  return menuInfoList.map(({ children, title, to, icon }) => {
+  return menuInfoList.map(({ children, title, to, icon, url }) => {
     if (children) {
       return (
         <HasSubMenuLink
@@ -13,10 +13,15 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
           subMenues={children}
           level={level}
           to={to}
+          url={url}
         />
       );
     } else {
-      return <MenuLink to={to}>{title}</MenuLink>;
+      return (
+        <MenuLink to={to} url={url}>
+          {title}
+        </MenuLink>
+      );
     }
   });
 };

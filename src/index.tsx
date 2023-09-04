@@ -13,6 +13,7 @@ import UserStore from "./modules/User/UserStore";
 import RequireAuth from "./views/Login/RequireAuth";
 import { MenuInfo, menuInfoList } from "./shared/var/menu";
 import Dashboard from "./views/Dashboard/Dashboard";
+import DashboardStore from "./modules/Dashboard/DashboardStore";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -21,11 +22,7 @@ const root = ReactDOM.createRoot(
 const getRoutes = function (menuInfoList: MenuInfo[]) {
   return menuInfoList.map(({ path, children }) => {
     if (children) {
-      return (
-        <Route path={path} element={<Dashboard />}>
-          {getRoutes(children)}
-        </Route>
-      );
+      return <Route path={path}>{getRoutes(children)}</Route>;
     } else {
       return <Route path={path} />;
     }
@@ -35,9 +32,11 @@ const getRoutes = function (menuInfoList: MenuInfo[]) {
 export class RootStore {
   userStore: UserStore;
   authStore: AuthStore;
+  dashboardStore: DashboardStore;
   constructor() {
     this.userStore = new UserStore(this);
     this.authStore = new AuthStore(this);
+    this.dashboardStore = new DashboardStore(this);
   }
 }
 
@@ -61,7 +60,7 @@ root.render(
         >
           {/* "/" 요청시 라우팅 */}
           <Route index element={<Default />} />
-          {getRoutes(menuInfoList)}
+          <Route element={<Dashboard />}>{getRoutes(menuInfoList)}</Route>
           {/* <Route path="dashboard" element={<Dashboard />}>
             <Route path="one" />
             <Route path="two">

@@ -6,11 +6,16 @@ type customWindow = typeof window & {
 
 const { tableau } = window as customWindow;
 
-function Tableau() {
+type TableauProps = {
+  url: string;
+};
+
+function Tableau({ url }: TableauProps) {
   const ref = useRef(null);
   const viz = useRef(null);
 
-  const URL = "https://public.tableau.com/views/_16866371409120/sheet14";
+  const testUrl =
+    "http://34.22.86.214/trusted/VJQ04WBvSOaOsZgLOLatMQ==:c9JaVaoSxNl03hImPViQtZfJ/views/yeoron_server0817/Sentiment?:iid=1";
 
   //dom이 마운트되면
   useEffect(() => {
@@ -32,7 +37,7 @@ function Tableau() {
       (viz.current as any).dispose();
     }
 
-    viz.current = new tableau.Viz(ref.current, URL, {
+    viz.current = new tableau.Viz(ref.current, url, {
       height: vizHeight,
       width: vizWidth,
       //device: "phone",
@@ -40,7 +45,7 @@ function Tableau() {
         console.log(e);
       },
     });
-  }, []);
+  }, [url]);
 
   return <div style={{ width: "100%", height: "100%" }} ref={ref} />;
 }
