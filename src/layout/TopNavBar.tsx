@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useCallback } from "react";
 import Logo from "@/resources/images/logo-light.png";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import { useNavigate } from "react-router-dom";
+import { useStores } from "..";
 
 const TopNavBar = function () {
+  const { authStore } = useStores();
+
+  const navigate = useNavigate();
+
+  const handleLogoutBtnClick = useCallback(function () {
+    console.log("click user logout");
+
+    authStore.logUserOut();
+    navigate("/login");
+  }, []);
+
   return (
     <div className="top-nav">
       <div className="logo-box">
@@ -24,12 +37,12 @@ const TopNavBar = function () {
               관리자 <i className="mdi mdi-chevron-down" />
             </a>
           </div> */}
-          <NavDropdown title={"사용자명"} id="basic-nav-dropdown">
-            <NavDropdown.Item href="#action/3.1">로그아웃</NavDropdown.Item>
-            <NavDropdown.Divider />
-            <NavDropdown.Item href="#action/3.4">
-              관리자 페이지
+          <NavDropdown title={"사용자"} id="basic-nav-dropdown">
+            <NavDropdown.Item onClick={handleLogoutBtnClick}>
+              로그아웃
             </NavDropdown.Item>
+            <NavDropdown.Divider />
+            <NavDropdown.Item href="#">관리자 페이지</NavDropdown.Item>
           </NavDropdown>
         </div>
       </div>
