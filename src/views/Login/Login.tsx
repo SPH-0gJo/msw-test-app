@@ -19,6 +19,7 @@ const Login = function () {
     formState: { errors },
     clearErrors,
     setError,
+    trigger,
   } = useForm<Inputs>({
     mode: "onSubmit",
   });
@@ -69,6 +70,10 @@ const Login = function () {
     }
   };
 
+  const checkKeyDown = (e: any) => {
+    if (e.key === "Enter") e.preventDefault();
+  };
+
   return (
     <div className="login-container v2">
       <div className="login-inner v2">
@@ -77,7 +82,10 @@ const Login = function () {
             <img src={Logo} alt="남양주 Logo" />
             <span className="logo-type">생생 시민소리 분석시스템</span>
           </div>
-          <form onSubmit={handleSubmit(formSubmitHandler)}>
+          <form
+            onSubmit={handleSubmit(formSubmitHandler)}
+            onKeyDown={(e) => checkKeyDown(e)}
+          >
             <div className="form-row">
               <label htmlFor="userId" className="form-label">
                 아이디
@@ -129,9 +137,15 @@ const Login = function () {
           </form>
 
           <div className="login-text v3">
-            <h4><i className="mdi mdi-information-slab-circle-outline text-success"></i><b>생생 시민소리 분석시스템</b>이란? </h4>
-            <p>뉴스포털 및 지역 커뮤니티 등을 통해 소통되는 남양주 관련정보를 수집하고,
-              시정 민원데이터와 융합 분석 및 시각화 함으로써 지역 여론동향을 빠르게 모니터링 할 수 있는 시스템 입니다.</p>
+            <h4>
+              <i className="mdi mdi-information-slab-circle-outline text-success"></i>
+              <b>생생 시민소리 분석시스템</b>이란?{" "}
+            </h4>
+            <p>
+              뉴스포털 및 지역 커뮤니티 등을 통해 소통되는 남양주 관련정보를
+              수집하고, 시정 민원데이터와 융합 분석 및 시각화 함으로써 지역
+              여론동향을 빠르게 모니터링 할 수 있는 시스템 입니다.
+            </p>
           </div>
         </div>
       </div>
