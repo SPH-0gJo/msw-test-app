@@ -2,7 +2,7 @@
   "name": "nyj-web-app-front",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://221.147.56.180:35030",
+  "proxy": "http://221.147.56.180:35030",
   "dependencies": {
     "@popperjs/core": "^2.11.7",
     "@testing-library/jest-dom": "^5.17.0",
