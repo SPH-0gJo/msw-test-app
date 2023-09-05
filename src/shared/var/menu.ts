@@ -69,7 +69,7 @@ export const menuInfoList: MenuInfo[] = [
     ],
   },
   {
-    title: "민원 분석",
+    title: "시정 민원",
     path: "minwon",
     to: "/minwon",
     icon: "mdi mdi-view-dashboard-outline",

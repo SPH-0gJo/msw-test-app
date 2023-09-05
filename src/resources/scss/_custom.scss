@@ -91,10 +91,10 @@
   }
 }
 
-.login-container {
+.login-container.v2 {
 
   &::before {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.1);
   }
 }
 
@@ -108,10 +108,11 @@
   bottom: 0;
 
   .login-box {
-    background: rgba(255,255,255,0.8);
+    background: rgba(255,255,255,0.9);
     border-radius: 0;
-    padding: 50px 110px;
+    padding: 50px 20% 250px;
     width: 40vw;
+    max-width: 660px;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -145,6 +146,7 @@
 .logo-box {
   height: 70px;
   width: 230px;
+  background-color: $nyj-dark-blue;
 
   .logo {
     line-height: 1;
@@ -295,6 +297,7 @@
   z-index: 11;
   display: flex;
   align-items: center;
+  background-color: #f8f8f8;
 
   .top-nav-right {
     flex: 1 1 0;
@@ -307,18 +310,41 @@
       font-weight: 600;
       font-size: 18px;
       margin-bottom: 0;
+      color: transparent;
     }
 
     .user-menu {
       display: flex;
       gap: 10px;
+
+      .nav-item {
+        .dropdown-menu {
+          box-shadow: 4px 4px 6px 2px rgba(0, 0, 0, 0.05);
+          border: 0;
+          background-color: #fff;
+          margin-top: 12px;
+          padding: 0;
+          overflow: hidden;
+          min-width: 140px;
+
+          .dropdown-divider {
+            border: 0;
+            margin: 0;
+          }
+
+          .dropdown-item {
+            font-size: 14px;
+            padding: 10px 20px;
+          }
+        }
+      }
     }
   }
 }
 
 .content-page {
   height: 100%;
-  padding: 86px 24px 24px 24px;
+  padding: 76px 20px 20px 20px;
   margin-left: 230px;
   overflow: auto;
 
@@ -582,6 +608,57 @@ body.authentication-bg {
       padding: 0.58rem 0.9rem;
     }
   }
-
 }
 
+.login-text {
+  margin-top: 40px;
+  width: 400px;
+  word-break: keep-all;
+  text-align: center;
+  filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.4));
+
+  h4 {
+    font-size: 17px;
+    font-weight: 300;
+
+    i {
+      margin-right: 5px;
+      font-weight: 800;
+    }
+
+    b {
+      font-weight: 500;
+    }
+  }
+
+  p {
+    font-weight: 300;
+    margin-bottom: 0;
+  }
+
+  &.v2 {
+    filter: none;
+    padding: 30px 20px;
+    border-radius: 20px;
+    border: 1px solid #aeaeae;
+    width: 100%;
+    max-width: 400px;
+    margin-top: 60px;
+  }
+
+  &.v3 {
+    filter: none;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    max-width: unset;
+    left: 0;
+    border: 0;
+    background-color: #002A78;
+    border-radius: 0;
+    color: #fff;
+    text-align: left;
+    padding: 100px;
+    margin-top: 0;
+  }
+}

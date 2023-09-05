@@ -1,5 +1,6 @@
 import React from "react";
-import Logo from "@/resources/images/logo-light.png";
+/*import Logo from "@/resources/images/logo-light.png";*/
+import Logo from "@/resources/images/logo-dark.png";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useStores } from "@/index";
 import { useNavigate } from "react-router-dom";
@@ -69,8 +70,8 @@ const Login = function () {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-inner">
+    <div className="login-container v2">
+      <div className="login-inner v2">
         <div className="login-box">
           <div className="login-logo">
             <img src={Logo} alt="남양주 Logo" />
@@ -126,6 +127,12 @@ const Login = function () {
               로그인
             </button>
           </form>
+
+          <div className="login-text v3">
+            <h4><i className="mdi mdi-information-slab-circle-outline text-success"></i><b>생생 시민소리 분석시스템</b>이란? </h4>
+            <p>뉴스포털 및 지역 커뮤니티 등을 통해 소통되는 남양주 관련정보를 수집하고,
+              시정 민원데이터와 융합 분석 및 시각화 함으로써 지역 여론동향을 빠르게 모니터링 할 수 있는 시스템 입니다.</p>
+          </div>
         </div>
       </div>
     </div>
