@@ -24,6 +24,8 @@ const Dashboard = function () {
     const tableauUrl = getTableauUrl(menuInfoList, pathname);
 
     if (tableauUrl) {
+      console.log("tableauUrl is,,,", tableauUrl);
+      setUrl(tableauUrl);
       setLoading(true);
       dashboardStore
         .getTicket()
@@ -33,10 +35,11 @@ const Dashboard = function () {
             //let authorizedUrl = applyTicket(tableauUrl, ticket);
             //console.log("authorizedUrl", authorizedUrl);
             //setUrl(authorizedUrl);
-            console.log("tableauUrl is,,,", tableauUrl);
-            setUrl(tableauUrl);
             setTicket(ticket);
           }
+        })
+        .catch((e: any) => {
+          console.error(e);
         })
         .finally(() => {
           setLoading(false);
@@ -81,7 +84,8 @@ const Dashboard = function () {
   ) : !url ? (
     <div>대시보드 URL이 존재하지 않습니다.</div>
   ) : (
-    <div>유효하지 않은 티켓입니다.</div>
+    // <div>유효하지 않은 티켓이거나, 티켓 발행에 실패하였습니다.</div>
+    <div>대시보드 인증에 실패하였습니다.</div>
   );
 };
 
