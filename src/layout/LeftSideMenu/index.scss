@@ -16,3 +16,11 @@
 .left-side-menu .side-menu-wrap ul.side-menu-level3 > li.active-page > a {
     color: rgba(255, 255, 255, 0.9);
 }
+
+
+#sys-left-side-menu .side-menu-wrap ul>li.active-page>a{
+    color: rgba(255, 255, 255, 0.9);
+    i {
+        color: #11d256;
+    }
+} 

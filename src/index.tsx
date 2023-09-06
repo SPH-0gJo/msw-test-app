@@ -73,7 +73,7 @@ root.render(
             </Route>
           </Route> */}
           <Route path="system">
-            <Route path="users" element={<Users />} />
+            <Route path="user" element={<Users />} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />

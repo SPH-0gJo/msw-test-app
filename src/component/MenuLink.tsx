@@ -5,16 +5,18 @@ function MenuLink({
   to,
   children,
   url,
+  icon,
 }: {
   to: string;
   url?: string;
   children: React.ReactNode;
+  icon?: React.ReactNode;
 }) {
   const { pathname } = useLocation();
 
   const isActive = useMemo(() => pathname === to, [pathname, to]);
 
-  console.log("----MenuLink Render----", pathname);
+  console.log("----MenuLink Render----", pathname, to);
 
   return (
     <li
@@ -25,6 +27,7 @@ function MenuLink({
       }}
     >
       <NavLink to={to} state={{ url }} className="side-nav-link" end>
+        {icon ? icon : null}
         {children}
       </NavLink>
     </li>
