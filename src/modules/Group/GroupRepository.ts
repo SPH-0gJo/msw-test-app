@@ -1,5 +1,14 @@
 import { createGet } from "@/shared/request";
 
+export type Group = {
+  groupId: string;
+  groupName: string;
+  registDate: string;
+  registSysuserId: string;
+  updateDate: string;
+  updateSysuserId: string;
+};
+
 class GroupRepository {
   URL = "/system/group";
 
@@ -8,7 +17,7 @@ class GroupRepository {
   }
 
   findAll() {
-    return createGet(this.URL + "/list/all");
+    return createGet<Group[]>(this.URL + "/list/all");
   }
 }
 

@@ -1,5 +1,6 @@
 import { useStores } from "@/index";
-import React, { useLayoutEffect } from "react";
+import { Group } from "@/modules/Group/GroupRepository";
+import React, { useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 
 type UserRegisterModalProps = {
@@ -13,12 +14,15 @@ const UserRegisterModal = function ({
 }: UserRegisterModalProps) {
   const { groupStore } = useStores();
 
+  const [groups, setGroups] = useState<Group[]>([]);
+
   useLayoutEffect(() => {
     console.log("Group useLayoutEffect");
     groupStore
       .findAll()
       .then((result) => {
         if (result.data) {
+          setGroups(result.data);
         }
       })
       .catch((error) => {
@@ -40,9 +44,9 @@ const UserRegisterModal = function ({
                 aria-label="Default select example"
                 className="form-select"
               >
-                <option>시의원</option>
-                <option value="1">관리자</option>
-                <option value="2">사용자</option>
+                {groups.map(({ groupId, groupName }) => (
+                  <option value={groupId}>{groupName}</option>
+                ))}
               </select>
             </div>
             <div className="mb-2">

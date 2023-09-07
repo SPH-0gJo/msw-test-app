@@ -8,7 +8,7 @@ class DashboardRepository {
   }
 
   getTicket() {
-    return createGet(this.URL + "/ticket");
+    return createGet<string>(this.URL + "/ticket");
   }
 }
 

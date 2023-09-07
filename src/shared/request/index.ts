@@ -143,8 +143,8 @@ const createPost = function <T>(url: string, requestBody: any) {
   return axios.post<T>(url, requestBody);
 };
 
-const createGet = function (url: string, config = {}) {
-  return axios.get(url, config);
+const createGet = function <T>(url: string, config = {}) {
+  return axios.get<T>(url, config);
 };
 
 export { createGet, createPost };
