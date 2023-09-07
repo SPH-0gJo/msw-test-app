@@ -40,4 +40,33 @@
   .content-page {
     margin-left: 180px;
   }
+
+
+}
+
+@media (max-width: 799px) {
+  .login-inner.v2 {
+    width: 100%;
+
+    .login-box {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .login-text.v3 {
+    padding: 80px;
+  }
+}
+
+@media (max-width: 400px) {
+  .login-inner.vw {
+    .login-box {
+      padding: 50px 20% 270px;
+    }
+  }
+
+  .login-text.v3 {
+    padding: 60px;
+  }
 }
