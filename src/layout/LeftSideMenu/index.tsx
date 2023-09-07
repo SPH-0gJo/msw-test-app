@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import SysLeftSideMenu from "./SysLeftSideMenu";
 
 import "./index.scss";
+import loadLeftMenuScript from "@/main";
 
 const LeftSideMenu = function () {
   const { pathname } = useLocation();
@@ -26,6 +27,8 @@ const LeftSideMenu = function () {
     //     }
     //   });
     // });
+
+    loadLeftMenuScript();
   }, []);
 
   return pathname.startsWith("/system") ? (
