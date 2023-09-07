@@ -8,7 +8,7 @@ function TableauViz({ ticket, url }: { ticket: string; url: string }) {
     });
   }, []);
   return (
-    <div className="tableauPlaceholder" style={{ width: 1366, height: 818 }}>
+    <div className="tableauPlaceholder" style={{ width: 1366, height: 750 }}>
       <object
         className="tableauViz"
         width={1366}
