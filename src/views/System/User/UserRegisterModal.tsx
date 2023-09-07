@@ -1,4 +1,5 @@
-import React from "react";
+import { useStores } from "@/index";
+import React, { useLayoutEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 
 type UserRegisterModalProps = {
@@ -10,6 +11,21 @@ const UserRegisterModal = function ({
   show,
   toggleShow,
 }: UserRegisterModalProps) {
+  const { groupStore } = useStores();
+
+  useLayoutEffect(() => {
+    console.log("Group useLayoutEffect");
+    groupStore
+      .findAll()
+      .then((result) => {
+        if (result.data) {
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <Modal show={show} onHide={toggleShow} className="custom-modal">
       <Modal.Header onHide={toggleShow} closeButton>
