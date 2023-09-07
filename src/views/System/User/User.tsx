@@ -1,6 +1,6 @@
 import React from "react";
 
-const Users = function () {
+const User = function () {
   return (
     <div className="card-box">
       <div className="card-box-body">
@@ -311,4 +311,4 @@ const Users = function () {
   );
 };
 
-export default Users;
+export default User;

@@ -7,13 +7,18 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./views/Login/Login";
 import Default from "./views/Default";
 
-import Users from "./views/System/Users/Users";
+import User from "./views/System/User/User";
 import AuthStore from "./modules/Login/AuthStore";
 import UserStore from "./modules/User/UserStore";
 import RequireAuth from "./views/Login/RequireAuth";
 import { MenuInfo, menuInfoList } from "./shared/var/menu";
 import Dashboard from "./views/Dashboard/Dashboard";
 import DashboardStore from "./modules/Dashboard/DashboardStore";
+import Group from "./views/System/Group/Group";
+import Menu from "./views/System/Menu/Menu";
+import Authority from "./views/System/Authority/Authority";
+import Log from "./views/System/Log/Log";
+import SystemDefault from "./views/SystemDefault";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -73,7 +78,12 @@ root.render(
             </Route>
           </Route> */}
           <Route path="system">
-            <Route path="users" element={<Users />} />
+            <Route index element={<SystemDefault />} />
+            <Route path="group" index element={<Group />} />
+            <Route path="user" element={<User />} />
+            <Route path="menu" element={<Menu />} />
+            <Route path="authority" element={<Authority />} />
+            <Route path="log" element={<Log />} />
           </Route>
         </Route>
         <Route path="/login" element={<Login />} />

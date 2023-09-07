@@ -7,6 +7,39 @@ export type MenuInfo = {
   url?: string;
 };
 
+export const sysMenuInfoList: MenuInfo[] = [
+  {
+    title: "그룹 관리",
+    path: "group",
+    to: "/system/group",
+    icon: "mdi mdi-account-group-outline",
+  },
+  {
+    title: "사용자 관리",
+    path: "user",
+    to: "/system/user",
+    icon: "mdi mdi-card-account-details-outline",
+  },
+  {
+    title: "메뉴 관리",
+    path: "menu",
+    to: "/system/menu",
+    icon: "mdi mdi-folder-wrench-outline",
+  },
+  {
+    title: "접근 권한 관리",
+    path: "authority",
+    to: "/system/authority",
+    icon: "mdi mdi-lock-outline",
+  },
+  {
+    title: "접속 이력",
+    path: "log",
+    to: "/system/log",
+    icon: "mdi mdi-history",
+  },
+];
+
 export const menuInfoList: MenuInfo[] = [
   {
     title: "생생 시민소리",

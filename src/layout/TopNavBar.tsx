@@ -16,6 +16,10 @@ const TopNavBar = function () {
     navigate("/login");
   }, []);
 
+  const handleSysPageBtnClick = useCallback(() => {
+    navigate("/system");
+  }, []);
+
   return (
     <div className="top-nav">
       <div className="logo-box">
@@ -42,7 +46,9 @@ const TopNavBar = function () {
               로그아웃
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item href="#">관리자 페이지</NavDropdown.Item>
+            <NavDropdown.Item onClick={handleSysPageBtnClick}>
+              관리자 페이지
+            </NavDropdown.Item>
           </NavDropdown>
         </div>
       </div>

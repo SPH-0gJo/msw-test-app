@@ -18,7 +18,7 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
       );
     } else {
       return (
-        <MenuLink to={to} url={url}>
+        <MenuLink icon={icon ? <i className={icon} /> : null} to={to} url={url}>
           {title}
         </MenuLink>
       );
