@@ -84,7 +84,7 @@ const Login = function () {
           </div>
           <form
             onSubmit={handleSubmit(formSubmitHandler)}
-            onKeyDown={(e) => checkKeyDown(e)}
+            //onKeyDown={(e) => checkKeyDown(e)}
           >
             <div className="form-row">
               <label htmlFor="userId" className="form-label">
@@ -94,8 +94,11 @@ const Login = function () {
                 type="text"
                 id="userId"
                 className="form-control form-control-lg"
-                {...register("userId", { required: true })}
-                onChange={inputChangeHandler}
+                {...register("userId", {
+                  required: true,
+                  onChange: inputChangeHandler,
+                })}
+                //onChange={inputChangeHandler}
               />
             </div>
             <div className="form-row">
@@ -106,8 +109,11 @@ const Login = function () {
                 type="password"
                 id="userPw"
                 className="form-control form-control-lg"
-                {...register("password", { required: true })}
-                onChange={inputChangeHandler}
+                {...register("password", {
+                  required: true,
+                  onChange: inputChangeHandler,
+                })}
+                //onChange={inputChangeHandler}
               />
             </div>
             {(errors.userId || errors.password) && (

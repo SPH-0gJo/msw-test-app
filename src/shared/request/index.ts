@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import AuthRepository from "@/modules/Login/AuthRepository";
 
 export type ErrorData = {
@@ -143,7 +143,10 @@ const createPost = function <T>(url: string, requestBody: any) {
   return axios.post<T>(url, requestBody);
 };
 
-const createGet = function <T>(url: string, config = {}) {
+const createGet = function <T>(
+  url: string,
+  config: AxiosRequestConfig<any> | undefined = {}
+) {
   return axios.get<T>(url, config);
 };
 
