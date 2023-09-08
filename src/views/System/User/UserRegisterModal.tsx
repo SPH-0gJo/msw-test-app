@@ -14,6 +14,7 @@ type UserRegisterModalProps = {
 type UserRegisterFormInputs = {
   userName: string;
   userId: string;
+  groupId?: string;
 };
 
 const isIdValid = function (value: any) {
@@ -74,9 +75,11 @@ const UserRegisterModal = function ({
             <div className="mb-2">
               <label className="form-label">그룹</label>
               <select
+                {...register("groupId")}
                 aria-label="Default select example"
                 className="form-select"
               >
+                <option value="">선택 없음 (게스트로 등록)</option>
                 {groups.map(({ groupId, groupName }) => (
                   <option value={groupId}>{groupName}</option>
                 ))}
