@@ -2,10 +2,15 @@ import { useStores } from "@/index";
 import { Group } from "@/modules/Group/GroupRepository";
 import React, { useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
+import { useForm } from "react-hook-form";
 
 type UserRegisterModalProps = {
   show: boolean;
   toggleShow: () => void;
+};
+
+type UserRegisterFormInputs = {
+  userName: string;
 };
 
 const UserRegisterModal = function ({
@@ -15,6 +20,12 @@ const UserRegisterModal = function ({
   const { groupStore } = useStores();
 
   const [groups, setGroups] = useState<Group[]>([]);
+
+  const {
+    register,
+    trigger,
+    formState: { errors },
+  } = useForm<UserRegisterFormInputs>();
 
   useLayoutEffect(() => {
     console.log("Group useLayoutEffect");
@@ -53,12 +64,30 @@ const UserRegisterModal = function ({
               <label className="form-label">이름</label>
               <input
                 placeholder="이름을 입력해주세요."
-                name="username"
                 type="text"
-                id="username"
+                id="userName"
                 className="form-control"
+                {...register("userName", {
+                  required: {
+                    value: true,
+                    message: "필수 입력 값입니다.",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "최대 20자를 넘을 수 없습니다.",
+                  },
+                  onBlur: () => {
+                    trigger("userName");
+                  },
+                })}
               />
             </div>
+            {errors.userName && (
+              <p className="validation-text">
+                <i className="mdi mdi-alert-outline text-danger" />{" "}
+                {errors.userName.message}
+              </p>
+            )}
             <div className="mb-2">
               <label className="form-label">아이디</label>
               <input
