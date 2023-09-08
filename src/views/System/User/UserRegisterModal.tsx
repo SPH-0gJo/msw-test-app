@@ -1,6 +1,8 @@
 import { useStores } from "@/index";
 import { Group } from "@/modules/Group/GroupRepository";
-import React, { useLayoutEffect, useState } from "react";
+import { ErrorData } from "@/shared/request";
+import { AxiosError } from "axios";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 
@@ -11,13 +13,18 @@ type UserRegisterModalProps = {
 
 type UserRegisterFormInputs = {
   userName: string;
+  userId: string;
+};
+
+const isIdValid = function (value: any) {
+  return value == "yjjo" || "이름이 yjjo가 아닙니다.";
 };
 
 const UserRegisterModal = function ({
   show,
   toggleShow,
 }: UserRegisterModalProps) {
-  const { groupStore } = useStores();
+  const { groupStore, accountStore } = useStores();
 
   const [groups, setGroups] = useState<Group[]>([]);
 
@@ -26,6 +33,19 @@ const UserRegisterModal = function ({
     trigger,
     formState: { errors },
   } = useForm<UserRegisterFormInputs>();
+
+  const isUserIdExist = useCallback(async (userId: string) => {
+    try {
+      const result = await accountStore.isExist(userId);
+
+      //result.data : true => true
+      //result.data : false => "에러 메시지"
+      return !result.data || "이미 사용중인 아이디입니다.";
+    } catch (error: AxiosError<ErrorData, any> | any) {
+      console.error(error);
+      alert("서버와의 통신중 오류가 발생헀습니다. 관리자에게 문의하여 주세요.");
+    }
+  }, []);
 
   useLayoutEffect(() => {
     console.log("Group useLayoutEffect");
@@ -88,17 +108,40 @@ const UserRegisterModal = function ({
                 {errors.userName.message}
               </p>
             )}
+            {/* 영문 또는 숫자 최대 25자 */}
             <div className="mb-2">
               <label className="form-label">아이디</label>
               <input
                 placeholder="아이디를 입력해주세요."
-                name="email"
-                type="email"
-                id="email"
+                type="text"
+                id="userId"
                 className="form-control"
+                {...register("userId", {
+                  required: {
+                    value: true,
+                    message: "필수 입력 값입니다.",
+                  },
+                  maxLength: {
+                    value: 20,
+                    message: "최대 25자를 넘을 수 없습니다.",
+                  },
+                  pattern: {
+                    value: /^[A-Za-z0-9]*$/,
+                    message: "영문 또는 숫자만 입력 가능합니다.",
+                  },
+                  validate: isUserIdExist,
+                  onBlur: () => {
+                    trigger("userId");
+                  },
+                })}
               />
             </div>
-
+            {errors.userId && (
+              <p className="validation-text">
+                <i className="mdi mdi-alert-outline text-danger" />{" "}
+                {errors.userId.message}
+              </p>
+            )}
             <div className="mb-2">
               <label className="form-label">비밀번호</label>
               <input

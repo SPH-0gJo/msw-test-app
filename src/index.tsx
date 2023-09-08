@@ -20,6 +20,7 @@ import Authority from "./views/System/Authority/Authority";
 import Log from "./views/System/Log/Log";
 import SystemDefault from "./views/SystemDefault";
 import GroupStore from "./modules/Group/GroupStore";
+import AccountStore from "./modules/Account/AccountStore";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -40,11 +41,13 @@ export class RootStore {
   authStore: AuthStore;
   dashboardStore: DashboardStore;
   groupStore: GroupStore;
+  accountStore: AccountStore;
   constructor() {
     this.userStore = new UserStore(this);
     this.authStore = new AuthStore(this);
     this.dashboardStore = new DashboardStore(this);
     this.groupStore = new GroupStore(this);
+    this.accountStore = new AccountStore(this);
   }
 }
 
