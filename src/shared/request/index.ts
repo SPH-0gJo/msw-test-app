@@ -59,6 +59,7 @@ axios.interceptors.response.use(
 */
 
 axios.interceptors.response.use(
+  // 2xx 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
   (response) => response,
   async (error: AxiosError<ErrorData, any>) => {
     console.log("response", error);
@@ -142,8 +143,8 @@ const createPost = function <T>(url: string, requestBody: any) {
   return axios.post<T>(url, requestBody);
 };
 
-const createGet = function (url: string, config = {}) {
-  return axios.get(url, config);
+const createGet = function <T>(url: string, config = {}) {
+  return axios.get<T>(url, config);
 };
 
 export { createGet, createPost };
