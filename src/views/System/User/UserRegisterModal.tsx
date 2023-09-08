@@ -28,6 +28,8 @@ const UserRegisterModal = function ({
 
   const [groups, setGroups] = useState<Group[]>([]);
 
+  const [userIdResult, setUserIdResult] = useState(false);
+
   const {
     register,
     trigger,
@@ -131,7 +133,12 @@ const UserRegisterModal = function ({
                   },
                   validate: isUserIdExist,
                   onBlur: () => {
-                    trigger("userId");
+                    trigger("userId").then((isValid) => {
+                      setUserIdResult(isValid);
+                    });
+                  },
+                  onChange: () => {
+                    setUserIdResult(false);
                   },
                 })}
               />
@@ -140,6 +147,12 @@ const UserRegisterModal = function ({
               <p className="validation-text">
                 <i className="mdi mdi-alert-outline text-danger" />{" "}
                 {errors.userId.message}
+              </p>
+            )}
+            {userIdResult && (
+              <p className="validation-text">
+                <i className="mdi mdi-alert-outline text-danger" />{" "}
+                {"사용가능한 아이디입니다."}
               </p>
             )}
             <div className="mb-2">
