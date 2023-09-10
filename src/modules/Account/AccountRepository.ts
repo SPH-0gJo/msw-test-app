@@ -1,4 +1,7 @@
-import { createGet } from "@/shared/request";
+import { createGet, createPost } from "@/shared/request";
+import { UserRegisterFormInputs } from "@/views/System/User/UserRegisterModal";
+
+export type AccountAddReqData = Omit<UserRegisterFormInputs, "confirmpassword">;
 
 class AccountRepository {
   URL = "/system/account";
@@ -13,6 +16,10 @@ class AccountRepository {
         userId,
       },
     });
+  }
+
+  addAccount(addFormData: AccountAddReqData) {
+    return createPost(this.URL + "/add", addFormData);
   }
 }
 

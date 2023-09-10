@@ -1,5 +1,5 @@
 import { RootStore } from "@/index";
-import AccountRepository from "./AccountRepository";
+import AccountRepository, { AccountAddReqData } from "./AccountRepository";
 
 class AccountStore {
   rootStore: RootStore;
@@ -11,6 +11,12 @@ class AccountStore {
   async isExist(userId: string) {
     const result = await AccountRepository.isExist(userId);
     console.log("AccountStore isExist :::: ", result);
+    return result;
+  }
+
+  async addAccount(addFormData: AccountAddReqData) {
+    const result = await AccountRepository.addAccount(addFormData);
+    console.log("AccountStore addAccount :::: ", result);
     return result;
   }
 }

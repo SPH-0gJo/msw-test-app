@@ -7,19 +7,20 @@ import { Button, Modal } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { ERROR } from "./var/formMessage";
 import FieldErrorBox from "./FieldErrorBox";
+import { AccountAddReqData } from "@/modules/Account/AccountRepository";
 
 type UserRegisterModalProps = {
   show: boolean;
   toggleShow: () => void;
 };
 
-type UserRegisterFormInputs = {
+export type UserRegisterFormInputs = {
   userName: string;
   userId: string;
   password: string;
   confirmpassword: string;
   groupId?: string;
-  adminType: boolean;
+  adminType: boolean | string;
 };
 
 const UserRegisterModal = function ({
@@ -51,14 +52,32 @@ const UserRegisterModal = function ({
       return !result.data || "이미 사용중인 아이디입니다.";
     } catch (error: AxiosError<ErrorData, any> | any) {
       console.error(error);
-      alert("서버와의 통신중 오류가 발생헀습니다. 관리자에게 문의하여 주세요.");
+      alert(
+        "서버와의 통신 중 오류가 발생헀습니다. 관리자에게 문의하여 주세요."
+      );
     }
   }, []);
 
   //모든 필드 validation 후 문제 없을 때 호출
   const formValidSuccessCallback: SubmitHandler<UserRegisterFormInputs> =
-    function (data) {
+    async function (data) {
       console.log("usergisterformsubmitdata", data);
+
+      const addFormData: AccountAddReqData = {
+        userId: data.userId,
+        userName: data.userName,
+        password: data.password,
+        adminType: Boolean(parseInt(data.adminType as string)),
+        groupId: data.groupId,
+      };
+
+      try {
+        await accountStore.addAccount(addFormData);
+        alert("등록이 완료되었습니다");
+      } catch (error) {
+        console.error(error);
+        alert("작업 중 오류가 발생했습니다. 관리자에게 문의하세요.");
+      }
     };
 
   //필드 중 유효하지 않은 값이 있을 때 호출
@@ -192,13 +211,13 @@ const UserRegisterModal = function ({
                     value: true,
                     message: ERROR.REQUIRED,
                   },
-                  pattern: {
-                    value:
-                      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
-                    message:
-                      "영문, 숫자, 특수문자 조합으로 이루어진 8~15자의 문자열만 허용됩니다.",
-                  },
-                  //focus-out 할 때마다 검증
+                  // pattern: {
+                  //   value:
+                  //     /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+                  //   message:
+                  //     "영문, 숫자, 특수문자 조합으로 이루어진 8~15자의 문자열만 허용됩니다.",
+                  // },
+                  // //focus-out 할 때마다 검증
                   onBlur: () => {
                     trigger("password");
                   },
