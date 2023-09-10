@@ -17,6 +17,7 @@ type UserRegisterFormInputs = {
   userName: string;
   userId: string;
   password: string;
+  confirmpassword: string;
   groupId?: string;
 };
 
@@ -193,12 +194,22 @@ const UserRegisterModal = function ({
               <label className="form-label">비밀번호 확인</label>
               <input
                 placeholder="비밀번호를 확인해주세요."
-                name="confirmpassword"
                 type="password"
-                id="confirmpassword"
                 className="form-control"
+                {...register("confirmpassword", {
+                  required: {
+                    value: true,
+                    message: ERROR.REQUIRED,
+                  },
+                  onBlur: () => {
+                    trigger("confirmpassword");
+                  },
+                })}
               />
             </div>
+            {errors.confirmpassword && (
+              <FieldErrorBox message={errors.confirmpassword.message!} />
+            )}
             <div className="mb-2">
               <label className="form-label">관리자</label>
               <select
