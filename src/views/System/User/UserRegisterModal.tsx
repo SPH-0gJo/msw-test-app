@@ -39,6 +39,7 @@ const UserRegisterModal = function ({
     register,
     trigger,
     formState: { errors },
+    getValues,
   } = useForm<UserRegisterFormInputs>();
 
   const isUserIdExist = useCallback(async (userId: string) => {
@@ -203,6 +204,9 @@ const UserRegisterModal = function ({
                   },
                   onBlur: () => {
                     trigger("confirmpassword");
+                  },
+                  validate: (value: string) => {
+                    return value === getValues("password") || ERROR.PW_NOT_EQ;
                   },
                 })}
               />
