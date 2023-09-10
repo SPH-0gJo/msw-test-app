@@ -5,6 +5,8 @@ import { AxiosError } from "axios";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { ERROR } from "./var/formMessage";
+import FieldErrorBox from "./FieldErrorBox";
 
 type UserRegisterModalProps = {
   show: boolean;
@@ -14,7 +16,10 @@ type UserRegisterModalProps = {
 type UserRegisterFormInputs = {
   userName: string;
   userId: string;
+  password: string;
+  confirmpassword: string;
   groupId?: string;
+  adminType: boolean;
 };
 
 const isIdValid = function (value: any) {
@@ -35,6 +40,7 @@ const UserRegisterModal = function ({
     register,
     trigger,
     formState: { errors },
+    getValues,
   } = useForm<UserRegisterFormInputs>();
 
   const isUserIdExist = useCallback(async (userId: string) => {
@@ -162,30 +168,62 @@ const UserRegisterModal = function ({
               <label className="form-label">비밀번호</label>
               <input
                 placeholder="비밀번호를 입력해주세요."
-                name="password"
                 type="password"
                 id="password"
                 className="form-control"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: ERROR.REQUIRED,
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+                    message:
+                      "영문, 숫자, 특수문자 조합으로 이루어진 8~15자의 문자열만 허용됩니다.",
+                  },
+                  //focus-out 할 때마다 검증
+                  onBlur: () => {
+                    trigger("password");
+                  },
+                })}
               />
             </div>
+            {errors.password && (
+              <FieldErrorBox message={errors.password.message!} />
+            )}
             <div className="mb-2">
               <label className="form-label">비밀번호 확인</label>
               <input
                 placeholder="비밀번호를 확인해주세요."
-                name="confirmpassword"
                 type="password"
-                id="confirmpassword"
                 className="form-control"
+                {...register("confirmpassword", {
+                  required: {
+                    value: true,
+                    message: ERROR.REQUIRED,
+                  },
+                  onBlur: () => {
+                    trigger("confirmpassword");
+                  },
+                  validate: (value: string) => {
+                    return value === getValues("password") || ERROR.PW_NOT_EQ;
+                  },
+                })}
               />
             </div>
+            {errors.confirmpassword && (
+              <FieldErrorBox message={errors.confirmpassword.message!} />
+            )}
             <div className="mb-2">
               <label className="form-label">관리자</label>
               <select
                 aria-label="Default select example"
                 className="form-select"
+                {...register("adminType")}
               >
-                <option value="1">관리자</option>
-                <option value="2">사용자</option>
+                <option value={1}>관리자</option>
+                <option value={0}>사용자</option>
               </select>
             </div>
           </form>
