@@ -19,6 +19,7 @@ type UserRegisterFormInputs = {
   password: string;
   confirmpassword: string;
   groupId?: string;
+  adminType: boolean;
 };
 
 const isIdValid = function (value: any) {
@@ -219,9 +220,10 @@ const UserRegisterModal = function ({
               <select
                 aria-label="Default select example"
                 className="form-select"
+                {...register("adminType")}
               >
-                <option value="1">관리자</option>
-                <option value="2">사용자</option>
+                <option value={1}>관리자</option>
+                <option value={0}>사용자</option>
               </select>
             </div>
           </form>
