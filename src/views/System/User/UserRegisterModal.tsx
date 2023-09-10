@@ -4,7 +4,7 @@ import { ErrorData } from "@/shared/request";
 import { AxiosError } from "axios";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { ERROR } from "./var/formMessage";
 import FieldErrorBox from "./FieldErrorBox";
 
@@ -22,10 +22,6 @@ type UserRegisterFormInputs = {
   adminType: boolean;
 };
 
-const isIdValid = function (value: any) {
-  return value == "yjjo" || "이름이 yjjo가 아닙니다.";
-};
-
 const UserRegisterModal = function ({
   show,
   toggleShow,
@@ -41,7 +37,10 @@ const UserRegisterModal = function ({
     trigger,
     formState: { errors },
     getValues,
-  } = useForm<UserRegisterFormInputs>();
+    handleSubmit,
+  } = useForm<UserRegisterFormInputs>({
+    mode: "onSubmit",
+  });
 
   const isUserIdExist = useCallback(async (userId: string) => {
     try {
@@ -55,6 +54,18 @@ const UserRegisterModal = function ({
       alert("서버와의 통신중 오류가 발생헀습니다. 관리자에게 문의하여 주세요.");
     }
   }, []);
+
+  //모든 필드 validation 후 문제 없을 때 호출
+  const formValidSuccessCallback: SubmitHandler<UserRegisterFormInputs> =
+    function (data) {
+      console.log("usergisterformsubmitdata", data);
+    };
+
+  //필드 중 유효하지 않은 값이 있을 때 호출
+  const formValidFailCallback: SubmitErrorHandler<UserRegisterFormInputs> =
+    function () {
+      alert("유효하지 않은 입력값이 있습니다.");
+    };
 
   useLayoutEffect(() => {
     console.log("Group useLayoutEffect");
@@ -70,6 +81,11 @@ const UserRegisterModal = function ({
       });
   }, []);
 
+  const formSubmitHandler = handleSubmit(
+    formValidSuccessCallback,
+    formValidFailCallback
+  );
+
   return (
     <Modal show={show} onHide={toggleShow} className="custom-modal">
       <Modal.Header onHide={toggleShow} closeButton>
@@ -77,7 +93,7 @@ const UserRegisterModal = function ({
       </Modal.Header>
       <Modal.Body>
         <div className="form-wrap">
-          <form>
+          <form onSubmit={formSubmitHandler}>
             <div className="mb-2">
               <label className="form-label">그룹</label>
               <select
@@ -160,7 +176,7 @@ const UserRegisterModal = function ({
             )}
             {userIdResult && (
               <p className="validation-text">
-                <i className="mdi mdi-alert-outline text-danger" />{" "}
+                <i className="mdi mdi-alert-outline text-info" />{" "}
                 {"사용가능한 아이디입니다."}
               </p>
             )}
@@ -238,7 +254,7 @@ const UserRegisterModal = function ({
           >
             <i className="fe-x-circle"></i>취소
           </Button>
-          <Button onClick={toggleShow} className="btn-sm rounded-pill">
+          <Button onClick={formSubmitHandler} className="btn-sm rounded-pill">
             <i className="fe-edit"></i>등록
           </Button>
         </div>
