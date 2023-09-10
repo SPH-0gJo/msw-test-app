@@ -5,6 +5,8 @@ import { AxiosError } from "axios";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { ERROR } from "./var/formMessage";
+import FieldErrorBox from "./FieldErrorBox";
 
 type UserRegisterModalProps = {
   show: boolean;
@@ -14,6 +16,7 @@ type UserRegisterModalProps = {
 type UserRegisterFormInputs = {
   userName: string;
   userId: string;
+  password: string;
   groupId?: string;
 };
 
@@ -162,12 +165,30 @@ const UserRegisterModal = function ({
               <label className="form-label">비밀번호</label>
               <input
                 placeholder="비밀번호를 입력해주세요."
-                name="password"
                 type="password"
                 id="password"
                 className="form-control"
+                {...register("password", {
+                  required: {
+                    value: true,
+                    message: ERROR.REQUIRED,
+                  },
+                  pattern: {
+                    value:
+                      /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
+                    message:
+                      "영문, 숫자, 특수문자 조합으로 이루어진 8~15자의 문자열만 허용됩니다.",
+                  },
+                  //focus-out 할 때마다 검증
+                  onBlur: () => {
+                    trigger("password");
+                  },
+                })}
               />
             </div>
+            {errors.password && (
+              <FieldErrorBox message={errors.password.message!} />
+            )}
             <div className="mb-2">
               <label className="form-label">비밀번호 확인</label>
               <input
