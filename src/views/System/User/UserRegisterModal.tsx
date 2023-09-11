@@ -211,12 +211,11 @@ const UserRegisterModal = function ({
                     value: true,
                     message: ERROR.REQUIRED,
                   },
-                  // pattern: {
-                  //   value:
-                  //     /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,15}$/,
-                  //   message:
-                  //     "영문, 숫자, 특수문자 조합으로 이루어진 8~15자의 문자열만 허용됩니다.",
-                  // },
+                  pattern: {
+                    value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{8,25}$/,
+                    message:
+                      "영문, 숫자, 특수문자 포함 8자 이상 25자 이하의 문자열만 허용됩니다.",
+                  },
                   // //focus-out 할 때마다 검증
                   onBlur: () => {
                     trigger("password");
