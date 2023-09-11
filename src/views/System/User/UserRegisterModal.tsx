@@ -39,6 +39,7 @@ const UserRegisterModal = function ({
     formState: { errors },
     getValues,
     handleSubmit,
+    reset,
   } = useForm<UserRegisterFormInputs>({
     mode: "onSubmit",
   });
@@ -68,12 +69,18 @@ const UserRegisterModal = function ({
         userName: data.userName,
         password: data.password,
         adminType: Boolean(parseInt(data.adminType as string)),
-        groupId: data.groupId,
+        //groupId: data.groupId,
       };
+
+      if (data.groupId !== "") {
+        addFormData.groupId = data.groupId;
+      }
 
       try {
         await accountStore.addAccount(addFormData);
         alert("등록이 완료되었습니다");
+        //팝업 창 리셋 후 닫기
+        formHideHandler();
       } catch (error) {
         console.error(error);
         alert("작업 중 오류가 발생했습니다. 관리자에게 문의하세요.");
@@ -85,6 +92,16 @@ const UserRegisterModal = function ({
     function () {
       alert("유효하지 않은 입력값이 있습니다.");
     };
+
+  //useCallback 사용불가
+  const formHideHandler = () => {
+    //팝업 창 닫기
+    toggleShow();
+    //팝업 창내 form 리셋
+    reset();
+    //아이디 유효 메시지 삭제
+    setUserIdResult(false);
+  };
 
   useLayoutEffect(() => {
     console.log("Group useLayoutEffect");
@@ -106,8 +123,8 @@ const UserRegisterModal = function ({
   );
 
   return (
-    <Modal show={show} onHide={toggleShow} className="custom-modal">
-      <Modal.Header onHide={toggleShow} closeButton>
+    <Modal show={show} onHide={formHideHandler} className="custom-modal">
+      <Modal.Header onHide={formHideHandler} closeButton>
         <h4 className="modal-title">등록</h4>
       </Modal.Header>
       <Modal.Body>
@@ -267,7 +284,7 @@ const UserRegisterModal = function ({
         <div className="btn-wrap">
           <Button
             variant="secondary"
-            onClick={toggleShow}
+            onClick={formHideHandler}
             className="btn-sm rounded-pill"
           >
             <i className="fe-x-circle"></i>취소
