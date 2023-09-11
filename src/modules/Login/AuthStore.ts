@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 
 import AuthRepository from "./AuthRepository";
-import { RootStore } from "@/index";
+import { RootStore } from "@/modules/Store";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";

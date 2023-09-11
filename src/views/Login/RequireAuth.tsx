@@ -1,5 +1,5 @@
 import React from "react";
-import { useStores } from "../..";
+import { useStores } from "@/modules/Store";
 import { Navigate } from "react-router-dom";
 
 function RequireAuth({ children }: { children: JSX.Element }) {

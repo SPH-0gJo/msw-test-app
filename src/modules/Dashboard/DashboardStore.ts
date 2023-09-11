@@ -1,7 +1,7 @@
 import { action, observable } from "mobx";
 
 import DashboardRepository from "./DashboardRepository";
-import { RootStore } from "@/index";
+import { RootStore } from "@/modules/Store";
 
 class DashboardStore {
   @observable

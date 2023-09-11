@@ -1,4 +1,4 @@
-import { RootStore } from "@/index";
+import { RootStore } from "@/modules/Store";
 import AccountRepository, { AccountAddReqData } from "./AccountRepository";
 
 class AccountStore {

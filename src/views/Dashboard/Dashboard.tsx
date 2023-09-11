@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Tableau from "./Tableau";
 import { useLocation } from "react-router-dom";
-import { useStores } from "@/index";
+import { useStores } from "@/modules/Store";
 import { getTableauUrl, menuInfoList } from "@/shared/var/menu";
 import TableauViz from "./TableauViz";
 

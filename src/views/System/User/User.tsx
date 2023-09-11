@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import UserRegisterModal from "./UserRegisterModal";
+import UserRegisterModal from "@/component/User/UserRegisterModal";
 
 const User = function () {
   //등록 모달

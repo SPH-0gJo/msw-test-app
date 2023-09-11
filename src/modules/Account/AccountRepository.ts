@@ -1,5 +1,5 @@
 import { createGet, createPost } from "@/shared/request";
-import { UserRegisterFormInputs } from "@/views/System/User/UserRegisterModal";
+import { UserRegisterFormInputs } from "@/component/User/UserRegisterModal";
 
 export type AccountAddReqData = Omit<UserRegisterFormInputs, "confirmpassword">;
 

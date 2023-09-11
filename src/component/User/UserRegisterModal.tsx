@@ -1,13 +1,13 @@
-import { useStores } from "@/index";
 import { Group } from "@/modules/Group/GroupRepository";
 import { ErrorData } from "@/shared/request";
 import { AxiosError } from "axios";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { ERROR } from "./var/formMessage";
-import FieldErrorBox from "./FieldErrorBox";
+import { ERROR } from "@/shared/var/msg";
+import FieldErrorBox from "../ui-components/FieldErrorBox";
 import { AccountAddReqData } from "@/modules/Account/AccountRepository";
+import { useStores } from "@/modules/Store";
 
 type UserRegisterModalProps = {
   show: boolean;
@@ -55,7 +55,7 @@ const UserRegisterModal = function ({
       console.error(error);
       alert(
         "서버와의 통신 중 오류가 발생헀습니다. 관리자에게 문의하여 주세요."
-      ); 
+      );
     }
   }, []);
 
@@ -65,7 +65,7 @@ const UserRegisterModal = function ({
       console.log("usergisterformsubmitdata", data);
 
       const addFormData: AccountAddReqData = {
-        userId: data.userId, 
+        userId: data.userId,
         userName: data.userName,
         password: data.password,
         adminType: Boolean(parseInt(data.adminType as string)),

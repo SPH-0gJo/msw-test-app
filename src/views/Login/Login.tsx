@@ -2,10 +2,11 @@ import React from "react";
 /*import Logo from "@/resources/images/logo-light.png";*/
 import Logo from "@/resources/images/logo-dark.png";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useStores } from "@/index";
+
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
 import { ErrorData } from "@/shared/request";
+import { useStores } from "@/modules/Store";
 
 type Inputs = {
   userId: string;

@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import Logo from "@/resources/images/logo-light.png";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
-import { useStores } from "..";
+import { useStores } from "@/modules/Store";
 
 const TopNavBar = function () {
   const { authStore } = useStores();

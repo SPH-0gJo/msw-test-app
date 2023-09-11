@@ -1,7 +1,6 @@
 import { action, observable } from "mobx";
 import { User } from "./UserRepository";
-import { RootStore } from "@/index";
-
+import { RootStore } from "@/modules/Store";
 class UserStore {
   @observable
   user: null | User = null;
