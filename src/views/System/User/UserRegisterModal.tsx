@@ -55,7 +55,7 @@ const UserRegisterModal = function ({
       console.error(error);
       alert(
         "서버와의 통신 중 오류가 발생헀습니다. 관리자에게 문의하여 주세요."
-      );
+      ); 
     }
   }, []);
 
@@ -65,7 +65,7 @@ const UserRegisterModal = function ({
       console.log("usergisterformsubmitdata", data);
 
       const addFormData: AccountAddReqData = {
-        userId: data.userId,
+        userId: data.userId, 
         userName: data.userName,
         password: data.password,
         adminType: Boolean(parseInt(data.adminType as string)),
