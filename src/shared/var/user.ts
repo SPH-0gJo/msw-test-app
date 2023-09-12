@@ -269,7 +269,7 @@ export const users: User[] = [
   },
 ];
 
-type UserData = {
+export type UserData = {
   ckbox: typeof CheckBox;
   no: number;
   groupName: string | null;

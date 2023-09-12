@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
-import { getUserTableData, users } from "@/shared/var/user";
+import { UserData, getUserTableData, users } from "@/shared/var/user";
 
 export type Column = {
   key: string;
@@ -22,7 +22,7 @@ const User = function () {
 
   const columns: Column[] = [
     {
-      key: "ckboxall",
+      key: "ckbox",
       value: <CheckBox />,
     },
     {
@@ -40,10 +40,6 @@ const User = function () {
     {
       key: "userName",
       value: "이름",
-    },
-    {
-      key: "useYn",
-      value: "사용여부",
     },
     {
       key: "registDate",
@@ -86,7 +82,8 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            <Table columns={columns} data={data} />
+            {/* <Table columns={columns} data={data} /> */}
+            <Table<UserData> columns={columns} data={data} />
           </div>
           <div className="pagination-wrap">
             <ul className="pagination pagination-rounded">
