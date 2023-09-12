@@ -1,6 +1,6 @@
 const loadLeftMenuScript = ()=>{
     //MenuBar 접고 피는 코드 작성...
-  document.addEventListener("DOMContentLoaded", function() {
+  //document.addEventListener("DOMContentLoaded", function() {
     var btnMenu = document.querySelector('.btn-menu');
     var leftSideMenu = document.querySelector('.left-side-menu');
     var contentPage = document.querySelector('.content-page');
@@ -11,7 +11,7 @@ const loadLeftMenuScript = ()=>{
       contentPage.classList.toggle('fold');
       topNav.classList.toggle('fold');
     });
-  });
+  //});
 
 }
 
