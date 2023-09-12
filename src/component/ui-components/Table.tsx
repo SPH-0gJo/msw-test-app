@@ -1,6 +1,12 @@
+import { Column } from "@/views/System/User/User";
 import React from "react";
 
-const Table = function () {
+type TableProps = {
+  columns: Column[];
+  data: User[];
+};
+
+const Table = function ({ columns }: TableProps) {
   return (
     <table className="table table-custom">
       <colgroup>
@@ -15,13 +21,16 @@ const Table = function () {
       </colgroup>
       <thead>
         <tr>
-          <th></th>
+          {/* <th></th>
           <th>NO</th>
           <th>그룹명</th>
           <th>아이디</th>
           <th>이름</th>
           <th>등록일</th>
-          <th>관리</th>
+          <th>관리</th> */}
+          {columns.map((col) => (
+            <th key={col.key}>{col.value}</th>
+          ))}
         </tr>
       </thead>
       <tbody>

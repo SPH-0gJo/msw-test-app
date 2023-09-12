@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
+import { getUserTableData, users } from "@/shared/var/user";
+
+export type Column = {
+  key: string;
+  value: string | JSX.Element;
+};
 
 const User = function () {
   //등록 모달
@@ -12,7 +18,9 @@ const User = function () {
     setRegModalShow(!regModalShow);
   };
 
-  const columns = [
+  const data = getUserTableData(users);
+
+  const columns: Column[] = [
     {
       key: "ckboxall",
       value: <CheckBox />,
@@ -78,7 +86,7 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            <Table />
+            <Table columns={columns} data={data} />
           </div>
           <div className="pagination-wrap">
             <ul className="pagination pagination-rounded">
