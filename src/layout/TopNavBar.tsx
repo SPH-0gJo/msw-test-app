@@ -22,16 +22,8 @@ const TopNavBar = function () {
 
   return (
     <div className="top-nav">
-      <div className="logo-box">
-        <h1 className="logo">
-          <a href="/" className="logo-link">
-            <img src={Logo} alt="남양주 Logo" />
-            <span className="logo-type">생생 시민소리 분석시스템</span>
-          </a>
-        </h1>
-      </div>
       <div className="top-nav-right">
-        <h2 className="page-title">생생 시민소리</h2>
+        <button className="btn-menu" id="btnMenu"><i className="fe-menu"></i></button>
         <div className="user-menu">
           <div className="user-menu-icon">
             <i className="fe-user" />

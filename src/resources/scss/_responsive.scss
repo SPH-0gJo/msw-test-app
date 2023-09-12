@@ -50,22 +50,22 @@
       width: 100%;
       min-width: unset;
       max-width: unset;
-
-      .login-text {
-        padding: 60px;
-      }
     }
   }
 
 
 }
 
-@media (max-width: 400px) {
-
+@media (max-width: 499px) {
   .login-container {
+    &::before {
+      background-color: rgba(0,0,0,0.6);
+    }
+
     .login-inner {
-      .login-text {
-        padding: 50px;
+      .login-box {
+        background-color: transparent;
+        backdrop-filter: none;
       }
     }
   }

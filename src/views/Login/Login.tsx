@@ -1,6 +1,5 @@
 import React from "react";
-/*import Logo from "@/resources/images/logo-light.png";*/
-import Logo from "@/resources/images/logo-dark.png";
+import Logo from "@/resources/images/logo-light.png";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { useNavigate } from "react-router-dom";

@@ -11,6 +11,10 @@
   background-image: url("~@/resources/images/nyj-bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   &::before {
     content: '';
@@ -19,20 +23,14 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.35);
   }
 
   .login-inner {
-    position: absolute;
-    top: 0;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    right: 0;
-    bottom: 0;
-    width: 40vw;
-    min-width: 520px;
-    max-width: 660px;
 
 
     .login-logo {
@@ -54,20 +52,11 @@
     }
 
     .login-box {
-      background: rgba(255,255,255,0.9);
+      background: rgb(16 18 27 / 60%);
       backdrop-filter: blur(2px);
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 50px 20%;
-      width: 100%;
-
-      .login-logo {
-        .logo-type {
-          color: #000;
-        }
-      }
+      border-radius: 30px;
+      padding: 50px 60px;
+      width: 450px;
 
       .form-row {
         &:not(:last-child) {
@@ -75,16 +64,16 @@
         }
 
         .form-label {
-          color: #000;
-          margin-bottom:5px;
+          color: #fff;
+          margin-bottom: 5px;
           padding-left: 10px;
         }
 
         .form-control {
           border-radius: 30px;
-          border: 1px solid #000;
+          border: 1px solid #fff;
           background-color: transparent;
-          color: #000;
+          color: #fff;
           font-size: 16px;
           padding: 10px 20px;
         }
@@ -93,7 +82,7 @@
 
       .validation-text {
         text-align: center;
-        color: #000;
+        color: #fff;
       }
 
       .login-btn {
@@ -151,8 +140,11 @@
   z-index: 10;
   display: flex;
   flex-direction: column;
-  padding-top: 70px;
   transition: all .2s;
+
+  &.fold {
+    left: -230px;
+  }
 
   .side-menu-wrap {
     padding: 20px 0;
@@ -257,13 +249,18 @@
 
 .top-nav {
   position: fixed;
-  left: 0;
+  left: 230px;
   right: 0;
   height: 70px;
   z-index: 11;
   display: flex;
   align-items: center;
   background-color: #f8f8f8;
+  transition: all .2s;
+
+  &.fold {
+    left: 0;
+  }
 
   .top-nav-right {
     flex: 1 1 0;
@@ -314,6 +311,10 @@
   margin-left: 230px;
   overflow: auto;
   transition: all .2s;
+
+  &.fold {
+    margin: 0;
+  }
 
   .content {
     height: 100%;
@@ -582,14 +583,12 @@ body.authentication-bg {
 }
 
 .login-text {
+  margin-top: 40px;
+  width: 400px;
   word-break: keep-all;
-  width: 100%;
-  border: 0;
-  background-color: #002A78;
-  border-radius: 0;
+  text-align: center;
+  filter: drop-shadow(2px 2px 6px rgba(0,0,0,0.6));
   color: #fff;
-  text-align: left;
-  padding: 80px;
 
   h4 {
     font-size: 17px;
@@ -611,3 +610,11 @@ body.authentication-bg {
   }
 }
 
+.btn-menu {
+  border: 0;
+  background-color: transparent;
+
+  i {
+    font-size: 24px;
+  }
+}
