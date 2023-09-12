@@ -45,28 +45,29 @@
 }
 
 @media (max-width: 799px) {
-  .login-inner.v2 {
-    width: 100%;
-
-    .login-box {
+  .login-container {
+    .login-inner {
       width: 100%;
-      max-width: 100%;
+      min-width: unset;
+      max-width: unset;
+
+      .login-text {
+        padding: 60px;
+      }
     }
   }
 
-  .login-text.v3 {
-    padding: 80px;
-  }
+
 }
 
 @media (max-width: 400px) {
-  .login-inner.vw {
-    .login-box {
-      padding: 50px 20% 270px;
+
+  .login-container {
+    .login-inner {
+      .login-text {
+        padding: 50px;
+      }
     }
   }
 
-  .login-text.v3 {
-    padding: 60px;
-  }
 }
