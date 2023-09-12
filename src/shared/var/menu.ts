@@ -46,7 +46,7 @@ export const menuInfoList: MenuInfo[] = [
     path: "dashboard",
     to: "/dashboard",
     icon: "mdi mdi-chart-box-outline",
-    url: "yeoron0905/Main",
+    url: "yeron_0912/Main_mobile",
     children: [
       {
         title: "키워드 분석",
