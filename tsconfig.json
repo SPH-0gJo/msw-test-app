@@ -24,6 +24,7 @@
     "useDefineForClassFields": true
   },
   "include": [
-    "src"
+    "src",
+    "src/declaration.d.ts"
   ]
 }
