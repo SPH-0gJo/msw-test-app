@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
+import CheckBox from "@/component/ui-components/CheckBox";
 
 const User = function () {
   //등록 모달
@@ -14,7 +15,7 @@ const User = function () {
   const columns = [
     {
       key: "ckboxall",
-      value: <></>,
+      value: <CheckBox />,
     },
     {
       key: "no",

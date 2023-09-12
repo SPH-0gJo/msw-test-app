@@ -15,11 +15,7 @@ const Table = function () {
       </colgroup>
       <thead>
         <tr>
-          <th>
-            <div className="checkbox">
-              <input type="checkbox" />
-            </div>
-          </th>
+          <th></th>
           <th>NO</th>
           <th>그룹명</th>
           <th>아이디</th>
