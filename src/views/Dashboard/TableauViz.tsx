@@ -8,13 +8,8 @@ function TableauViz({ ticket, url }: { ticket: string; url: string }) {
     });
   }, []);
   return (
-    <div className="tableauPlaceholder" style={{ width: 1366, height: 750 }}>
-      <object
-        className="tableauViz"
-        width={1366}
-        height={818}
-        style={{ display: "none" }}
-      >
+    <div className="tableauPlaceholder">
+      <object className="tableauViz" style={{ display: "none" }}>
         <param name="host_url" value="https%3A%2F%2Fnyjdev.sphinfo.com%2F" />
         <param name="embed_code_version" value={3} />
         <param name="site_root" value="" />
