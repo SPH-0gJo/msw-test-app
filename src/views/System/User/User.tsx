@@ -3,6 +3,7 @@ import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
 import { UserData, getUserTableData, users } from "@/shared/var/user";
+import Pagination from "@/component/ui-components/Pagination";
 
 export type Column = {
   key: string;
@@ -86,55 +87,7 @@ const User = function () {
           <div className="table-wrap">
             <Table<UserData> columns={columns} data={data} />
           </div>
-          <div className="pagination-wrap">
-            <ul className="pagination pagination-rounded">
-              <li className="page-item paginate_button previous disabled">
-                <a className="page-link" href="#">
-                  <i className="mdi mdi-chevron-left" />
-                </a>
-              </li>
-              <li className="page-item active">
-                <a className="page-link" href="#">
-                  1
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  2
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  3
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  4
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  5
-                </a>
-              </li>
-              <li className="page-item disabled">
-                <a className="page-link" href="#">
-                  ...
-                </a>
-              </li>
-              <li className="page-item">
-                <a className="page-link" href="#">
-                  12
-                </a>
-              </li>
-              <li className="page-item paginate_button next">
-                <a className="page-link" href="#">
-                  <i className="mdi mdi-chevron-right" />
-                </a>
-              </li>
-            </ul>
-          </div>
+          <Pagination />
         </div>
       </div>
       {/* 모달창 */}
