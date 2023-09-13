@@ -20,6 +20,8 @@ const User = function () {
 
   const data = getUserTableData(users);
 
+  //Column의 key는 data의 정보를 가져 오기위해서는 data 객체의 key와 동일해야함.
+
   const columns: Column[] = [
     {
       key: "ckbox",
@@ -82,7 +84,6 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            {/* <Table columns={columns} data={data} /> */}
             <Table<UserData> columns={columns} data={data} />
           </div>
           <div className="pagination-wrap">
