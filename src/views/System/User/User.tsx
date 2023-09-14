@@ -87,7 +87,7 @@ const User = function () {
           <div className="table-wrap">
             <Table<UserData> columns={columns} data={data} />
           </div>
-          <Pagination />
+          <Pagination data={data} />
         </div>
       </div>
       {/* 모달창 */}

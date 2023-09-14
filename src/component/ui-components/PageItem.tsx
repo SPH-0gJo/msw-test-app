@@ -1,14 +1,14 @@
 import classNames from "classnames";
 import React from "react";
 
-type PageItemProps = {
-  children: React.ReactNode;
+export type PageItemProps = {
+  children?: React.ReactNode;
   active?: boolean;
   disabled?: boolean;
   classList?: string[];
 };
 
-//일종의 wrapper 역할
+//일종의 wrapper 역할이자 페이지 아이템 역할
 const PageItem = function ({
   children,
   active = false,

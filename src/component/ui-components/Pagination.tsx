@@ -1,56 +1,51 @@
 import React from "react";
 import PageNext from "./PageNext";
+import PagePrev from "./PagePrev";
+import PageEllipsis from "./PageEllipsis";
+import { usePagination } from "@/shared/pagination";
+import PageItem from "./PageItem";
 
-const Pagination = function () {
+type PaginationProps = {
+  data: any[];
+};
+
+const Pagination = function ({ data }: PaginationProps) {
+  const testData = new Array(100);
+  const {
+    pageList,
+    page,
+    hasPrev,
+    hasNext,
+    lastPage,
+    hasGoLast,
+    hasGoFirst,
+    firstPage,
+  } = usePagination(testData, 99);
+
   return (
     <div className="pagination-wrap">
       <ul className="pagination pagination-rounded">
-        <li className="page-item paginate_button previous disabled">
-          <a className="page-link" href="#">
-            <i className="mdi mdi-chevron-left" />
-          </a>
-        </li>
-        <li className="page-item active">
-          <a className="page-link" href="#">
-            1
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            2
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            3
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            4
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            5
-          </a>
-        </li>
-        <li className="page-item disabled">
-          <a className="page-link" href="#">
-            ...
-          </a>
-        </li>
-        <li className="page-item">
-          <a className="page-link" href="#">
-            12
-          </a>
-        </li>
-        <PageNext />
-        {/* <li className="page-item paginate_button next">
-          <a className="page-link" href="#">
-            <i className="mdi mdi-chevron-right" />
-          </a>
-        </li> */}
+        <PagePrev disabled={!hasPrev} />
+
+        {hasGoFirst && (
+          <>
+            <PageItem>{firstPage}</PageItem>
+            <PageEllipsis />
+          </>
+        )}
+
+        {pageList.map((pg) => (
+          <PageItem active={pg === page}>{pg}</PageItem>
+        ))}
+
+        {hasGoLast && (
+          <>
+            <PageEllipsis />
+            <PageItem>{lastPage}</PageItem>
+          </>
+        )}
+
+        <PageNext disabled={!hasNext} />
       </ul>
     </div>
   );

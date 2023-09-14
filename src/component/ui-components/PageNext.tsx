@@ -1,9 +1,9 @@
 import React from "react";
-import PageItem from "./PageItem";
+import PageItem, { PageItemProps } from "./PageItem";
 
-const PageNext = function () {
+const PageNext = function ({ disabled }: PageItemProps) {
   return (
-    <PageItem classList={["paginate_button", "next"]}>
+    <PageItem classList={["paginate_button", "next"]} disabled={disabled}>
       <a className="page-link" href="#">
         <i className="mdi mdi-chevron-right" />
       </a>
