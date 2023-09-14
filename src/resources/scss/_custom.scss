@@ -200,7 +200,8 @@
       color: rgba(255,255,255,0.9);
     }
 
-    ul > li.is-open > a {
+    ul > li.is-open > a,
+    ul > li.active-page > a {
       color: #fff;
       font-weight: 400;
 
@@ -225,15 +226,36 @@
       > li > a {
         color: rgba(255,255,255,0.7);
         font-weight: 300;
-        display: block;
         font-size: .875rem;
         padding: 8px 20px;
         position: relative;
         transition: all .4s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        &::before {
+          content: '';
+          width: 0;
+          height: 0.5px;
+          background-color: #eee;
+          transition: all .2s;
+        }
 
         &:hover, &:focus, &:active {
-          color: #fff;
+          color: rgba(255,255,255,0.9);
         }
+
+        &.active {
+          color: #fff;
+          font-weight: 500;
+
+          &::before {
+            content: '';
+            width: 8px;
+          }
+        }
+
       }
     }
 
@@ -431,6 +453,114 @@
   }
 }
 
+.table-clickable {
+  tbody {
+    tr {
+      cursor: pointer;
+      transition: all .2s;
+
+      &:not(.active):hover {
+        td {
+          background-color: rgb(0 57 148 / 2%);
+          font-weight: 400;
+        }
+      }
+
+      &.active {
+        td {
+          background-color: rgb(0 57 148 / 5%);
+          color: $nyj-blue;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}
+
+.table-menu {
+  tbody {
+    tr {
+
+      &:hover {
+        td {
+          background-color: rgb(0 57 148 / 2%);
+          font-weight: 400;
+        }
+      }
+
+      td:first-child {
+        text-align: left;
+      }
+
+      &.tr-menu-depth1 {
+        cursor: pointer;
+
+        td:first-child {
+          padding-left: 40px;
+
+          &::before {
+            content: "\f0142";
+            font-family: Material Design Icons;
+            font-size: 16px;
+            margin-right: 5px;
+            display: inline-block;
+          }
+        }
+
+        &.active {
+          td:first-child {
+            color: $nyj-blue;
+            font-weight: 500;
+
+            &::before {
+              transform: rotate(90deg);
+            }
+          }
+        }
+      }
+
+      &.tr-menu-depth2 {
+        cursor: pointer;
+
+        td:first-child {
+          padding-left: 70px;
+
+          &::before {
+            content: "\f0142";
+            font-family: Material Design Icons;
+            font-size: 16px;
+            margin-right: 5px;
+            display: inline-block;
+          }
+        }
+
+        &.active {
+          td:first-child {
+            color: $nyj-blue;
+            &::before {
+              transform: rotate(90deg);
+            }
+          }
+        }
+      }
+
+      &.tr-menu-depth3 {
+        td:first-child {
+          padding-left: 100px;
+
+          &::before {
+            content: "\F0374";
+            font-family: Material Design Icons;
+            font-size: 13px;
+            margin-right: 5px;
+            display: inline-block;
+          }
+        }
+      }
+    }
+  }
+}
+
 .pagination-wrap {
   padding-top: 30px;
   display: flex;
@@ -440,6 +570,7 @@
 
   .pagination {
     margin-bottom: 0;
+    gap: 4px;
 
     &.pagination-rounded {
       .page-link {
