@@ -16,7 +16,8 @@
     "react-router-dom": "^6.15.0",
     "react-scripts": "5.0.1",
     "sass": "^1.65.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "classnames": "^2.3.2"
   },
   "scripts": {
     "start": "craco start",

@@ -14,7 +14,7 @@ type User = {
   updateSysuserId: string | null;
 };
 
-export const users: User[] = [
+const originMockData: User[] = [
   {
     sysuserId: "735507c0-70f1-4df0-8d29-ad47ba245638",
     userId: "yesan",
@@ -269,6 +269,11 @@ export const users: User[] = [
   },
 ];
 
+export const users: User[] = //[];
+  new Array(5).fill([...originMockData]).reduce((accumulator, cur) => {
+    return [...accumulator, ...cur];
+  });
+
 export type UserData = {
   ckbox: typeof CheckBox;
   no: number;
@@ -282,7 +287,7 @@ export type UserData = {
 export const getUserTableData = function (users: User[]): UserData[] {
   return users.map((user, i) => ({
     ckbox: CheckBox,
-    no: i,
+    no: i + 1,
     groupName: user.groupName,
     userId: user.userId,
     userName: user.userName,
