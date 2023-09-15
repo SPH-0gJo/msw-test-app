@@ -8,29 +8,17 @@ export const usePagination = function (
 ) {
   const [page, setPage] = useState(initialPage);
 
-  const lastPage = useMemo(
-    () => Math.floor(data.length - 1 / pageSize) + 1,
-    [data]
-  );
+  const lastPage = useMemo(() => {
+    //data.length = 0 인 경우 lastPage가 음수로 계산됨
+    const calLastPage = Math.floor((data.length - 1) / pageSize) + 1;
+    return calLastPage > 0 ? calLastPage : 1;
+  }, [data]);
 
   const firstPage = 1;
 
   const hasNext = useMemo(() => page < lastPage, [page, lastPage]);
 
   const hasPrev = useMemo(() => page > 1, [page]);
-
-  //   const pageList = useMemo(() => {
-  //     const pages = [];
-  //     const gap = Math.floor(pagingSize / 2);
-  //     const startPage = page - gap < firstPage ? firstPage : page - gap;
-  //     const endPage = page + gap > lastPage ? lastPage : page + gap;
-
-  //     for (let i = startPage; i <= endPage; i++) {
-  //       pages.push(i);
-  //     }
-
-  //     return pages;
-  //   }, [page, lastPage]);
 
   const pageList = useMemo(() => {
     const pages = [];
