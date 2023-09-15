@@ -6,6 +6,7 @@ export type PageItemProps = {
   active?: boolean;
   disabled?: boolean;
   classList?: string[];
+  onClick?: () => void;
 };
 
 //일종의 wrapper 역할이자 페이지 아이템 역할
@@ -14,9 +15,13 @@ const PageItem = function ({
   active = false,
   disabled = false,
   classList = [],
+  onClick,
 }: PageItemProps) {
   return (
-    <li className={classNames("page-item", { active, disabled }, ...classList)}>
+    <li
+      onClick={onClick}
+      className={classNames("page-item", { active, disabled }, ...classList)}
+    >
       <a className="page-link" href="#">
         {children}
       </a>
