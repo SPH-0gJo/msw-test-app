@@ -281,7 +281,7 @@ export type UserData = {
   userId: string | null;
   userName: string | null;
   registDate: string;
-  mng: typeof Button;
+  mng: JSX.Element;
 };
 
 export const getUserTableData = function (users: User[]): UserData[] {
@@ -292,6 +292,11 @@ export const getUserTableData = function (users: User[]): UserData[] {
     userId: user.userId,
     userName: user.userName,
     registDate: user.registDate,
-    mng: Button,
+    mng: Button({
+      variant: "success",
+      size: "xs",
+      classList: ["rounded-pill"],
+      children: "수정",
+    }),
   }));
 };
