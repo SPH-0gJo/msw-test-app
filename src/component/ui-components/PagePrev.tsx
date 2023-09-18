@@ -15,4 +15,4 @@ const PagePrev = function ({ disabled, onClick }: PageItemProps) {
   );
 };
 
-export default PagePrev;
+export default React.memo(PagePrev);

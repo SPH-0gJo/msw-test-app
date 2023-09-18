@@ -11,4 +11,4 @@ const PageEllipsis = function () {
   );
 };
 
-export default PageEllipsis;
+export default React.memo(PageEllipsis);

@@ -14,7 +14,7 @@ export const usePagination = function (
     return calLastPage > 0 ? calLastPage : 1;
   }, [data]);
 
-  const firstPage = 1;
+  const firstPage = useMemo(() => 1, []);
 
   const hasNext = useMemo(() => page < lastPage, [page, lastPage]);
 

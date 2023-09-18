@@ -6,7 +6,7 @@ export type PageItemProps = {
   active?: boolean;
   disabled?: boolean;
   classList?: string[];
-  onClick?: () => void;
+  onClick?: React.EventHandler<React.MouseEvent | React.KeyboardEvent>;
 };
 
 //일종의 wrapper 역할이자 페이지 아이템 역할
@@ -29,4 +29,4 @@ const PageItem = function ({
   );
 };
 
-export default PageItem;
+export default React.memo(PageItem);

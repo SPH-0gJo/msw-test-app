@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
@@ -10,6 +10,7 @@ import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
 import Button from "@/component/ui-components/Button";
+import PageItemList from "@/component/ui-components/PageItemList";
 
 export type Column = {
   key: string;
@@ -103,20 +104,47 @@ const User = function () {
     []
   );
 
-  const searchOptionList: Option[] = [
-    {
-      value: "userId",
-      title: "아이디",
-    },
-    {
-      value: "groupName",
-      title: "그룹명",
-    },
-    {
-      value: "userName",
-      title: "이름",
-    },
-  ];
+  const searchOptionList: Option[] = useMemo(
+    () => [
+      {
+        value: "userId",
+        title: "아이디",
+      },
+      {
+        value: "groupName",
+        title: "그룹명",
+      },
+      {
+        value: "userName",
+        title: "이름",
+      },
+    ],
+    []
+  );
+
+  const handlePagePrevClick = useCallback(() => {
+    if (!hasPrev) return;
+    setPage((prevState) => prevState - 1);
+  }, [hasPrev]);
+
+  const handleGoFirstPageClick = useCallback(() => {
+    setPage(firstPage);
+  }, [firstPage]);
+
+  const handlePageItemClick = useCallback((pg: number) => {
+    return () => {
+      setPage(pg);
+    };
+  }, []);
+
+  const handleGoLastPageClick = useCallback(() => {
+    setPage(lastPage);
+  }, [lastPage]);
+
+  const handlePageNextClick = useCallback(() => {
+    if (!hasNext) return;
+    setPage((prevState) => prevState + 1);
+  }, [hasNext]);
 
   return (
     <>
@@ -166,59 +194,45 @@ const User = function () {
             <Table<UserData> columns={columns} data={data} />
           </div>
           <Pagination>
-            <PagePrev
-              onClick={() => {
-                if (!hasPrev) return;
-                setPage((prevState) => prevState - 1);
-              }}
-              disabled={!hasPrev}
-            />
+            <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
 
             {hasGoFirst && (
               <>
-                <PageItem
-                  onClick={() => {
-                    setPage(firstPage);
-                  }}
-                >
+                <PageItem onClick={handleGoFirstPageClick}>
                   {firstPage}
                 </PageItem>
                 <PageEllipsis />
               </>
             )}
 
-            {pageList.map((pg) => (
-              <PageItem
-                onClick={() => {
-                  setPage(pg);
-                }}
-                key={pg}
-                active={pg === page}
-              >
-                {pg}
-              </PageItem>
-            ))}
+            <PageItemList
+              pageList={pageList}
+              page={page}
+              onClick={handlePageItemClick}
+            />
+            {/* {pageList.map((pg) => {
+              console.log("pageList");
+              return (
+                <PageItem
+                  onClick={(e) => {
+                    console.dir(e.target);
+                  }}
+                  key={pg}
+                  active={pg === page}
+                >
+                  {pg}
+                </PageItem>
+              );
+            })} */}
 
             {hasGoLast && (
               <>
                 <PageEllipsis />
-                <PageItem
-                  onClick={() => {
-                    setPage(lastPage);
-                  }}
-                >
-                  {lastPage}
-                </PageItem>
+                <PageItem onClick={handleGoLastPageClick}>{lastPage}</PageItem>
               </>
             )}
 
-            <PageNext
-              onClick={() => {
-                if (!hasNext) return;
-                setPage((prevState) => prevState + 1);
-              }}
-              disabled={!hasNext}
-            />
+            <PageNext onClick={handlePageNextClick} disabled={!hasNext} />
           </Pagination>
         </div>
       </div>
