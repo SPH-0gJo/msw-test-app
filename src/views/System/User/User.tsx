@@ -146,30 +146,33 @@ const User = function () {
     setPage((prevState) => prevState + 1);
   }, [hasNext]);
 
+  const handleSearchSelectChange: React.ChangeEventHandler<HTMLSelectElement> =
+    useCallback((e) => {
+      setSearchParam((prevState) => ({
+        ...prevState,
+        field: e.target.value,
+      }));
+    }, []);
+
   return (
     <>
       <div className="card-box">
         <div className="card-box-body">
           <div className="table-control-top">
             <div className="table-search-wrap">
-              <select
-                onChange={(e) => {
-                  setSearchParam((prevState) => ({
-                    ...prevState,
-                    field: e.target.value,
-                  }));
-                }}
-                name=""
-                id=""
-              >
-                {searchOptionList.map((opt) => (
-                  <option
-                    selected={opt.value === searchParam.field}
-                    value={opt.value}
-                  >
-                    {opt.title}
-                  </option>
-                ))}
+              <select onChange={handleSearchSelectChange} name="" id="">
+                {searchOptionList.map((opt) => {
+                  //page 클릭시 page, data state 변경으로 인해 2번 렌더링되는 이슈
+                  console.log("option created");
+                  return (
+                    <option
+                      selected={opt.value === searchParam.field}
+                      value={opt.value}
+                    >
+                      {opt.title}
+                    </option>
+                  );
+                })}
               </select>
               <input type="search" />
               <Button>
