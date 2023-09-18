@@ -281,7 +281,7 @@ export const UserDataField = {
 };
 
 export type UserData = {
-  ckbox: typeof CheckBox;
+  ckbox: JSX.Element;
   no: number;
   groupName: string | null;
   userId: string | null;
@@ -292,7 +292,7 @@ export type UserData = {
 
 export const getUserTableData = function (users: User[]): UserData[] {
   return users.map((user, i) => ({
-    ckbox: CheckBox,
+    ckbox: CheckBox(),
     no: i + 1,
     groupName: user.groupName,
     userId: user.userId,
