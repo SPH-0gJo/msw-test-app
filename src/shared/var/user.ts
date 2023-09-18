@@ -274,6 +274,12 @@ export const users: User[] = //[];
     return [...accumulator, ...cur];
   });
 
+export const UserDataField = {
+  GROUP_NAME: "groupName",
+  USER_ID: "userId",
+  USER_NAME: "userName",
+};
+
 export type UserData = {
   ckbox: typeof CheckBox;
   no: number;

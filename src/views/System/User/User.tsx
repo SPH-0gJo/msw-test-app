@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
@@ -9,10 +9,16 @@ import PagePrev from "@/component/ui-components/PagePrev";
 import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
+import Button from "@/component/ui-components/Button";
 
 export type Column = {
   key: string;
   value: string | JSX.Element;
+};
+
+type Option = {
+  value: string;
+  title: string;
 };
 
 const filterData = function (pageSize: number, data: any[], page: number) {
@@ -52,38 +58,63 @@ const User = function () {
     setPage,
   } = usePagination(rawData, initPage, pageSize);
 
+  const initSearchParam = {
+    field: "userName",
+    query: "",
+  };
+
+  const [searchParam, setSearchParam] = useState(initSearchParam);
+
   useEffect(() => setData(pageSizedFilterData(rawData, page)), [page]);
 
   //Column의 key는 data의 정보를 가져 오기위해서는 data 객체의 key와 동일해야함.
 
-  const columns: Column[] = [
+  const columns: Column[] = useMemo(
+    () => [
+      {
+        key: "ckbox",
+        value: <CheckBox />,
+      },
+      {
+        key: "no",
+        value: "NO",
+      },
+      {
+        key: "groupName",
+        value: "그룹명",
+      },
+      {
+        key: "userId",
+        value: "아이디",
+      },
+      {
+        key: "userName",
+        value: "이름",
+      },
+      {
+        key: "registDate",
+        value: "등록일",
+      },
+      {
+        key: "mng",
+        value: "관리",
+      },
+    ],
+    []
+  );
+
+  const searchOptionList: Option[] = [
     {
-      key: "ckbox",
-      value: <CheckBox />,
+      value: "userId",
+      title: "아이디",
     },
     {
-      key: "no",
-      value: "NO",
+      value: "groupName",
+      title: "그룹명",
     },
     {
-      key: "groupName",
-      value: "그룹명",
-    },
-    {
-      key: "userId",
-      value: "아이디",
-    },
-    {
-      key: "userName",
-      value: "이름",
-    },
-    {
-      key: "registDate",
-      value: "등록일",
-    },
-    {
-      key: "mng",
-      value: "관리",
+      value: "userName",
+      title: "이름",
     },
   ];
 
@@ -93,15 +124,29 @@ const User = function () {
         <div className="card-box-body">
           <div className="table-control-top">
             <div className="table-search-wrap">
-              <select name="" id="">
-                <option value="">아이디</option>
-                <option value="">그룹명</option>
-                <option value="">이름</option>
+              <select
+                onChange={(e) => {
+                  setSearchParam((prevState) => ({
+                    ...prevState,
+                    field: e.target.value,
+                  }));
+                }}
+                name=""
+                id=""
+              >
+                {searchOptionList.map((opt) => (
+                  <option
+                    selected={opt.value === searchParam.field}
+                    value={opt.value}
+                  >
+                    {opt.title}
+                  </option>
+                ))}
               </select>
               <input type="search" />
-              <button className="btn">
+              <Button>
                 <i className="fe-search" />
-              </button>
+              </Button>
             </div>
             <div className="btn-wrap">
               <button
