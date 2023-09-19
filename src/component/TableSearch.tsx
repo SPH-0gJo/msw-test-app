@@ -4,7 +4,7 @@ import Button from "@/component/ui-components/Button";
 
 interface TableSearchProps {
   optionList: Option[];
-  onSubmit: any;
+  onSubmit: (selectVal: string, inputVal: string) => void;
 }
 
 const TableSearch = function ({ optionList, onSubmit }: TableSearchProps) {
@@ -53,4 +53,4 @@ const TableSearch = function ({ optionList, onSubmit }: TableSearchProps) {
   );
 };
 
-export default TableSearch;
+export default React.memo(TableSearch);

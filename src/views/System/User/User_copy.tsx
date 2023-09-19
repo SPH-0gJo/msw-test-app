@@ -9,6 +9,7 @@ import PagePrev from "@/component/ui-components/PagePrev";
 import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
+import Button from "@/component/ui-components/Button";
 import PageItemList from "@/component/ui-components/PageItemList";
 import _ from "lodash";
 import TableSearch from "@/component/TableSearch";
@@ -40,13 +41,18 @@ const searchData = function <T>(data: T[], searchParam: SearchParam) {
     return cloneData;
   }
 
-  return cloneData.filter((dt: T) => {
+  const regex = new RegExp(searchParam.query, "g");
+  console.log(regex);
+
+  const searchAppliedData = cloneData.filter((dt: T) => {
     const value = dt[searchParam.field as keyof T];
     if (!value || typeof value !== "string") {
       return false;
     }
-    return value.includes(searchParam.query);
+    return regex.test(value);
   });
+
+  return searchAppliedData;
 };
 
 const User = function () {
@@ -71,13 +77,20 @@ const User = function () {
     query: "",
   };
 
-  //검색 버튼 눌렀을때 적용되는 유효한 검색어
   const [searchParam, setSearchParam] = useState(initSearchParam);
 
-  const searchedData = useMemo(
-    () => searchData(originData, searchParam),
-    [originData, searchParam]
+  // const searchedData = useMemo(
+  //   () => searchData(originData, searchParam),
+  //   [originData, searchParam]
+  // );
+
+  const [searchedData, setSearchedData] = useState(
+    searchData(originData, searchParam)
   );
+
+  useEffect(() => {
+    setSearchedData(searchData(originData, searchParam));
+  }, [originData]);
 
   const {
     pageList,
@@ -156,6 +169,12 @@ const User = function () {
     setPage(firstPage);
   }, [firstPage]);
 
+  const handlePageItemClick = useCallback((pg: number) => {
+    return () => {
+      setPage(pg);
+    };
+  }, []);
+
   const handleGoLastPageClick = useCallback(() => {
     setPage(lastPage);
   }, [lastPage]);
@@ -165,15 +184,18 @@ const User = function () {
     setPage((prevState) => prevState + 1);
   }, [hasNext]);
 
-  const handleSearchBtnClick = useCallback(
-    (selectVal: string, inputVal: string) => {
-      setSearchParam({
-        field: selectVal,
-        query: inputVal,
-      });
-    },
-    []
-  );
+  const handleSearchSelectChange: React.ChangeEventHandler<HTMLSelectElement> =
+    useCallback((e) => {
+      setSearchParam((prevState) => ({
+        ...prevState,
+        field: e.target.value,
+      }));
+    }, []);
+
+  const handleSearchBtnClick = useCallback(() => {
+    setPage(firstPage);
+    setSearchedData(searchData(originData, searchParam));
+  }, [originData, searchParam]);
 
   return (
     <>
@@ -181,10 +203,38 @@ const User = function () {
         <div className="card-box-body">
           <div className="table-control-top">
             <div className="table-search-wrap">
-              <TableSearch
+              {/* <TableSearch
                 optionList={searchOptionList}
                 onSubmit={handleSearchBtnClick}
+              /> */}
+
+              <select onChange={handleSearchSelectChange} name="" id="">
+                {searchOptionList.map((opt) => {
+                  //page 클릭시 page, data state 변경으로 인해 2번 렌더링되는 이슈
+                  console.log("option created");
+                  return (
+                    <option
+                      selected={opt.value === searchParam.field}
+                      value={opt.value}
+                    >
+                      {opt.title}
+                    </option>
+                  );
+                })}
+              </select>
+              <input
+                value={searchParam.query}
+                type="search"
+                onChange={(e) => {
+                  setSearchParam((prevState) => ({
+                    ...prevState,
+                    query: e.target.value,
+                  }));
+                }}
               />
+              <Button onClick={handleSearchBtnClick}>
+                <i className="fe-search" />
+              </Button>
             </div>
             <div className="btn-wrap">
               <button
@@ -215,7 +265,27 @@ const User = function () {
               </>
             )}
 
-            <PageItemList pageList={pageList} page={page} setPage={setPage} />
+            <PageItemList
+              pageList={pageList}
+              page={page}
+              //onClick={handlePageItemClick}
+              setPage={setPage}
+            />
+            {/* {pageList.map((pg) => {
+              console.log("pageList");
+              return (
+                <PageItem
+                  onClick={(e) => {
+                    console.dir(e.target);
+                  }}
+                  key={pg}
+                  active={pg === page}
+                >
+                  {pg}
+                </PageItem>
+              );
+            })} */}
+
             {hasGoLast && (
               <>
                 <PageEllipsis />
