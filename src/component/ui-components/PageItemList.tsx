@@ -4,15 +4,22 @@ import PageItem from "./PageItem";
 interface PageItemListProps {
   pageList: number[];
   page: number;
-  onClick: (pg: number) => () => void;
+  onClick?: (pg: number) => () => void;
+  setPage: any;
 }
 
-const PageItemList = function ({ pageList, page, onClick }: PageItemListProps) {
+const PageItemList = function ({ pageList, page, setPage }: PageItemListProps) {
   return (
     <>
       {pageList.map((pg) => {
         return (
-          <PageItem onClick={onClick(pg)} key={pg} active={pg === page}>
+          <PageItem
+            onClick={() => {
+              setPage(pg);
+            }}
+            key={pg}
+            active={pg === page}
+          >
             {pg}
           </PageItem>
         );

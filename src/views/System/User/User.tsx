@@ -18,25 +18,29 @@ export type Column = {
   value: string | JSX.Element;
 };
 
-type Option = {
+export type Option = {
   value: string;
   title: string;
 };
 
-interface SearchParam {
+export interface SearchParam {
   field: string;
   query: string;
 }
 
-const filterData = function (pageSize: number, data: any[], page: number) {
+const paginateData = function (pageSize: number, data: any[], page: number) {
   const startIdx = (page - 1) * pageSize;
   return data.slice(startIdx, startIdx + pageSize);
 };
 
-const searchFilterData = function <T>(data: T[], searchParam: SearchParam) {
+const searchData = function <T>(data: T[], searchParam: SearchParam) {
   const cloneData = _.cloneDeep(data);
 
+  //임시로 search 기능 막음
+  return cloneData;
+
   const regex = new RegExp(searchParam.query, "g");
+  console.log(regex);
 
   const searchAppliedData = cloneData.filter((dt: T) => {
     const value = dt[searchParam.field as keyof T];
@@ -49,29 +53,8 @@ const searchFilterData = function <T>(data: T[], searchParam: SearchParam) {
   return searchAppliedData;
 };
 
-const _filterData = function <T>(
-  pageSize: number,
-  data: T[],
-  page: number,
-  searchParam: SearchParam
-) {
-  const cloneData = _.cloneDeep(data);
-
-  const regex = new RegExp(searchParam.query, "g");
-
-  const searchAppliedData = cloneData.filter((dt: T) => {
-    const value = dt[searchParam.field as keyof T];
-    if (!value || typeof value !== "string") {
-      return false;
-    }
-    return regex.test(value);
-  });
-
-  const startIdx = (page - 1) * pageSize;
-  return searchAppliedData.slice(startIdx, startIdx + pageSize);
-};
-
 const User = function () {
+  console.log("User Commponent");
   //등록 모달
   const [regModalShow, setRegModalShow] = useState<boolean>(false);
 
@@ -84,15 +67,29 @@ const User = function () {
     initPage = 1;
 
   //pageSize는 고정이므로 매번 넣기보다는 Currying...
-  const pageSizedFilterData = filterData.bind(null, pageSize);
+  const pageSizedPaginateData = paginateData.bind(null, pageSize);
 
   //전체 데이터 (검색등으로 변경되기고, 전체 페이지 목록 계산에 영향)
-  const originData = getUserTableData(users);
-  const [rawData, setRawData] = useState(_.cloneDeep(originData));
+  const [originData, setOriginData] = useState(getUserTableData(users));
+  //const [rawData, setRawData] = useState(_.cloneDeep(originData));
 
   //한 페이지에 표시되는 데이터
-  const initData = pageSizedFilterData(rawData, initPage);
-  const [data, setData] = useState(initData);
+  //const initData = pageSizedPaginateData(rawData, initPage);
+  //const [data, setData] = useState(initData);
+
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+  const initSearchParam: SearchParam = {
+    field: "userName",
+    query: "",
+  };
+
+  const [searchParam, setSearchParam] = useState(initSearchParam);
+
+  const searchedData = useMemo(
+    () => searchData(originData, searchParam),
+    [originData, searchParam]
+  );
 
   const {
     pageList,
@@ -104,18 +101,16 @@ const User = function () {
     hasGoFirst,
     firstPage,
     setPage,
-  } = usePagination(rawData, initPage, pageSize);
+  } = usePagination(searchedData, initPage, pageSize);
 
-  const initSearchParam = {
-    field: "userName",
-    query: "",
-  };
-
-  const [searchParam, setSearchParam] = useState<SearchParam>(initSearchParam);
+  const pagedData = pageSizedPaginateData(searchedData, page);
 
   //검색어 입력시 rawData state가 변경 -> 아래 함수 자동으로 호출
   // page 변경시 page state가 변경  -> 아래 함수 자동으로 호출
-  useEffect(() => setData(pageSizedFilterData(rawData, page)), [rawData, page]);
+  // useEffect(
+  //   () => setData(pageSizedPaginateData(rawData, page)),
+  //   [rawData, page]
+  // );
 
   //Column의 key는 data의 정보를 가져 오기위해서는 data 객체의 key와 동일해야함.
 
@@ -204,11 +199,10 @@ const User = function () {
     }, []);
 
   const handleSearchBtnClick = useCallback(() => {
-    setRawData((prevState: UserData[]) =>
-      searchFilterData<UserData>(prevState, searchParam)
-    );
-    //const filteredData = _filterData(pageSize, rawData, page, searchParam);
-    //setData(filteredData);
+    // setRawData((prevState: UserData[]) =>
+    //   searchFilterData<UserData>(prevState, searchParam)
+    // );
+    //setRawData(searchFilterData<UserData>(originData, searchParam));
   }, [searchParam]);
 
   return (
@@ -263,7 +257,7 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            <Table<UserData> columns={columns} data={data} />
+            <Table<UserData> columns={columns} data={pagedData} />
           </div>
           <Pagination>
             <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
@@ -280,7 +274,8 @@ const User = function () {
             <PageItemList
               pageList={pageList}
               page={page}
-              onClick={handlePageItemClick}
+              //onClick={handlePageItemClick}
+              setPage={setPage}
             />
             {/* {pageList.map((pg) => {
               console.log("pageList");
