@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
@@ -15,8 +15,11 @@ import { Option } from "@/shared/type/select";
 import TableSearch from "@/component/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
+import { useStores } from "@/modules/Store";
 
 const User = function () {
+  const { accountStore } = useStores();
+
   //등록 모달
   const [regModalShow, setRegModalShow] = useState<boolean>(false);
 
@@ -31,7 +34,23 @@ const User = function () {
   //pageSize는 고정이므로 매번 넣기보다는 Currying...
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
 
-  const [originData, setOriginData] = useState(getUserTableData(users));
+  const [originData, setOriginData] = useState<UserData[]>([]);
+
+  useLayoutEffect(() => {
+    accountStore
+      .findAll()
+      .then((result) => {
+        console.log("result", result);
+
+        if (result.data) {
+          const users = getUserTableData(result.data);
+          setOriginData(users);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const initSearchParam: SearchParam = {
     field: "userName",

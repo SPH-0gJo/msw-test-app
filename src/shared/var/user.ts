@@ -1,7 +1,7 @@
 import Button from "@/component/ui-components/Button";
 import CheckBox from "@/component/ui-components/CheckBox";
 
-type User = {
+export interface User {
   sysuserId: string;
   userId: string;
   userName: string;
@@ -12,7 +12,7 @@ type User = {
   registSysuserId: string;
   updateDate: string | null;
   updateSysuserId: string | null;
-};
+}
 
 const originMockData: User[] = [
   {
