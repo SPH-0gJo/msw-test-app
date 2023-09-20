@@ -15,6 +15,7 @@ import Authority from "./views/System/Authority/Authority";
 import Log from "./views/System/Log/Log";
 import SystemDefault from "./views/SystemDefault";
 import { StoreProvider, stores } from "@/modules/Store";
+import { rootPath } from "@/shared/env";
 
 const getRoutes = function (menuInfoList: MenuInfo[]) {
   return menuInfoList.map(({ path, children }) => {
@@ -29,7 +30,7 @@ const getRoutes = function (menuInfoList: MenuInfo[]) {
 const App = function () {
   return (
     <StoreProvider value={stores}>
-      <BrowserRouter>
+      <BrowserRouter basename={`/${rootPath}`}>
         <Routes>
           <Route
             path="/"

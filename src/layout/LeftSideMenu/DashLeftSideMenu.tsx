@@ -3,6 +3,7 @@ import MenuLink from "@/component/MenuLink";
 import { MenuInfo, menuInfoList } from "@/shared/var/menu";
 import React from "react";
 import Logo from "@/resources/images/logo-light.png";
+import { rootPath } from "@/shared/env";
 
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
   return menuInfoList.map(({ children, title, to, icon, url }) => {
@@ -32,7 +33,7 @@ const DashLeftSideMenu = function () {
     <div className="left-side-menu">
       <div className="logo-box">
         <h1 className="logo">
-          <a href="/" className="logo-link">
+          <a href={`/${rootPath}`} className="logo-link">
             <img src={Logo} alt="남양주 Logo" />
             <span className="logo-type">생생 시민소리 분석시스템</span>
           </a>

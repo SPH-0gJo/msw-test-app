@@ -1,5 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import AuthRepository from "@/modules/Login/AuthRepository";
+import { rootPath } from "../env";
 
 export type ErrorData = {
   code: number;
@@ -110,7 +111,7 @@ axios.interceptors.response.use(
     } else if (status === 401 || status === 403) {
       // /auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
       console.log("login 페이지 이동");
-      window.location.href = "/login";
+      window.location.href = rootPath === "" ? "/login" : `/${rootPath}/login`;
     }
 
     return Promise.reject(error);
