@@ -10,7 +10,7 @@ import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
 import PageItemList from "@/component/ui-components/PageItemList";
-import _ from "lodash";
+import cloneDeep from "lodash/cloneDeep";
 import TableSearch from "@/component/TableSearch";
 
 export type Column = {
@@ -34,7 +34,7 @@ const paginateData = function (pageSize: number, data: any[], page: number) {
 };
 
 const searchData = function <T>(data: T[], searchParam: SearchParam) {
-  const cloneData = _.cloneDeep(data);
+  const cloneData = cloneDeep(data);
 
   if (searchParam.query === "") {
     return cloneData;
