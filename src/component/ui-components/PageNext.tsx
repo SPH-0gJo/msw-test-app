@@ -15,4 +15,4 @@ const PageNext = function ({ disabled, onClick }: PageItemProps) {
   );
 };
 
-export default PageNext;
+export default React.memo(PageNext);

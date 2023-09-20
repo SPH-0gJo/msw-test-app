@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
@@ -9,15 +9,44 @@ import PagePrev from "@/component/ui-components/PagePrev";
 import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
+import PageItemList from "@/component/ui-components/PageItemList";
+import cloneDeep from "lodash/cloneDeep";
+import TableSearch from "@/component/TableSearch";
 
 export type Column = {
   key: string;
   value: string | JSX.Element;
 };
 
-const filterData = function (pageSize: number, data: any[], page: number) {
+export type Option = {
+  value: string;
+  title: string;
+};
+
+export interface SearchParam {
+  field: string;
+  query: string;
+}
+
+const paginateData = function (pageSize: number, data: any[], page: number) {
   const startIdx = (page - 1) * pageSize;
   return data.slice(startIdx, startIdx + pageSize);
+};
+
+const searchData = function <T>(data: T[], searchParam: SearchParam) {
+  const cloneData = cloneDeep(data);
+
+  if (searchParam.query === "") {
+    return cloneData;
+  }
+
+  return cloneData.filter((dt: T) => {
+    const value = dt[searchParam.field as keyof T];
+    if (!value || typeof value !== "string") {
+      return false;
+    }
+    return value.includes(searchParam.query);
+  });
 };
 
 const User = function () {
@@ -33,12 +62,22 @@ const User = function () {
     initPage = 1;
 
   //pageSize는 고정이므로 매번 넣기보다는 Currying...
-  const pageSizedFilterData = filterData.bind(null, pageSize);
+  const pageSizedPaginateData = paginateData.bind(null, pageSize);
 
-  const rawData = getUserTableData(users);
-  const initData = pageSizedFilterData(rawData, initPage);
+  const [originData, setOriginData] = useState(getUserTableData(users));
 
-  const [data, setData] = useState(initData);
+  const initSearchParam: SearchParam = {
+    field: "userName",
+    query: "",
+  };
+
+  //검색 버튼 눌렀을때 적용되는 유효한 검색어
+  const [searchParam, setSearchParam] = useState(initSearchParam);
+
+  const searchedData = useMemo(
+    () => searchData(originData, searchParam),
+    [originData, searchParam]
+  );
 
   const {
     pageList,
@@ -50,42 +89,91 @@ const User = function () {
     hasGoFirst,
     firstPage,
     setPage,
-  } = usePagination(rawData, initPage, pageSize);
+  } = usePagination(searchedData, initPage, pageSize);
 
-  useEffect(() => setData(pageSizedFilterData(rawData, page)), [page]);
+  const pagedData = pageSizedPaginateData(searchedData, page);
 
   //Column의 key는 data의 정보를 가져 오기위해서는 data 객체의 key와 동일해야함.
 
-  const columns: Column[] = [
-    {
-      key: "ckbox",
-      value: <CheckBox />,
+  const columns: Column[] = useMemo(
+    () => [
+      {
+        key: "ckbox",
+        value: <CheckBox />,
+      },
+      {
+        key: "no",
+        value: "NO",
+      },
+      {
+        key: "groupName",
+        value: "그룹명",
+      },
+      {
+        key: "userId",
+        value: "아이디",
+      },
+      {
+        key: "userName",
+        value: "이름",
+      },
+      {
+        key: "registDate",
+        value: "등록일",
+      },
+      {
+        key: "mng",
+        value: "관리",
+      },
+    ],
+    []
+  );
+
+  const searchOptionList: Option[] = useMemo(
+    () => [
+      {
+        value: "userId",
+        title: "아이디",
+      },
+      {
+        value: "groupName",
+        title: "그룹명",
+      },
+      {
+        value: "userName",
+        title: "이름",
+      },
+    ],
+    []
+  );
+
+  const handlePagePrevClick = useCallback(() => {
+    if (!hasPrev) return;
+    setPage((prevState) => prevState - 1);
+  }, [hasPrev]);
+
+  const handleGoFirstPageClick = useCallback(() => {
+    setPage(firstPage);
+  }, [firstPage]);
+
+  const handleGoLastPageClick = useCallback(() => {
+    setPage(lastPage);
+  }, [lastPage]);
+
+  const handlePageNextClick = useCallback(() => {
+    if (!hasNext) return;
+    setPage((prevState) => prevState + 1);
+  }, [hasNext]);
+
+  const handleSearchBtnClick = useCallback(
+    (selectVal: string, inputVal: string) => {
+      setSearchParam({
+        field: selectVal,
+        query: inputVal,
+      });
     },
-    {
-      key: "no",
-      value: "NO",
-    },
-    {
-      key: "groupName",
-      value: "그룹명",
-    },
-    {
-      key: "userId",
-      value: "아이디",
-    },
-    {
-      key: "userName",
-      value: "이름",
-    },
-    {
-      key: "registDate",
-      value: "등록일",
-    },
-    {
-      key: "mng",
-      value: "관리",
-    },
-  ];
+    []
+  );
 
   return (
     <>
@@ -93,15 +181,10 @@ const User = function () {
         <div className="card-box-body">
           <div className="table-control-top">
             <div className="table-search-wrap">
-              <select name="" id="">
-                <option value="">아이디</option>
-                <option value="">그룹명</option>
-                <option value="">이름</option>
-              </select>
-              <input type="search" />
-              <button className="btn">
-                <i className="fe-search" />
-              </button>
+              <TableSearch
+                optionList={searchOptionList}
+                onSubmit={handleSearchBtnClick}
+              />
             </div>
             <div className="btn-wrap">
               <button
@@ -118,62 +201,29 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            <Table<UserData> columns={columns} data={data} />
+            <Table<UserData> columns={columns} data={pagedData} />
           </div>
           <Pagination>
-            <PagePrev
-              onClick={() => {
-                if (!hasPrev) return;
-                setPage((prevState) => prevState - 1);
-              }}
-              disabled={!hasPrev}
-            />
+            <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
 
             {hasGoFirst && (
               <>
-                <PageItem
-                  onClick={() => {
-                    setPage(firstPage);
-                  }}
-                >
+                <PageItem onClick={handleGoFirstPageClick}>
                   {firstPage}
                 </PageItem>
                 <PageEllipsis />
               </>
             )}
 
-            {pageList.map((pg) => (
-              <PageItem
-                onClick={() => {
-                  setPage(pg);
-                }}
-                key={pg}
-                active={pg === page}
-              >
-                {pg}
-              </PageItem>
-            ))}
-
+            <PageItemList pageList={pageList} page={page} setPage={setPage} />
             {hasGoLast && (
               <>
                 <PageEllipsis />
-                <PageItem
-                  onClick={() => {
-                    setPage(lastPage);
-                  }}
-                >
-                  {lastPage}
-                </PageItem>
+                <PageItem onClick={handleGoLastPageClick}>{lastPage}</PageItem>
               </>
             )}
 
-            <PageNext
-              onClick={() => {
-                if (!hasNext) return;
-                setPage((prevState) => prevState + 1);
-              }}
-              disabled={!hasNext}
-            />
+            <PageNext onClick={handlePageNextClick} disabled={!hasNext} />
           </Pagination>
         </div>
       </div>

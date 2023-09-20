@@ -274,24 +274,35 @@ export const users: User[] = //[];
     return [...accumulator, ...cur];
   });
 
+export const UserDataField = {
+  GROUP_NAME: "groupName",
+  USER_ID: "userId",
+  USER_NAME: "userName",
+};
+
 export type UserData = {
-  ckbox: typeof CheckBox;
+  ckbox: JSX.Element;
   no: number;
   groupName: string | null;
   userId: string | null;
   userName: string | null;
   registDate: string;
-  mng: typeof Button;
+  mng: JSX.Element;
 };
 
 export const getUserTableData = function (users: User[]): UserData[] {
   return users.map((user, i) => ({
-    ckbox: CheckBox,
+    ckbox: CheckBox(),
     no: i + 1,
     groupName: user.groupName,
     userId: user.userId,
     userName: user.userName,
     registDate: user.registDate,
-    mng: Button,
+    mng: Button({
+      variant: "success",
+      size: "xs",
+      classList: ["rounded-pill"],
+      children: "수정",
+    }),
   }));
 };

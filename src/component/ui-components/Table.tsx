@@ -33,4 +33,4 @@ function Table<T>({ columns, data }: TableProps<T>): React.ReactElement {
   );
 }
 
-export default Table;
+export default React.memo(Table) as typeof Table;
