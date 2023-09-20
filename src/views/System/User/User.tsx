@@ -10,44 +10,10 @@ import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
 import PageItemList from "@/component/ui-components/PageItemList";
-import cloneDeep from "lodash/cloneDeep";
+import { Column, SearchParam } from "@/shared/type/table";
+import { Option } from "@/shared/type/select";
 import TableSearch from "@/component/TableSearch";
-
-export type Column = {
-  key: string;
-  value: string | JSX.Element;
-};
-
-export type Option = {
-  value: string;
-  title: string;
-};
-
-export interface SearchParam {
-  field: string;
-  query: string;
-}
-
-const paginateData = function (pageSize: number, data: any[], page: number) {
-  const startIdx = (page - 1) * pageSize;
-  return data.slice(startIdx, startIdx + pageSize);
-};
-
-const searchData = function <T>(data: T[], searchParam: SearchParam) {
-  const cloneData = cloneDeep(data);
-
-  if (searchParam.query === "") {
-    return cloneData;
-  }
-
-  return cloneData.filter((dt: T) => {
-    const value = dt[searchParam.field as keyof T];
-    if (!value || typeof value !== "string") {
-      return false;
-    }
-    return value.includes(searchParam.query);
-  });
-};
+import { paginateData, searchData } from "@/shared/util/table";
 
 const User = function () {
   //등록 모달
