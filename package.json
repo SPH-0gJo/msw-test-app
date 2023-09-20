@@ -23,7 +23,7 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "build:dev": "cross-env PUBLIC_URL=https://nyjdev.sphinfo.com:8010/voc BUILD_ENV=dev craco build",
+    "build:dev": "cross-env PUBLIC_URL=https://nyjdev.sphinfo.com:8010/voc REACT_APP_BUILD_ENV=dev craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
