@@ -14,6 +14,7 @@ import { Column, SearchParam } from "@/shared/type/table";
 import { Option } from "@/shared/type/select";
 import TableSearch from "@/component/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
+import Button from "@/component/ui-components/Button";
 
 const User = function () {
   //등록 모달
@@ -153,17 +154,19 @@ const User = function () {
               />
             </div>
             <div className="btn-wrap">
-              <button
+              <Button
                 onClick={toggleRegModal}
-                className="btn btn-sm rounded-pill btn-primary"
+                variant="primary"
+                size="sm"
+                classList={["rounded-pill"]}
               >
                 <i className="fe-edit" />
                 등록
-              </button>
-              <button className="btn btn-sm rounded-pill btn-danger">
+              </Button>
+              <Button variant="danger" size="sm" classList={["rounded-pill"]}>
                 <i className="fe-x-circle" />
                 선택 삭제
-              </button>
+              </Button>
             </div>
           </div>
           <div className="table-wrap">
