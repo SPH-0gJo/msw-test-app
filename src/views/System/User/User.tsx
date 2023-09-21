@@ -83,10 +83,10 @@ const User = function () {
 
   const columns: Column[] = useMemo(
     () => [
-      {
-        key: "ckbox",
-        value: <CheckBox />,
-      },
+      // {
+      //   key: "ckbox",
+      //   value: <CheckBox />,
+      // },
       {
         key: "no",
         value: "NO",
@@ -192,7 +192,11 @@ const User = function () {
             {originData.length === 0 ? (
               <div>Loading...</div>
             ) : (
-              <Table<UserData> columns={columns} data={pagedData} />
+              <Table<UserData>
+                columns={columns}
+                data={pagedData}
+                isSelectable={true}
+              />
             )}
           </div>
           <Pagination>
