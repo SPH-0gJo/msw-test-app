@@ -18,6 +18,8 @@ function Table<T>({
   console.log("data", data);
 
   const [selectedData, setSelectedData] = useState(new Set());
+  //전체 선택 후 하나라도 풀면 전체 선택 체크박스 해제되어야함
+  const isAllDataSelected = data.length === selectedData.size;
 
   const handleDataSelect = function (dataId: string) {
     const nextSelectedData = new Set(selectedData);
@@ -30,6 +32,16 @@ function Table<T>({
     setSelectedData(nextSelectedData);
   };
 
+  const handleAllDataSelect = function () {
+    let dataIds: string[] = [];
+
+    if (!isAllDataSelected) {
+      dataIds = data.map((dt) => dt[dataIdKey] as string);
+    }
+    const nextSelectedData = new Set(dataIds);
+    setSelectedData(nextSelectedData);
+  };
+
   console.log(selectedData);
 
   return (
@@ -39,7 +51,14 @@ function Table<T>({
         <tr>
           {isSelectable && (
             <th>
-              <CheckBox />
+              {/* <CheckBox /> */}
+              <input
+                type="checkbox"
+                checked={isAllDataSelected}
+                onChange={() => {
+                  handleAllDataSelect();
+                }}
+              />
             </th>
           )}
           {columns.map((col) => (
