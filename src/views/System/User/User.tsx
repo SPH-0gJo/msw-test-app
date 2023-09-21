@@ -196,7 +196,7 @@ const User = function () {
                 columns={columns}
                 data={pagedData}
                 isSelectable={true}
-                itemKey="sysuserId"
+                dataIdKey="sysuserId"
               />
             )}
           </div>
