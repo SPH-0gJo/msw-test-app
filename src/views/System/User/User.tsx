@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
@@ -10,46 +10,16 @@ import PageEllipsis from "@/component/ui-components/PageEllipsis";
 import { usePagination } from "@/shared/pagination";
 import PageItem from "@/component/ui-components/PageItem";
 import PageItemList from "@/component/ui-components/PageItemList";
-import cloneDeep from "lodash/cloneDeep";
+import { Column, SearchParam } from "@/shared/type/table";
+import { Option } from "@/shared/type/select";
 import TableSearch from "@/component/TableSearch";
-
-export type Column = {
-  key: string;
-  value: string | JSX.Element;
-};
-
-export type Option = {
-  value: string;
-  title: string;
-};
-
-export interface SearchParam {
-  field: string;
-  query: string;
-}
-
-const paginateData = function (pageSize: number, data: any[], page: number) {
-  const startIdx = (page - 1) * pageSize;
-  return data.slice(startIdx, startIdx + pageSize);
-};
-
-const searchData = function <T>(data: T[], searchParam: SearchParam) {
-  const cloneData = cloneDeep(data);
-
-  if (searchParam.query === "") {
-    return cloneData;
-  }
-
-  return cloneData.filter((dt: T) => {
-    const value = dt[searchParam.field as keyof T];
-    if (!value || typeof value !== "string") {
-      return false;
-    }
-    return value.includes(searchParam.query);
-  });
-};
+import { paginateData, searchData } from "@/shared/util/table";
+import Button from "@/component/ui-components/Button";
+import { useStores } from "@/modules/Store";
 
 const User = function () {
+  const { accountStore } = useStores();
+
   //등록 모달
   const [regModalShow, setRegModalShow] = useState<boolean>(false);
 
@@ -64,7 +34,23 @@ const User = function () {
   //pageSize는 고정이므로 매번 넣기보다는 Currying...
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
 
-  const [originData, setOriginData] = useState(getUserTableData(users));
+  const [originData, setOriginData] = useState<UserData[]>([]);
+
+  useLayoutEffect(() => {
+    accountStore
+      .findAll()
+      .then((result) => {
+        console.log("result", result);
+
+        if (result.data) {
+          const users = getUserTableData(result.data);
+          setOriginData(users);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const initSearchParam: SearchParam = {
     field: "userName",
@@ -187,21 +173,27 @@ const User = function () {
               />
             </div>
             <div className="btn-wrap">
-              <button
+              <Button
                 onClick={toggleRegModal}
-                className="btn btn-sm rounded-pill btn-primary"
+                variant="primary"
+                size="sm"
+                classList={["rounded-pill"]}
               >
                 <i className="fe-edit" />
                 등록
-              </button>
-              <button className="btn btn-sm rounded-pill btn-danger">
+              </Button>
+              <Button variant="danger" size="sm" classList={["rounded-pill"]}>
                 <i className="fe-x-circle" />
                 선택 삭제
-              </button>
+              </Button>
             </div>
           </div>
           <div className="table-wrap">
-            <Table<UserData> columns={columns} data={pagedData} />
+            {originData.length === 0 ? (
+              <div>Loading...</div>
+            ) : (
+              <Table<UserData> columns={columns} data={pagedData} />
+            )}
           </div>
           <Pagination>
             <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />

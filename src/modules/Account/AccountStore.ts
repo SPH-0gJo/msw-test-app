@@ -19,6 +19,12 @@ class AccountStore {
     console.log("AccountStore addAccount :::: ", result);
     return result;
   }
+
+  async findAll() {
+    const result = await AccountRepository.findAll();
+    console.log("AccountStore findAll :::: ", result);
+    return result;
+  }
 }
 
 export default AccountStore;

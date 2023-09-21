@@ -1,11 +1,11 @@
-export type MenuInfo = {
+export interface MenuInfo {
   title: string;
   path: string;
   children?: MenuInfo[];
   to: string;
   icon?: string;
   url?: string;
-};
+}
 
 export const sysMenuInfoList: MenuInfo[] = [
   {
@@ -141,7 +141,8 @@ export const getTableauUrl = function (
   pathname: string
 ): null | string {
   let url = null;
-  for (let i = 0; i < menuInfoList.length; i++) {
+  const menuInfoLength = menuInfoList.length;
+  for (let i = 0; i < menuInfoLength; i++) {
     const menu = menuInfoList[i];
     if (menu.to === pathname) {
       url = menu.url ? menu.url : null;

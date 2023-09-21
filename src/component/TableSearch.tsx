@@ -1,7 +1,6 @@
-import { Option } from "@/views/System/User/User";
 import React, { useState } from "react";
 import Button from "@/component/ui-components/Button";
-
+import { Option } from "@/shared/type/select";
 interface TableSearchProps {
   optionList: Option[];
   onSubmit: (selectVal: string, inputVal: string) => void;

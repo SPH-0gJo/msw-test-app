@@ -1,4 +1,4 @@
-import { Column } from "@/views/System/User/User";
+import { Column } from "@/shared/type/table";
 import React from "react";
 
 type TableProps<T> = {
