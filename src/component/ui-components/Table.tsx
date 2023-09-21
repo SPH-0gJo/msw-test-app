@@ -6,12 +6,14 @@ interface TableProps<T> {
   columns: Column[];
   data: T[];
   isSelectable: boolean;
+  itemKey: keyof T;
 }
 
 function Table<T>({
   columns,
   data,
   isSelectable,
+  itemKey,
 }: TableProps<T>): React.ReactElement {
   console.log("data", data);
   return (
@@ -32,7 +34,7 @@ function Table<T>({
       <tbody>
         {/* rows */}
         {data.map((dt) => (
-          <tr>
+          <tr key={dt[itemKey] as string}>
             {isSelectable && (
               <td>
                 <CheckBox />
