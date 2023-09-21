@@ -189,7 +189,11 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            <Table<UserData> columns={columns} data={pagedData} />
+            {originData.length === 0 ? (
+              <div>Loading...</div>
+            ) : (
+              <Table<UserData> columns={columns} data={pagedData} />
+            )}
           </div>
           <Pagination>
             <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
