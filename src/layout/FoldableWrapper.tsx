@@ -2,9 +2,10 @@ import { useFullWidthMediaQuery } from "@/shared/layout";
 import classNames from "classnames";
 import React from "react";
 
-interface FoldableWrapperProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface FoldableWrapperProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   classNm: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const FoldableWrapper = function ({

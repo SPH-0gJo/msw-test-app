@@ -1,40 +1,43 @@
-import React, { useEffect } from "react";
-import DashLeftSideMenu from "./DashLeftSideMenu";
+import React from "react";
+import DashLeftSideMenu from "@/layout/LeftSideMenu/DashLeftSideMenu";
 import { useLocation } from "react-router-dom";
-import SysLeftSideMenu from "./SysLeftSideMenu";
-
+import SysLeftSideMenu from "@/layout/LeftSideMenu/SysLeftSideMenu";
 import "./index.scss";
-import loadLeftMenuScript from "@/main";
+import FoldableWrapper, {
+  FoldableWrapperProps,
+} from "@/layout/FoldableWrapper";
+import { rootPath } from "@/shared/env";
+import Logo from "@/resources/images/logo-light.png";
 
 const LeftSideMenu = function () {
   const { pathname } = useLocation();
-  console.log("----pathname----", pathname);
 
-  useEffect(() => {
-    // var sideNavLinks = document.querySelectorAll(".side-nav-link");
-    // sideNavLinks.forEach(function (link) {
-    //   link.addEventListener("click", (e) => {
-    //     var label = link as HTMLAnchorElement;
-    //     var parent = label.closest(".has-sub");
-    //     var list = label.nextElementSibling as HTMLUListElement | null;
-    //     if (!list || !parent) return;
-    //     if (parent.classList.contains("is-open")) {
-    //       list.style.display = "none";
-    //       parent.classList.remove("is-open");
-    //     } else {
-    //       list.style.display = "block";
-    //       parent.classList.add("is-open");
-    //     }
-    //   });
-    // });
+  //Dashboard 기준
+  let SidebarMenu: JSX.Element = <DashLeftSideMenu />;
+  let folderWrapperProps: FoldableWrapperProps = {
+    classNm: "left-side-menu",
+  };
 
-    loadLeftMenuScript();
-  }, []);
+  if (pathname.startsWith("/system")) {
+    SidebarMenu = <SysLeftSideMenu />;
+    folderWrapperProps = {
+      ...folderWrapperProps,
+      id: "sys-left-side-menu",
+    };
+  }
 
-  return pathname.startsWith("/system") ? (
-    <SysLeftSideMenu />
-  ) : (
-    <DashLeftSideMenu />
+  return (
+    <FoldableWrapper {...folderWrapperProps}>
+      <div className="logo-box">
+        <h1 className="logo">
+          <a href={`/${rootPath}`} className="logo-link">
+            <img src={Logo} alt="남양주 Logo" />
+            <span className="logo-type">생생 시민소리 분석시스템</span>
+          </a>
+        </h1>
+      </div>
+      {SidebarMenu}
+    </FoldableWrapper>
   );
 };
 
