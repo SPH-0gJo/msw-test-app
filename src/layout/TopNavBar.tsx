@@ -3,6 +3,7 @@ import Logo from "@/resources/images/logo-light.png";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { useStores } from "@/modules/Store";
+import FoldableWrapper from "./FoldableWrapper";
 
 const TopNavBar = function () {
   const { authStore } = useStores();
@@ -21,9 +22,11 @@ const TopNavBar = function () {
   }, []);
 
   return (
-    <div className="top-nav">
+    <FoldableWrapper classNm="top-nav">
       <div className="top-nav-right">
-        <button className="btn-menu" id="btnMenu"><i className="fe-menu"></i></button>
+        <button className="btn-menu" id="btnMenu">
+          <i className="fe-menu"></i>
+        </button>
         <div className="user-menu">
           <div className="user-menu-icon">
             <i className="fe-user" />
@@ -44,7 +47,7 @@ const TopNavBar = function () {
           </NavDropdown>
         </div>
       </div>
-    </div>
+    </FoldableWrapper>
   );
 };
 

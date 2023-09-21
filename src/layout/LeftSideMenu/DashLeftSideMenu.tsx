@@ -4,6 +4,7 @@ import { MenuInfo, menuInfoList } from "@/shared/var/menu";
 import React from "react";
 import Logo from "@/resources/images/logo-light.png";
 import { rootPath } from "@/shared/env";
+import FoldableWrapper from "../FoldableWrapper";
 
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
   return menuInfoList.map(({ children, title, to, icon, url }) => {
@@ -30,7 +31,7 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
 
 const DashLeftSideMenu = function () {
   return (
-    <div className="left-side-menu">
+    <FoldableWrapper classNm="left-side-menu">
       <div className="logo-box">
         <h1 className="logo">
           <a href={`/${rootPath}`} className="logo-link">
@@ -44,7 +45,7 @@ const DashLeftSideMenu = function () {
           {getMenuLinks(menuInfoList, 1)}
         </ul>
       </div>
-    </div>
+    </FoldableWrapper>
   );
 };
 

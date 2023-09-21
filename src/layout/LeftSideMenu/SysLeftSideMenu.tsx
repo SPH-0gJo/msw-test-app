@@ -3,10 +3,11 @@ import { getMenuLinks } from "./DashLeftSideMenu";
 import { sysMenuInfoList } from "@/shared/var/menu";
 import Logo from "@/resources/images/logo-light.png";
 import { rootPath } from "@/shared/env";
+import FoldableWrapper from "../FoldableWrapper";
 
 const SysLeftSideMenu = function () {
   return (
-    <div id="sys-left-side-menu" className="left-side-menu">
+    <FoldableWrapper id="sys-left-side-menu" classNm="left-side-menu">
       <div className="logo-box">
         <h1 className="logo">
           <a href={`/${rootPath}`} className="logo-link">
@@ -19,7 +20,7 @@ const SysLeftSideMenu = function () {
         <div className="side-menu-title">시스템 관리</div>
         <ul className="side-menu">{getMenuLinks(sysMenuInfoList, 1)}</ul>
       </div>
-    </div>
+    </FoldableWrapper>
   );
 };
 
