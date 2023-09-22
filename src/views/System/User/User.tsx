@@ -162,12 +162,18 @@ const User = function () {
     []
   );
 
-  const handleDeleteBtnClick = useCallback(function () {
-    const isConfirmed = window.confirm(CONFIRM.DELETE);
-    if (isConfirmed) {
-      //accountStore.deleteAccounts()
-    }
-  }, []);
+  const [selectedData, setSelectedData] = useState(new Set<string>());
+
+  const handleDeleteBtnClick = useCallback(
+    function () {
+      const isConfirmed = window.confirm(CONFIRM.DELETE);
+      if (isConfirmed) {
+        //accountStore.deleteAccounts()
+        console.log(selectedData);
+      }
+    },
+    [selectedData]
+  );
 
   return (
     <>
@@ -210,6 +216,8 @@ const User = function () {
                 data={pagedData}
                 isSelectable={true}
                 dataIdKey="sysuserId"
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
               />
             )}
           </div>
