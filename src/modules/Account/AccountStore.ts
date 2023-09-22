@@ -20,6 +20,12 @@ class AccountStore {
     return result;
   }
 
+  async deleteAccounts(ids: string[]) {
+    const result = await AccountRepository.deleteAccounts(ids);
+    console.log("AccountStore deleteAccounts :::: ", result);
+    return result;
+  }
+
   async findAll() {
     const result = await AccountRepository.findAll();
     console.log("AccountStore findAll :::: ", result);

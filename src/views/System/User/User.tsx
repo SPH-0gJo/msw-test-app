@@ -16,6 +16,7 @@ import TableSearch from "@/component/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";
+import { CONFIRM } from "@/shared/var/msg";
 
 const User = function () {
   const { accountStore } = useStores();
@@ -161,6 +162,13 @@ const User = function () {
     []
   );
 
+  const handleDeleteBtnClick = useCallback(function () {
+    const isConfirmed = window.confirm(CONFIRM.DELETE);
+    if (isConfirmed) {
+      //accountStore.deleteAccounts()
+    }
+  }, []);
+
   return (
     <>
       <div className="card-box">
@@ -182,7 +190,12 @@ const User = function () {
                 <i className="fe-edit" />
                 등록
               </Button>
-              <Button variant="danger" size="sm" classList={["rounded-pill"]}>
+              <Button
+                onClick={handleDeleteBtnClick}
+                variant="danger"
+                size="sm"
+                classList={["rounded-pill"]}
+              >
                 <i className="fe-x-circle" />
                 선택 삭제
               </Button>

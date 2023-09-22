@@ -23,6 +23,12 @@ class AccountRepository {
     return createPost(this.URL + "/add", addFormData);
   }
 
+  deleteAccounts(ids: string[]) {
+    return createPost<boolean>(this.URL + "/list/delete", {
+      ids,
+    });
+  }
+
   findAll() {
     return createGet<User[]>(this.URL + "/list");
   }
