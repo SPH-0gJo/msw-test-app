@@ -280,20 +280,29 @@ export const UserDataField = {
   USER_NAME: "userName",
 };
 
-export type UserData = {
-  ckbox: JSX.Element;
+export interface UserData {
+  // //ckbox: JSX.Element;
+  // no: number;
+  // groupName: string | null;
+  // userId: string | null;
+  // userName: string | null;
+  // registDate: string;
+  // mng: JSX.Element;
+}
+
+type UserTableDataExtras = {
   no: number;
-  groupName: string | null;
-  userId: string | null;
-  userName: string | null;
-  registDate: string;
   mng: JSX.Element;
 };
 
-export const getUserTableData = function (users: User[]): UserData[] {
+export type UserTableData = UserTableDataExtras &
+  Pick<User, "sysuserId" | "groupName" | "userId" | "userName" | "registDate">;
+
+export const getUserTableData = function (users: User[]): UserTableData[] {
   return users.map((user, i) => ({
-    ckbox: CheckBox(),
+    //ckbox: CheckBox(),
     no: i + 1,
+    sysuserId: user.sysuserId,
     groupName: user.groupName,
     userId: user.userId,
     userName: user.userName,

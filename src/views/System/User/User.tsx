@@ -2,7 +2,7 @@ import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
 import CheckBox from "@/component/ui-components/CheckBox";
-import { UserData, getUserTableData, users } from "@/shared/var/user";
+import { UserTableData, getUserTableData, users } from "@/shared/var/user";
 import Pagination from "@/component/ui-components/Pagination";
 import PageNext from "@/component/ui-components/PageNext";
 import PagePrev from "@/component/ui-components/PagePrev";
@@ -34,7 +34,7 @@ const User = function () {
   //pageSize는 고정이므로 매번 넣기보다는 Currying...
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
 
-  const [originData, setOriginData] = useState<UserData[]>([]);
+  const [originData, setOriginData] = useState<UserTableData[]>([]);
 
   useLayoutEffect(() => {
     accountStore
@@ -83,10 +83,10 @@ const User = function () {
 
   const columns: Column[] = useMemo(
     () => [
-      {
-        key: "ckbox",
-        value: <CheckBox />,
-      },
+      // {
+      //   key: "ckbox",
+      //   value: <CheckBox />,
+      // },
       {
         key: "no",
         value: "NO",
@@ -192,7 +192,12 @@ const User = function () {
             {originData.length === 0 ? (
               <div>Loading...</div>
             ) : (
-              <Table<UserData> columns={columns} data={pagedData} />
+              <Table<UserTableData>
+                columns={columns}
+                data={pagedData}
+                isSelectable={true}
+                dataIdKey="sysuserId"
+              />
             )}
           </div>
           <Pagination>
