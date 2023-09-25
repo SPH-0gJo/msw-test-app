@@ -16,7 +16,7 @@ import TableSearch from "@/component/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";
-import { CONFIRM } from "@/shared/var/msg";
+import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 
 const User = function () {
   const { accountStore } = useStores();
@@ -37,7 +37,7 @@ const User = function () {
 
   const [originData, setOriginData] = useState<UserTableData[]>([]);
 
-  useLayoutEffect(() => {
+  const loadTableData = useCallback(function () {
     accountStore
       .findAll()
       .then((result) => {
@@ -51,6 +51,10 @@ const User = function () {
       .catch((error) => {
         console.error(error);
       });
+  }, []);
+
+  useLayoutEffect(() => {
+    loadTableData();
   }, []);
 
   const initSearchParam: SearchParam = {
@@ -154,6 +158,8 @@ const User = function () {
 
   const handleSearchBtnClick = useCallback(
     (selectVal: string, inputVal: string) => {
+      //검색한 결과에는 현재 페이지가 없을 수 있으므로 반드시 1페이지 출력
+      setPage(firstPage);
       setSearchParam({
         field: selectVal,
         query: inputVal,
@@ -164,16 +170,27 @@ const User = function () {
 
   const [selectedData, setSelectedData] = useState(new Set<string>());
 
-  const handleDeleteBtnClick = useCallback(
-    function () {
-      const isConfirmed = window.confirm(CONFIRM.DELETE);
-      if (isConfirmed) {
-        //accountStore.deleteAccounts()
-        console.log(selectedData);
-      }
-    },
-    [selectedData]
-  );
+  const handleDeleteBtnClick = useCallback(() => {
+    const isConfirmed = window.confirm(CONFIRM.DELETE);
+    if (isConfirmed) {
+      const selectedDataArr = Array.from(selectedData);
+      accountStore
+        .deleteAccounts(selectedDataArr)
+        .then((result) => {
+          if (result.data) {
+            alert(SUCCESS.PROCCESSED);
+            setPage(firstPage);
+            loadTableData();
+          } else {
+            throw new Error(ERROR.STATUS_OK_BUT_FAIL);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          alert(ERROR.NOT_PROCESSED);
+        });
+    }
+  }, [selectedData]);
 
   return (
     <>
