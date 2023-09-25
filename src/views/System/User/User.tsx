@@ -16,6 +16,7 @@ import TableSearch from "@/component/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";
+import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 
 const User = function () {
   const { accountStore } = useStores();
@@ -36,7 +37,7 @@ const User = function () {
 
   const [originData, setOriginData] = useState<UserTableData[]>([]);
 
-  useLayoutEffect(() => {
+  const loadTableData = useCallback(function () {
     accountStore
       .findAll()
       .then((result) => {
@@ -50,6 +51,10 @@ const User = function () {
       .catch((error) => {
         console.error(error);
       });
+  }, []);
+
+  useLayoutEffect(() => {
+    loadTableData();
   }, []);
 
   const initSearchParam: SearchParam = {
@@ -153,6 +158,8 @@ const User = function () {
 
   const handleSearchBtnClick = useCallback(
     (selectVal: string, inputVal: string) => {
+      //검색한 결과에는 현재 페이지가 없을 수 있으므로 반드시 1페이지 출력
+      setPage(firstPage);
       setSearchParam({
         field: selectVal,
         query: inputVal,
@@ -160,6 +167,30 @@ const User = function () {
     },
     []
   );
+
+  const [selectedData, setSelectedData] = useState(new Set<string>());
+
+  const handleDeleteBtnClick = useCallback(() => {
+    const isConfirmed = window.confirm(CONFIRM.DELETE);
+    if (isConfirmed) {
+      const selectedDataArr = Array.from(selectedData);
+      accountStore
+        .deleteAccounts(selectedDataArr)
+        .then((result) => {
+          if (result.data) {
+            alert(SUCCESS.PROCCESSED);
+            setPage(firstPage);
+            loadTableData();
+          } else {
+            throw new Error(ERROR.STATUS_OK_BUT_FAIL);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          alert(ERROR.NOT_PROCESSED);
+        });
+    }
+  }, [selectedData]);
 
   return (
     <>
@@ -182,7 +213,12 @@ const User = function () {
                 <i className="fe-edit" />
                 등록
               </Button>
-              <Button variant="danger" size="sm" classList={["rounded-pill"]}>
+              <Button
+                onClick={handleDeleteBtnClick}
+                variant="danger"
+                size="sm"
+                classList={["rounded-pill"]}
+              >
                 <i className="fe-x-circle" />
                 선택 삭제
               </Button>
@@ -197,6 +233,8 @@ const User = function () {
                 data={pagedData}
                 isSelectable={true}
                 dataIdKey="sysuserId"
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
               />
             )}
           </div>
@@ -225,7 +263,11 @@ const User = function () {
         </div>
       </div>
       {/* 모달창 */}
-      <UserRegisterModal show={regModalShow} toggleShow={toggleRegModal} />
+      <UserRegisterModal
+        onRegisterSuccess={loadTableData}
+        show={regModalShow}
+        toggleShow={toggleRegModal}
+      />
     </>
   );
 };

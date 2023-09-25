@@ -7,6 +7,8 @@ interface TableProps<T> {
   data: T[];
   isSelectable: boolean;
   dataIdKey: keyof T;
+  selectedData: Set<string>;
+  setSelectedData: (data: Set<string>) => void;
 }
 
 function Table<T>({
@@ -14,10 +16,12 @@ function Table<T>({
   data,
   isSelectable,
   dataIdKey,
+  selectedData,
+  setSelectedData,
 }: TableProps<T>): React.ReactElement {
   console.log("data", data);
 
-  const [selectedData, setSelectedData] = useState(new Set());
+  //const [selectedData, setSelectedData] = useState(new Set());
   //전체 선택 후 하나라도 풀면 전체 선택 체크박스 해제되어야함
   const isAllDataSelected = data.length === selectedData.size;
 
