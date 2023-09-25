@@ -12,6 +12,7 @@ import { useStores } from "@/modules/Store";
 type UserRegisterModalProps = {
   show: boolean;
   toggleShow: () => void;
+  onRegisterSuccess: () => void;
 };
 
 export type UserRegisterFormInputs = {
@@ -26,6 +27,7 @@ export type UserRegisterFormInputs = {
 const UserRegisterModal = function ({
   show,
   toggleShow,
+  onRegisterSuccess,
 }: UserRegisterModalProps) {
   const { groupStore, accountStore } = useStores();
 
@@ -81,6 +83,8 @@ const UserRegisterModal = function ({
         alert("등록이 완료되었습니다");
         //팝업 창 리셋 후 닫기
         formHideHandler();
+        //데이터 불러오기
+        onRegisterSuccess();
       } catch (error) {
         console.error(error);
         alert("작업 중 오류가 발생했습니다. 관리자에게 문의하세요.");

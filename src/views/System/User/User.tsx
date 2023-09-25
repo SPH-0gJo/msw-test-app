@@ -246,7 +246,11 @@ const User = function () {
         </div>
       </div>
       {/* 모달창 */}
-      <UserRegisterModal show={regModalShow} toggleShow={toggleRegModal} />
+      <UserRegisterModal
+        onRegisterSuccess={loadTableData}
+        show={regModalShow}
+        toggleShow={toggleRegModal}
+      />
     </>
   );
 };
