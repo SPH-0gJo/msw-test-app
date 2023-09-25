@@ -19,6 +19,7 @@ import { useStores } from "@/modules/Store";
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import { useModal } from "@/shared/hooks/modal";
 import UserModifyModal from "@/component/User/UserModifyModal";
+import { User as TUser } from "@/shared/var/user";
 
 const User = function () {
   const { accountStore } = useStores();
@@ -37,6 +38,14 @@ const User = function () {
 
   const [originData, setOriginData] = useState<UserTableData[]>([]);
 
+  //수정 대상 사용자
+  const [modifyUser, setModifyUser] = useState<TUser | null>(null);
+
+  const handleUserModBtnClick = function (user: TUser) {
+    setModifyUser(user);
+    toggleModModal();
+  };
+
   const loadTableData = useCallback(function () {
     accountStore
       .findAll()
@@ -44,7 +53,7 @@ const User = function () {
         console.log("result", result);
 
         if (result.data) {
-          const users = getUserTableData(result.data);
+          const users = getUserTableData(result.data, handleUserModBtnClick);
           setOriginData(users);
         }
       })
@@ -270,10 +279,12 @@ const User = function () {
       />
 
       {/* 수정 모달창  */}
+      {/* todo : user -> data로 추상화 (메뉴관리, 그룹관리에서도 사용)  */}
       <UserModifyModal
         show={modModalShow}
         toggleShow={toggleModModal}
         onSubmitSuccess={() => {}}
+        user={modifyUser}
       />
     </>
   );

@@ -298,7 +298,10 @@ type UserTableDataExtras = {
 export type UserTableData = UserTableDataExtras &
   Pick<User, "sysuserId" | "groupName" | "userId" | "userName" | "registDate">;
 
-export const getUserTableData = function (users: User[]): UserTableData[] {
+export const getUserTableData = function (
+  users: User[],
+  onModBtnClick: (arg: User) => void
+): UserTableData[] {
   return users.map((user, i) => ({
     //ckbox: CheckBox(),
     no: i + 1,
@@ -312,6 +315,9 @@ export const getUserTableData = function (users: User[]): UserTableData[] {
       size: "xs",
       classList: ["rounded-pill"],
       children: "수정",
+      onClick: () => {
+        onModBtnClick(user);
+      },
     }),
   }));
 };
