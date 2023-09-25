@@ -36,7 +36,7 @@ const UserModifyModal = function ({
           >
             <i className="fe-x-circle"></i>취소
           </Button>
-          <Button size="sm" classList={["rounded-pill"]}>
+          <Button size="sm" variant="primary" classList={["rounded-pill"]}>
             <i className="fe-edit"></i>저장
           </Button>
         </div>
