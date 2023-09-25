@@ -17,17 +17,17 @@ import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
+import { useModal } from "@/shared/hooks/modal";
+import UserModifyModal from "@/component/User/UserModifyModal";
 
 const User = function () {
   const { accountStore } = useStores();
 
   //등록 모달
-  const [regModalShow, setRegModalShow] = useState<boolean>(false);
+  const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
 
-  // Show/hide the modal
-  const toggleRegModal = () => {
-    setRegModalShow(!regModalShow);
-  };
+  //수정 모달
+  const { modalShow: modModalShow, toggleModal: toggleModModal } = useModal();
 
   const pageSize = 10,
     initPage = 1;
@@ -262,11 +262,18 @@ const User = function () {
           </Pagination>
         </div>
       </div>
-      {/* 모달창 */}
+      {/* 등록 모달창 */}
       <UserRegisterModal
-        onRegisterSuccess={loadTableData}
         show={regModalShow}
         toggleShow={toggleRegModal}
+        onSubmitSuccess={loadTableData}
+      />
+
+      {/* 수정 모달창  */}
+      <UserModifyModal
+        show={modModalShow}
+        toggleShow={toggleModModal}
+        onSubmitSuccess={() => {}}
       />
     </>
   );
