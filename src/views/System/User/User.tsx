@@ -7,7 +7,7 @@ import Pagination from "@/component/ui-components/Pagination";
 import PageNext from "@/component/ui-components/PageNext";
 import PagePrev from "@/component/ui-components/PagePrev";
 import PageEllipsis from "@/component/ui-components/PageEllipsis";
-import { usePagination } from "@/shared/pagination";
+import { usePagination } from "@/shared/hooks/pagination";
 import PageItem from "@/component/ui-components/PageItem";
 import PageItemList from "@/component/ui-components/PageItemList";
 import { Column, SearchParam } from "@/shared/type/table";

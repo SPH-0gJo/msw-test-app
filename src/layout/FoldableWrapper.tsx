@@ -1,4 +1,4 @@
-import { useFullWidthMediaQuery } from "@/shared/layout";
+import { useFullWidthMediaQuery } from "@/shared/hooks/layout";
 import classNames from "classnames";
 import React from "react";
 
