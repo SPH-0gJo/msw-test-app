@@ -8,12 +8,9 @@ import { ERROR } from "@/shared/var/msg";
 import FieldErrorBox from "../ui-components/FieldErrorBox";
 import { AccountAddReqData } from "@/modules/Account/AccountRepository";
 import { useStores } from "@/modules/Store";
+import { FormModalProps } from "@/shared/type/modal";
 
-type UserRegisterModalProps = {
-  show: boolean;
-  toggleShow: () => void;
-  onRegisterSuccess: () => void;
-};
+interface UserRegisterModalProps extends FormModalProps {}
 
 export type UserRegisterFormInputs = {
   userName: string;
@@ -27,7 +24,7 @@ export type UserRegisterFormInputs = {
 const UserRegisterModal = function ({
   show,
   toggleShow,
-  onRegisterSuccess,
+  onSubmitSuccess,
 }: UserRegisterModalProps) {
   const { groupStore, accountStore } = useStores();
 
@@ -84,7 +81,7 @@ const UserRegisterModal = function ({
         //팝업 창 리셋 후 닫기
         formHideHandler();
         //데이터 불러오기
-        onRegisterSuccess();
+        onSubmitSuccess();
       } catch (error) {
         console.error(error);
         alert("작업 중 오류가 발생했습니다. 관리자에게 문의하세요.");
