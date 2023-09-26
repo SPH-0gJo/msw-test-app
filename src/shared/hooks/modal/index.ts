@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 export const useModal = function () {
   const [modalShow, setModalShow] = useState(false);
 
-  const toggleModal = () => {
+  const toggleModal = useCallback(() => {
     setModalShow(!modalShow);
-  };
+  }, [modalShow]);
 
   return {
     modalShow,

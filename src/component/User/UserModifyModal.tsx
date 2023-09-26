@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
+import { Group } from "@/modules/Group/GroupRepository";
 import { FormModalProps } from "@/shared/type/modal";
 import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
 import { User } from "@/shared/var/user";
+import { useStores } from "@/modules/Store";
 
 interface UserModifyModalProps extends FormModalProps {
   user: User | null;
@@ -26,6 +28,23 @@ const UserModifyModal = function ({
    * + groups는 store에 저장해서 한번만 불러오기
    */
 
+  const { groupStore } = useStores();
+  const [groups, setGroups] = useState<Group[]>([]);
+
+  useLayoutEffect(() => {
+    console.log("Group useLayoutEffect");
+    groupStore
+      .findAll()
+      .then((result) => {
+        if (result.data) {
+          setGroups(result.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
+
   return (
     <Modal show={show} onHide={formHideHandler} className="custom-modal">
       <Modal.Header onHide={formHideHandler} closeButton>
@@ -42,6 +61,15 @@ const UserModifyModal = function ({
                 className="form-select"
               >
                 <option value="">선택 없음 (게스트로 등록)</option>
+                {groups.map(({ groupId, groupName }) => (
+                  <option
+                    key={groupId}
+                    selected={groupId === user?.groupId}
+                    value={groupId}
+                  >
+                    {groupName}
+                  </option>
+                ))}
               </select>
             </div>
             {/* 이름 */}
@@ -120,4 +148,4 @@ const UserModifyModal = function ({
   );
 };
 
-export default UserModifyModal;
+export default React.memo(UserModifyModal);
