@@ -97,7 +97,7 @@ const UserModifyModal = function ({
             </div>
             {/* 비밀번호 */}
             <div className="mb-2">
-              <label className="form-label">비밀번호</label>
+              <label className="form-label">신규 비밀번호</label>
               <input
                 placeholder="비밀번호를 입력해주세요."
                 type="password"
@@ -107,7 +107,7 @@ const UserModifyModal = function ({
             </div>
             {/* 비밀번호 확인 */}
             <div className="mb-2">
-              <label className="form-label">비밀번호 확인</label>
+              <label className="form-label">신규 비밀번호 확인</label>
               <input
                 placeholder="비밀번호를 확인해주세요."
                 type="password"
