@@ -1,6 +1,7 @@
 import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from "react-hook-form";
+import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 
 export interface UserFormInputs {
   userName: string;
@@ -38,6 +39,19 @@ const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
     mode: "onSubmit",
   });
 
+  const validateSetError = useCallback(
+    (inputName: keyof UserFormInputs, errorMessage: string) => {
+      trigger(inputName).then((result) => {
+        if (result) return;
+        setError(inputName, {
+          type: "custom",
+          message: errorMessage,
+        });
+      });
+    },
+    []
+  );
+
   return (
     <div className="form-wrap">
       <form>
@@ -67,16 +81,14 @@ const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
               maxLength: 20,
               pattern: /^[a-zA-Z가-힣]*$/,
               onBlur: () => {
-                //trigger("userName");
-                //setError에 trigger 기능 포함 되어있는것으로 보임..
-                setError("userName", {
-                  type: "custom",
-                  message: VALIDATION_ERROR.USER_NAME,
-                });
+                validateSetError("userName", VALIDATION_ERROR.USER_NAME);
               },
             })}
           />
         </div>
+        {errors.userName?.message && (
+          <FieldErrorBox message={errors.userName?.message} />
+        )}
         {/* 아이디 */}
         <div className="mb-2">
           <label className="form-label">아이디</label>
@@ -101,14 +113,14 @@ const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
               required: true,
               pattern: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{8,25}$/,
               onBlur: () => {
-                setError("password", {
-                  type: "custom",
-                  message: VALIDATION_ERROR.PASSWORD,
-                });
+                validateSetError("password", VALIDATION_ERROR.PASSWORD);
               },
             })}
           />
         </div>
+        {errors.password?.message && (
+          <FieldErrorBox message={errors.password?.message} />
+        )}
         {/* 비밀번호 확인 */}
         <div className="mb-2">
           <label className="form-label">
@@ -121,10 +133,7 @@ const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
             {...register("confirmpassword", {
               required: true,
               onBlur: () => {
-                setError("confirmpassword", {
-                  type: "custom",
-                  message: ERROR.PW_NOT_EQ,
-                });
+                validateSetError("confirmpassword", ERROR.PW_NOT_EQ);
               },
               validate: (value: string) => {
                 return value === getValues("password");
@@ -132,6 +141,9 @@ const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
             })}
           />
         </div>
+        {errors.confirmpassword?.message && (
+          <FieldErrorBox message={errors.confirmpassword?.message} />
+        )}
         {/* 관리자 여부  */}
         <div className="mb-2">
           <label className="form-label">관리자</label>
