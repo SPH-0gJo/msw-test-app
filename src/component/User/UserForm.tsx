@@ -1,6 +1,6 @@
 import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
 import React, { useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 
 export interface UserFormInputs {
@@ -24,9 +24,15 @@ export type UserFormInputsConfig = {
 
 export interface UserFormProps {
   userFormInputsConfig: UserFormInputsConfig;
+  onFormValid: SubmitHandler<UserFormInputs>;
+  onFormInvalid: SubmitErrorHandler<UserFormInputs>;
 }
 
-const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
+const UserForm = function ({
+  userFormInputsConfig,
+  onFormValid,
+  onFormInvalid,
+}: UserFormProps) {
   const {
     register,
     trigger,
@@ -52,9 +58,11 @@ const UserForm = function ({ userFormInputsConfig }: UserFormProps) {
     []
   );
 
+  const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
+
   return (
     <div className="form-wrap">
-      <form>
+      <form onSubmit={handleFormSubmit}>
         {/* 그룹 */}
         <div className="mb-2">
           <label className="form-label">그룹</label>

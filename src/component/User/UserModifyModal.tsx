@@ -5,7 +5,8 @@ import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
 import { User } from "@/shared/var/user";
 import { useStores } from "@/modules/Store";
-import UserForm, { UserFormInputsConfig } from "./UserForm";
+import UserForm, { UserFormInputs, UserFormInputsConfig } from "./UserForm";
+import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 
 interface UserModifyModalProps extends FormModalProps {
   user: User | null;
@@ -68,13 +69,25 @@ const UserModifyModal = function ({
     },
   };
 
+  const handleFormValid: SubmitHandler<UserFormInputs> = function () {
+    //모든 필드 validation 후 문제 없을 때 호출
+  };
+
+  const handleFormInvalid: SubmitErrorHandler<UserFormInputs> = function () {
+    //필드 중 유효하지 않은 값이 있을 때 호출
+  };
+
   return (
     <Modal show={show} onHide={formHideHandler} className="custom-modal">
       <Modal.Header onHide={formHideHandler} closeButton>
         <h4 className="modal-title">수정</h4>
       </Modal.Header>
       <Modal.Body>
-        <UserForm userFormInputsConfig={modUserFormInputsConfig} />
+        <UserForm
+          userFormInputsConfig={modUserFormInputsConfig}
+          onFormValid={handleFormValid}
+          onFormInvalid={handleFormInvalid}
+        />
       </Modal.Body>
       <Modal.Footer>
         <div className="btn-wrap">
