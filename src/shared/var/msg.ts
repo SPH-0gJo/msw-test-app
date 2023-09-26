@@ -12,3 +12,8 @@ export const CONFIRM = {
 export const SUCCESS = {
   PROCCESSED: "작업이 완료되었습니다.",
 };
+
+export const VALIDATION_ERROR = {
+  USER_NAME: "한글 또는 영문 2자 이상 20자 이내",
+  PASSWORD: "영문, 숫자, 특수문자 포함 8자 이상 25자 이하",
+};
