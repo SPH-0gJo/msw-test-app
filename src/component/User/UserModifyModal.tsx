@@ -52,6 +52,7 @@ const UserModifyModal = function ({
                 type="text"
                 id="userName"
                 className="form-control"
+                value={user?.userName}
               />
             </div>
             {/* 아이디 */}
@@ -62,6 +63,8 @@ const UserModifyModal = function ({
                 type="text"
                 id="userId"
                 className="form-control"
+                value={user?.userId}
+                disabled
               />
             </div>
             {/* 비밀번호 */}
@@ -82,6 +85,18 @@ const UserModifyModal = function ({
                 type="password"
                 className="form-control"
               />
+            </div>
+            {/* 관리자 여부  */}
+            <div className="mb-2">
+              <label className="form-label">관리자</label>
+              <select
+                aria-label="Default select example"
+                className="form-select"
+                value={user?.adminType ? 1 : 0}
+              >
+                <option value={1}>관리자</option>
+                <option value={0}>사용자</option>
+              </select>
             </div>
           </form>
         </div>
