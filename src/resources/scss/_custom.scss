@@ -536,7 +536,6 @@
 
         &.active {
           td:first-child {
-            color: $nyj-blue;
             &::before {
               transform: rotate(90deg);
             }
@@ -545,14 +544,35 @@
       }
 
       &.tr-menu-depth3 {
+        td {
+          cursor: default;
+        }
+
         td:first-child {
           padding-left: 100px;
+          font-weight: 300;
 
           &::before {
-            content: "\F0374";
+            content: "\F0A15";
             font-family: Material Design Icons;
             font-size: 13px;
-            margin-right: 5px;
+            margin-right: 4px;
+            display: inline-block;
+          }
+        }
+      }
+
+      &.no-child {
+        td {
+          cursor: default;
+        }
+
+        td:first-child {
+          &::before {
+            content: "\F0A15";
+            font-family: Material Design Icons;
+            font-size: 13px;
+            margin-right: 4px;
             display: inline-block;
           }
         }
