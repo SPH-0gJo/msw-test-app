@@ -25,12 +25,14 @@ export type UserFormInputsConfig = {
 };
 
 export interface UserFormProps {
+  formId: string;
   userFormInputsConfig: UserFormInputsConfig;
   onFormValid: SubmitHandler<UserFormInputs>;
   onFormInvalid: SubmitErrorHandler<UserFormInputs>;
 }
 
 const UserForm = function ({
+  formId,
   userFormInputsConfig,
   onFormValid,
   onFormInvalid,
@@ -88,7 +90,7 @@ const UserForm = function ({
 
   return (
     <div className="form-wrap">
-      <form onSubmit={handleFormSubmit}>
+      <form id={formId} onSubmit={handleFormSubmit}>
         {/* 그룹 */}
         <div className="mb-2">
           <label className="form-label">그룹</label>

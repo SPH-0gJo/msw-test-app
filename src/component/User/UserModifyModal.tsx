@@ -58,6 +58,8 @@ const UserModifyModal = function ({
     console.log("필드 중 유효하지 않은 값이 있을 때 호출");
   };
 
+  const formId = "user-form-mod";
+
   return (
     <Modal show={show} onHide={formHideHandler} className="custom-modal">
       <Modal.Header onHide={formHideHandler} closeButton>
@@ -65,6 +67,7 @@ const UserModifyModal = function ({
       </Modal.Header>
       <Modal.Body>
         <UserForm
+          formId={formId}
           userFormInputsConfig={modUserFormInputsConfig}
           onFormValid={handleFormValid}
           onFormInvalid={handleFormInvalid}
@@ -80,7 +83,13 @@ const UserModifyModal = function ({
           >
             <i className="fe-x-circle"></i>취소
           </Button>
-          <Button size="sm" variant="primary" classList={["rounded-pill"]}>
+          <Button
+            type="submit"
+            form={formId}
+            size="sm"
+            variant="primary"
+            classList={["rounded-pill"]}
+          >
             <i className="fe-edit"></i>저장
           </Button>
         </div>
