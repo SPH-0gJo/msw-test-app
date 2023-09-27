@@ -1,9 +1,125 @@
-import React from "react";
-import { Button, Modal } from "react-bootstrap";
-import Table from "@/component/ui-components/Table";
-import {UserData} from "@/shared/var/user";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useStores } from "@/modules/Store";
+import { Role, RoleGroup } from "@/shared/var/role";
 
-const Authority = function () {
+const Authority = function() {
+  const { authorityStore } = useStores();
+  const [groups, setGroups] = useState<RoleGroup[]>([]);
+  const [originGroups, setOriginGroups] = useState<RoleGroup[]>([]);
+  const [menus, setMenus] = useState<any>([]);
+  const [originMenus, setOriginMenus] = useState<any>([]);
+  const [role, setRole] = useState<string[]>([]);
+  const [selectedGroupId, setSelectedGroupId]  = useState<string>("");
+  const [checkItems, setCheckItems] = useState<string[]>([]);
+  const [searchGroupNm, setSearchGroupNm] = useState<String>("");
+  const [searchMenuNm, setSearchMenuNm] = useState<String>("");
+  const isMounted = useRef(false);
+
+  function clickGroup(id:string){
+    setSelectedGroupId(id);
+    setSearchMenuNm("");
+    setMenus(originMenus);
+  }
+
+  function clickCancel(){
+    setCheckItems([...role]);
+  }
+
+  function searchGroup(){
+    setSelectedGroupId("");
+    const result = originGroups.filter((group:RoleGroup)=>
+      group.groupName.includes(searchGroupNm.toString())
+    )
+    setGroups(result);
+  }
+
+  function searchMenu(){
+    const result = originMenus.filter((menu:any)=>
+      menu.menuName.includes(searchMenuNm.toString())
+    )
+    setMenus(result);
+  }
+
+  const saveSearchGroupNm = (e:any) => {
+    setSearchGroupNm(e.target.value);
+  }
+
+  const saveSearchMenuNm = (e:any) => {
+    setSearchMenuNm(e.target.value);
+  }
+
+  async function clickSave(){
+    if(selectedGroupId.length<=0){
+      alert("그룹을 선택하세요");
+      return;
+    }
+
+    const role:Role = {
+      groupId: selectedGroupId,
+      menuIds: checkItems
+    }
+
+    await authorityStore.saveRole(role).then(res => {
+      if(res.data){
+        const role = res.data as Role;
+        setRole(role.menuIds);
+        alert("저장 완료");
+      }
+    }).catch((error)=>{
+      console.error(error)
+    })
+  }
+
+  function checkItemHandler(id:string, isChecked:boolean){
+    if(isChecked){
+      setCheckItems([...checkItems, id]);
+    }else if(!isChecked){
+      setCheckItems(checkItems.filter((el)=> el!== id));
+    }
+  }
+
+  async function getRole(){
+    await authorityStore.listRole(selectedGroupId).then(res => {
+      if(res.data){
+        const role = res.data as Role;
+        setRole(role.menuIds);
+        setCheckItems(role.menuIds);
+      }
+    }).catch((error)=>{
+      console.error(error)
+    })
+  }
+  
+  useEffect(()=>{
+    if(isMounted.current){
+      if(selectedGroupId.length>0){
+        getRole();
+      }
+    }else{
+      isMounted.current = true;
+    }
+  }, [selectedGroupId]);
+
+  useLayoutEffect(()=>{
+    authorityStore.listGroup().then(res => {
+      if(res.data){
+        setGroups(res.data as RoleGroup[]);
+        setOriginGroups(res.data as RoleGroup[]);
+      }
+    }).catch((error)=> {
+      console.error(error);
+    })
+
+    authorityStore.listMenu().then(res => {
+      if(res.data){
+        setMenus(res.data);
+        setOriginMenus(res.data);
+      }
+    }).catch((error)=> {
+      console.error(error);
+    })
+  }, []);
+
   return (
     <>
       <div className="row">
@@ -15,8 +131,8 @@ const Authority = function () {
                   <select name="" id="">
                     <option value="">그룹명</option>
                   </select>
-                  <input type="search" />
-                  <button className="btn">
+                  <input type="search" onChange={saveSearchGroupNm}/>
+                  <button className="btn" onClick={()=>searchGroup()}>
                     <i className="fe-search" />
                   </button>
                 </div>
@@ -32,18 +148,13 @@ const Authority = function () {
                   </tr>
                   </thead>
                   <tbody>
-                  <tr>
-                    <td>복지정책과</td>
-                  </tr>
-                  <tr>
-                    <td>환경정책과</td>
-                  </tr>
-                  <tr>
-                    <td>주택과</td>
-                  </tr>
-                  <tr className="active">
-                    <td>시의원</td>
-                  </tr>
+                    {groups.map((item:any)=>{
+                      return (
+                        <tr className={selectedGroupId === item.groupId ? "active" : ""} key={item.groupId} onClick={()=>clickGroup(item.groupId)}>
+                          <td>{item.groupName}</td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>
@@ -58,17 +169,17 @@ const Authority = function () {
                   <select name="" id="">
                     <option value="">메뉴명</option>
                   </select>
-                  <input type="search" />
-                  <button className="btn">
+                  <input type="search" onChange={saveSearchMenuNm} value={searchMenuNm.toString()}/>
+                  <button className="btn" onClick={()=>searchMenu()}>
                     <i className="fe-search" />
                   </button>
                 </div>
                 <div className="btn-wrap">
-                  <button className="btn btn-sm rounded-pill btn-primary">
+                  <button className="btn btn-sm rounded-pill btn-primary" onClick={()=>clickSave()}>
                     <i className="fe-check-circle" />
                     저장
                   </button>
-                  <button className="btn btn-sm rounded-pill btn-dark">
+                  <button className="btn btn-sm rounded-pill btn-dark" onClick={()=>clickCancel()}>
                     <i className="fe-x-circle" />
                     취소
                   </button>
@@ -86,67 +197,25 @@ const Authority = function () {
                     <th>권한부여</th>
                   </tr>
                   </thead>
-                  <tbody>
-                  <tr className="tr-menu-depth1 active">
-                    <td>메인 대시보드</td>
-                    <td>
-                      <div className="checkbox">
-                        <input type="checkbox" />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="tr-menu-depth2 active">
-                    <td>시군구별</td>
-                    <td>
-                      <div className="checkbox">
-                        <input type="checkbox" />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="tr-menu-depth3 ">
-                    <td>시군구 상세 보드</td>
-                    <td>
-                      <div className="checkbox">
-                        <input type="checkbox" />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="tr-menu-depth3">
-                    <td>시군구 요약 보드</td>
-                    <td>
-                      <div className="checkbox">
-                        <input type="checkbox" />
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="tr-menu-depth2">
-                    <td>기관별</td>
-                    <td>
-                      <div className="checkbox">
-                        <input type="checkbox" />
-                      </div>
-                    </td>
-                  </tr>
-                  {/*<tr class="tr-menu-depth3">
-                  <td>기관별 상세 보드</td>
-                  <td>
-                    <div class="checkbox">
-                      <input type="checkbox" />
-                    </div>
-                  </td>
-                </tr>
-                <tr class="tr-menu-depth3">
-                  <td>기관별 요약 보드</td>
-                  <td>
-                    <div class="checkbox">
-                      <input type="checkbox" />
-                    </div>
-                  </td>
-                </tr>*/}
-                  </tbody>
+                  { selectedGroupId &&
+                    <tbody>
+                      {menus.map((item:any)=>{
+                        return (
+                          <tr key={item.menuId} className={`tr-menu-depth${item.depth} active`}>
+                            <td>{item.menuName}</td>
+                            <td>
+                              <div className="checkbox">
+                                <input type="checkbox" checked={checkItems.includes(item.menuId)} onChange={(e)=>checkItemHandler(item.menuId, e.currentTarget.checked)}/>
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  }
                 </table>
               </div>
-              <div className="pagination-wrap">
+              {/* <div className="pagination-wrap">
                 <ul className="pagination pagination-rounded">
                   <li className="page-item paginate_button previous disabled">
                     <a className="page-link" href="#">
@@ -194,7 +263,7 @@ const Authority = function () {
                     </a>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
