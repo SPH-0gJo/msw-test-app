@@ -1,10 +1,8 @@
 import React, { useLayoutEffect, useState } from "react";
-import { Group } from "@/modules/Group/GroupRepository";
 import { FormModalProps } from "@/shared/type/modal";
 import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
 import { User } from "@/shared/var/user";
-import { useStores } from "@/modules/Store";
 import UserForm, { UserFormInputs, UserFormInputsConfig } from "./UserForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 
@@ -30,23 +28,6 @@ const UserModifyModal = function ({
    * + groups는 store에 저장해서 한번만 불러오기
    */
 
-  const { groupStore } = useStores();
-  const [groups, setGroups] = useState<Group[]>([]);
-
-  useLayoutEffect(() => {
-    console.log("Group useLayoutEffect");
-    groupStore
-      .findAll()
-      .then((result) => {
-        if (result.data) {
-          setGroups(result.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
-
   const modUserFormInputsConfig: UserFormInputsConfig = {
     groupId: {
       value: user?.groupId || "",
@@ -70,11 +51,11 @@ const UserModifyModal = function ({
   };
 
   const handleFormValid: SubmitHandler<UserFormInputs> = function () {
-    //모든 필드 validation 후 문제 없을 때 호출
+    console.log("모든 필드 validation 후 문제 없을 때 호출");
   };
 
   const handleFormInvalid: SubmitErrorHandler<UserFormInputs> = function () {
-    //필드 중 유효하지 않은 값이 있을 때 호출
+    console.log("필드 중 유효하지 않은 값이 있을 때 호출");
   };
 
   return (

@@ -1,7 +1,9 @@
 import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
-import React, { useCallback } from "react";
+import React, { useCallback, useLayoutEffect, useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
+import { useStores } from "@/modules/Store";
+import { observer } from "mobx-react";
 
 export interface UserFormInputs {
   userName: string;
@@ -33,6 +35,28 @@ const UserForm = function ({
   onFormValid,
   onFormInvalid,
 }: UserFormProps) {
+  const { accountStore } = useStores();
+
+  useLayoutEffect(() => {
+    if (accountStore.groups === null) {
+      accountStore
+        .findAllGroups()
+        .then((result) => {
+          if (result.data) {
+            accountStore.setGroups(result.data);
+            return;
+          }
+          throw new Error(ERROR.STATUS_OK_BUT_FAIL);
+        })
+        .catch((error) => {
+          console.error(error);
+          alert(error);
+        });
+    }
+  }, []);
+
+  const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
+
   const {
     register,
     trigger,
@@ -60,6 +84,8 @@ const UserForm = function ({
 
   const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
 
+  const groups = accountStore.groups;
+
   return (
     <div className="form-wrap">
       <form onSubmit={handleFormSubmit}>
@@ -70,9 +96,23 @@ const UserForm = function ({
             {...register("groupId")}
             aria-label="Default select example"
             className="form-select"
-            defaultValue={userFormInputsConfig.groupId?.value || ""}
           >
-            <option value="">선택 없음 (게스트로 등록)</option>
+            {groups === null ? (
+              <option>Loading...</option>
+            ) : (
+              [
+                { groupId: "", groupName: "선택 없음 (게스트로 등록)" },
+                ...groups,
+              ].map(({ groupId, groupName }) => (
+                <option
+                  selected={groupIdDefaultValue === groupId}
+                  key={groupId}
+                  value={groupId}
+                >
+                  {groupName}
+                </option>
+              ))
+            )}
           </select>
         </div>
         {/* 이름 */}
@@ -170,4 +210,4 @@ const UserForm = function ({
   );
 };
 
-export default UserForm;
+export default observer(UserForm);
