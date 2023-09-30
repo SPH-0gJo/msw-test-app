@@ -126,12 +126,16 @@ const UserForm = function ({
             className="form-control"
             defaultValue={userFormInputsConfig.userName?.value || ""}
             {...register("userName", {
-              required: true,
-              minLength: 2,
-              maxLength: 20,
-              pattern: /^[a-zA-Z가-힣]*$/,
+              required: { value: true, message: VALIDATION_ERROR.USER_NAME },
+              minLength: { value: 2, message: VALIDATION_ERROR.USER_NAME },
+              maxLength: { value: 20, message: VALIDATION_ERROR.USER_NAME },
+              pattern: {
+                value: /^[a-zA-Z가-힣]*$/,
+                message: VALIDATION_ERROR.USER_NAME,
+              },
               onBlur: () => {
-                validateSetError("userName", VALIDATION_ERROR.USER_NAME);
+                //validateSetError("userName", VALIDATION_ERROR.USER_NAME);
+                trigger("userName");
               },
             })}
           />
@@ -160,10 +164,17 @@ const UserForm = function ({
             type="password"
             className="form-control"
             {...register("password", {
-              required: true,
-              pattern: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{8,25}$/,
+              required: {
+                value: true,
+                message: VALIDATION_ERROR.PASSWORD,
+              },
+              pattern: {
+                value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{8,25}$/,
+                message: VALIDATION_ERROR.PASSWORD,
+              },
               onBlur: () => {
-                validateSetError("password", VALIDATION_ERROR.PASSWORD);
+                //validateSetError("password", VALIDATION_ERROR.PASSWORD);
+                trigger("password");
               },
             })}
           />
@@ -181,12 +192,13 @@ const UserForm = function ({
             type="password"
             className="form-control"
             {...register("confirmpassword", {
-              required: true,
+              required: { value: true, message: ERROR.PW_NOT_EQ },
               onBlur: () => {
-                validateSetError("confirmpassword", ERROR.PW_NOT_EQ);
+                //validateSetError("confirmpassword", ERROR.PW_NOT_EQ);
+                trigger("confirmpassword");
               },
               validate: (value: string) => {
-                return value === getValues("password");
+                return value === getValues("password") || ERROR.PW_NOT_EQ;
               },
             })}
           />
