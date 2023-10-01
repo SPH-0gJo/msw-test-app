@@ -1,5 +1,8 @@
 import { RootStore } from "@/modules/Store";
-import AccountRepository, { AccountAddReqData } from "./AccountRepository";
+import AccountRepository, {
+  AccountAddReqData,
+  modUserData,
+} from "./AccountRepository";
 import { Group } from "../Group/GroupRepository";
 import { action, observable, makeObservable } from "mobx";
 
@@ -27,6 +30,12 @@ class AccountStore {
   async deleteAccounts(ids: string[]) {
     const result = await AccountRepository.deleteAccounts(ids);
     console.log("AccountStore deleteAccounts :::: ", result);
+    return result;
+  }
+
+  async modifyAccount(modUser: modUserData) {
+    const result = await AccountRepository.modifyAccount(modUser);
+    console.log("AccountStore modifyAccount :::: ", result);
     return result;
   }
 

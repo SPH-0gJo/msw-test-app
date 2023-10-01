@@ -4,6 +4,15 @@ import { User } from "@/shared/var/user";
 
 export type AccountAddReqData = Omit<UserRegisterFormInputs, "confirmpassword">;
 
+export interface modUserData {
+  sysuserId: string | undefined;
+  userId: string;
+  userName: string;
+  password: string;
+  adminType: boolean;
+  groupId: string | undefined;
+}
+
 class AccountRepository {
   URL = "/system/account";
 
@@ -27,6 +36,10 @@ class AccountRepository {
     return createPost<boolean>(this.URL + "/list/delete", {
       ids,
     });
+  }
+
+  modifyAccount(modUser: modUserData) {
+    return createPost<User>(this.URL + "/modify", modUser);
   }
 
   findAll() {

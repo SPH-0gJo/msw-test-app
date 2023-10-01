@@ -10,8 +10,8 @@ export interface UserFormInputs {
   userId: string;
   password: string;
   confirmpassword: string;
-  groupId?: string;
-  adminType: boolean | string;
+  groupId: string;
+  adminType: "1" | "0";
 }
 
 export interface FormInputConfig {

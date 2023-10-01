@@ -5,6 +5,8 @@ import Button from "@/component/ui-components/Button";
 import { User } from "@/shared/var/user";
 import UserForm, { UserFormInputs, UserFormInputsConfig } from "./UserForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
+import { useStores } from "@/modules/Store";
+import { ERROR } from "@/shared/var/msg";
 
 interface UserModifyModalProps extends FormModalProps {
   user: User | null;
@@ -18,7 +20,11 @@ const UserModifyModal = function ({
   const formHideHandler = () => {
     //팝업 창 닫기
     toggleShow();
+    //팝업 창내 form 리셋
+    reset();
   };
+
+  const { accountStore } = useStores();
 
   console.log("UserModifyModal", user);
 
@@ -50,8 +56,26 @@ const UserModifyModal = function ({
     },
   };
 
-  const handleFormValid: SubmitHandler<UserFormInputs> = function () {
+  const handleFormValid = async function (
+    data: UserFormInputs,
+    formReset: any
+  ) {
     console.log("모든 필드 validation 후 문제 없을 때 호출");
+    const modUser = {
+      sysuserId: user?.sysuserId,
+      userId: user?.userId!,
+      userName: data.userName,
+      password: data.password,
+      adminType: Boolean(parseInt(data.adminType)),
+      groupId: data.groupId === "" ? undefined : data.groupId,
+    };
+
+    try {
+      await accountStore.modifyAccount(modUser);
+    } catch (error) {
+      console.error(error);
+      alert(ERROR.NOT_PROCESSED);
+    }
   };
 
   const handleFormInvalid: SubmitErrorHandler<UserFormInputs> = function () {
