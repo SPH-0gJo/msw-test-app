@@ -283,7 +283,7 @@ const User = function () {
       <UserModifyModal
         show={modModalShow}
         toggleShow={toggleModModal}
-        onSubmitSuccess={() => {}}
+        onSubmitSuccess={loadTableData}
         user={modifyUser}
       />
     </>

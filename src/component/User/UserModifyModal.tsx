@@ -1,12 +1,16 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import { FormModalProps } from "@/shared/type/modal";
 import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
 import { User } from "@/shared/var/user";
-import UserForm, { UserFormInputs, UserFormInputsConfig } from "./UserForm";
+import UserForm, {
+  ExternalUserForm,
+  UserFormInputs,
+  UserFormInputsConfig,
+} from "./UserForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
-import { ERROR } from "@/shared/var/msg";
+import { ERROR, SUCCESS } from "@/shared/var/msg";
 
 interface UserModifyModalProps extends FormModalProps {
   user: User | null;
@@ -16,15 +20,18 @@ const UserModifyModal = function ({
   show,
   toggleShow,
   user,
+  onSubmitSuccess,
 }: UserModifyModalProps) {
+  const { accountStore } = useStores();
+
+  const formRef = useRef<ExternalUserForm>(null);
+
   const formHideHandler = () => {
     //팝업 창 닫기
     toggleShow();
     //팝업 창내 form 리셋
-    reset();
+    formRef.current!.formReset();
   };
-
-  const { accountStore } = useStores();
 
   console.log("UserModifyModal", user);
 
@@ -56,10 +63,7 @@ const UserModifyModal = function ({
     },
   };
 
-  const handleFormValid = async function (
-    data: UserFormInputs,
-    formReset: any
-  ) {
+  const handleFormValid: SubmitHandler<UserFormInputs> = async function (data) {
     console.log("모든 필드 validation 후 문제 없을 때 호출");
     const modUser = {
       sysuserId: user?.sysuserId,
@@ -72,6 +76,11 @@ const UserModifyModal = function ({
 
     try {
       await accountStore.modifyAccount(modUser);
+      alert(SUCCESS.PROCCESSED);
+      //팝업 창 리셋 후 닫기
+      formHideHandler();
+      //데이터 불러오기
+      onSubmitSuccess();
     } catch (error) {
       console.error(error);
       alert(ERROR.NOT_PROCESSED);
@@ -91,6 +100,7 @@ const UserModifyModal = function ({
       </Modal.Header>
       <Modal.Body>
         <UserForm
+          ref={formRef}
           formId={formId}
           userFormInputsConfig={modUserFormInputsConfig}
           onFormValid={handleFormValid}

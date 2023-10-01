@@ -1,5 +1,11 @@
 import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, {
+  useCallback,
+  useLayoutEffect,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 import { useStores } from "@/modules/Store";
@@ -31,12 +37,14 @@ export interface UserFormProps {
   onFormInvalid: SubmitErrorHandler<UserFormInputs>;
 }
 
-const UserForm = function ({
-  formId,
-  userFormInputsConfig,
-  onFormValid,
-  onFormInvalid,
-}: UserFormProps) {
+export interface ExternalUserForm {
+  formReset: () => void;
+}
+
+const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
+  { userFormInputsConfig, formId, onFormInvalid, onFormValid },
+  ref
+) {
   const { accountStore } = useStores();
 
   useLayoutEffect(() => {
@@ -70,6 +78,12 @@ const UserForm = function ({
   } = useForm<UserFormInputs>({
     mode: "onSubmit",
   });
+
+  useImperativeHandle(ref, () => ({
+    formReset: () => {
+      reset();
+    },
+  }));
 
   const validateSetError = useCallback(
     (inputName: keyof UserFormInputs, errorMessage: string) => {
@@ -222,6 +236,6 @@ const UserForm = function ({
       </form>
     </div>
   );
-};
+});
 
 export default observer(UserForm);
