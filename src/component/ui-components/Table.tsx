@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import CheckBox from "./CheckBox";
 
 interface TableProps<T> {
-  columns: Column[];
+  columns: Column<T>[];
   data: T[];
   isSelectable: boolean;
   dataIdKey: keyof T;
@@ -66,7 +66,7 @@ function Table<T>({
             </th>
           )}
           {columns.map((col) => (
-            <th key={col.key}>{col.value}</th>
+            <th key={col.key as string}>{col.value}</th>
           ))}
         </tr>
       </thead>

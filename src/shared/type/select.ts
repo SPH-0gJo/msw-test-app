@@ -1,4 +1,4 @@
-export type Option = {
-  value: string;
+export interface Option<T> {
+  value: keyof T;
   title: string;
-};
+}

@@ -10,7 +10,7 @@ export const paginateData = function (
   return data.slice(startIdx, startIdx + pageSize);
 };
 
-export const searchData = function <T>(data: T[], searchParam: SearchParam) {
+export const searchData = function <T>(data: T[], searchParam: SearchParam<T>) {
   const cloneData = cloneDeep(data);
 
   if (searchParam.query === "") {

@@ -66,7 +66,7 @@ const User = function () {
     loadTableData();
   }, []);
 
-  const initSearchParam: SearchParam = {
+  const initSearchParam: SearchParam<UserTableData> = {
     field: "userName",
     query: "",
   };
@@ -95,7 +95,7 @@ const User = function () {
 
   //Column의 key는 data의 정보를 가져 오기위해서는 data 객체의 key와 동일해야함.
 
-  const columns: Column[] = useMemo(
+  const columns: Column<UserTableData>[] = useMemo(
     () => [
       // {
       //   key: "ckbox",
@@ -129,7 +129,7 @@ const User = function () {
     []
   );
 
-  const searchOptionList: Option[] = useMemo(
+  const searchOptionList: Option<UserTableData>[] = useMemo(
     () => [
       {
         value: "userId",
@@ -166,7 +166,7 @@ const User = function () {
   }, [hasNext]);
 
   const handleSearchBtnClick = useCallback(
-    (selectVal: string, inputVal: string) => {
+    (selectVal: keyof UserTableData, inputVal: string) => {
       //검색한 결과에는 현재 페이지가 없을 수 있으므로 반드시 1페이지 출력
       setPage(firstPage);
       setSearchParam({
@@ -207,7 +207,7 @@ const User = function () {
         <div className="card-box-body">
           <div className="table-control-top">
             <div className="table-search-wrap">
-              <TableSearch
+              <TableSearch<UserTableData>
                 optionList={searchOptionList}
                 onSubmit={handleSearchBtnClick}
               />

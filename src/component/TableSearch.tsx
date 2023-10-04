@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 import Button from "@/component/ui-components/Button";
 import { Option } from "@/shared/type/select";
-interface TableSearchProps {
-  optionList: Option[];
-  onSubmit: (selectVal: string, inputVal: string) => void;
+interface TableSearchProps<T> {
+  optionList: Option<T>[];
+  onSubmit: (selectVal: keyof T, inputVal: string) => void;
 }
 
-const TableSearch = function ({ optionList, onSubmit }: TableSearchProps) {
+const TableSearch = function <T>({
+  optionList,
+  onSubmit,
+}: TableSearchProps<T>) {
   //Select 태그 값
-  const initSelectVal = optionList.length > 0 ? optionList[0].value : "";
+  const initSelectVal = optionList[0].value; //optionList.length > 0 ? optionList[0].value : "";
   const [selectVal, setSelectVal] = useState(initSelectVal);
 
   //Input 태그 값
@@ -19,14 +22,17 @@ const TableSearch = function ({ optionList, onSubmit }: TableSearchProps) {
       {/* Search Select */}
       <select
         onChange={(e) => {
-          setSelectVal(e.target.value);
+          setSelectVal(e.target.value as keyof T);
         }}
         name=""
         id=""
       >
         {optionList.map((opt) => {
           return (
-            <option selected={opt.value === selectVal} value={opt.value}>
+            <option
+              selected={opt.value === selectVal}
+              value={opt.value as string}
+            >
               {opt.title}
             </option>
           );
@@ -52,4 +58,4 @@ const TableSearch = function ({ optionList, onSubmit }: TableSearchProps) {
   );
 };
 
-export default React.memo(TableSearch);
+export default React.memo(TableSearch) as typeof TableSearch;
