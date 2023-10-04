@@ -6,6 +6,8 @@ import Button from "@/component/ui-components/Button";
 interface CustomModalProps extends FormModalProps {
   title: string;
   children: React.ReactNode;
+  onSubmit: () => void;
+  onHide: () => void;
 }
 
 const CustomModal = function ({
@@ -13,10 +15,13 @@ const CustomModal = function ({
   toggleShow,
   title,
   children,
+  onSubmit,
+  onHide,
 }: CustomModalProps) {
   const formHideHandler = () => {
     //팝업 창 닫기
     toggleShow();
+    onHide();
   };
 
   return (
@@ -35,7 +40,14 @@ const CustomModal = function ({
           >
             <i className="fe-x-circle"></i>취소
           </Button>
-          <Button size="sm" variant="primary" classList={["rounded-pill"]}>
+          <Button
+            onClick={() => {
+              onSubmit();
+            }}
+            size="sm"
+            variant="primary"
+            classList={["rounded-pill"]}
+          >
             <i className="fe-edit"></i>저장
           </Button>
         </div>
