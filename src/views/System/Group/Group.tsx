@@ -40,6 +40,7 @@ const Group = function () {
   const initialPage = 1,
     pageSize = 10,
     pagingSize = 5;
+  const firstPage = initialPage;
   const [page, setPage] = useState(initialPage);
 
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
@@ -70,15 +71,27 @@ const Group = function () {
     loadTableData();
   }, []);
 
+  //@@@@@@ 콜백함수 선언 @@@@@@
+  const handleSearchBtnClick = useCallback(function (
+    selectVal: keyof GroupTableData,
+    inputVal: string
+  ) {
+    setPage(firstPage);
+    setSearchParam({
+      field: selectVal,
+      query: inputVal,
+    });
+  }, []);
+
   return (
     <div className="card-box">
       <div className="card-box-body">
         <div className="table-control-top">
           <div className="table-search-wrap">
-            {/* <TableSearch<GroupTableData>
+            <TableSearch<GroupTableData>
               optionList={searchOptionList}
               onSubmit={handleSearchBtnClick}
-            /> */}
+            />
           </div>
           <div className="btn-wrap">
             {/* <Button
