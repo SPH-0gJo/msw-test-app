@@ -1,4 +1,4 @@
-import { createGet } from "@/shared/request";
+import { createGet, createPost } from "@/shared/request";
 
 export type Group = {
   groupId: string;
@@ -25,6 +25,12 @@ class GroupRepository {
       params: {
         groupName,
       },
+    });
+  }
+
+  addGroup(groupName: string) {
+    return createPost(this.URL + "/add", {
+      groupName,
     });
   }
 }

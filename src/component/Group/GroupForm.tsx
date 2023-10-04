@@ -1,6 +1,6 @@
 import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
 import React, { useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "../ui-components/FieldErrorBox";
 import { useStores } from "@/modules/Store";
 import { ErrorData } from "@/shared/request";
@@ -10,7 +10,17 @@ export interface GroupFormInputs {
   groupName: string;
 }
 
-const GroupForm = function () {
+export interface GroupFormProps {
+  formId: string;
+  onFormValid: SubmitHandler<GroupFormInputs>;
+  onFormInvalid: SubmitErrorHandler<GroupFormInputs>;
+}
+
+const GroupForm = function ({
+  formId,
+  onFormValid,
+  onFormInvalid,
+}: GroupFormProps) {
   const {
     register,
     trigger,
@@ -25,6 +35,8 @@ const GroupForm = function () {
 
   const groupNameErrorMsg = errors.groupName?.message;
 
+  const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
+
   const { groupStore } = useStores();
 
   const isGroupNameExist = useCallback(async (groupName: string) => {
@@ -38,8 +50,8 @@ const GroupForm = function () {
   }, []);
 
   return (
-    <div className="form-wrap">
-      <form>
+    <div className="form-wrap" onSubmit={handleFormSubmit}>
+      <form id={formId}>
         <div className="mb-2">
           <label className="form-label">그룹명</label>
           <input

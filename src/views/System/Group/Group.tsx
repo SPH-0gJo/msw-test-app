@@ -1,3 +1,4 @@
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import GroupRegisterModal from "@/component/Group/GroupRegisterModal";
 import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
@@ -15,7 +16,6 @@ import {
   Group as TGroup,
 } from "@/shared/var/group";
 import { ERROR } from "@/shared/var/msg";
-import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -148,7 +148,7 @@ const Group = function () {
       <GroupRegisterModal
         show={regModalShow}
         toggleShow={toggleRegModal}
-        onSubmitSuccess={() => {}}
+        onSubmitSuccess={loadTableData}
       />
     </>
   );

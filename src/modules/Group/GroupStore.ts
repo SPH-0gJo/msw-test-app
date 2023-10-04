@@ -20,6 +20,12 @@ class GroupStore {
     console.log("GroupStore isExist :::: ", result);
     return result;
   }
+
+  async addGroup(groupName: string) {
+    const result = await GroupRepository.addGroup(groupName);
+    console.log("GroupStore addGroup :::: ", result);
+    return result;
+  }
 }
 
 export default GroupStore;
