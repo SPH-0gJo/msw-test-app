@@ -19,6 +19,14 @@ class GroupRepository {
   findAll() {
     return createGet<Group[]>(this.URL + "/list/all");
   }
+
+  isExist(groupName: string) {
+    return createGet<boolean>(this.URL + `/exists`, {
+      params: {
+        groupName,
+      },
+    });
+  }
 }
 
 export default new GroupRepository();

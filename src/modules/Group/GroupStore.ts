@@ -14,6 +14,12 @@ class GroupStore {
     console.log("GroupStore findAll :::: ", result);
     return result;
   }
+
+  async isExist(groupName: string) {
+    const result = await GroupRepository.isExist(groupName);
+    console.log("GroupStore isExist :::: ", result);
+    return result;
+  }
 }
 
 export default GroupStore;
