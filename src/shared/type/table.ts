@@ -1,9 +1,9 @@
-export type Column = {
-  key: string;
+export interface Column<T> {
+  key: keyof T;
   value: string | JSX.Element;
-};
+}
 
-export interface SearchParam {
-  field: string;
+export interface SearchParam<T> {
+  field: keyof T;
   query: string;
 }
