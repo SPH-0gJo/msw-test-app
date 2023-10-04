@@ -1,4 +1,4 @@
-import { createGet } from "@/shared/request";
+import { createGet, createPost } from "@/shared/request";
 
 export type Group = {
   groupId: string;
@@ -18,6 +18,20 @@ class GroupRepository {
 
   findAll() {
     return createGet<Group[]>(this.URL + "/list/all");
+  }
+
+  isExist(groupName: string) {
+    return createGet<boolean>(this.URL + `/exists`, {
+      params: {
+        groupName,
+      },
+    });
+  }
+
+  addGroup(groupName: string) {
+    return createPost(this.URL + "/add", {
+      groupName,
+    });
   }
 }
 

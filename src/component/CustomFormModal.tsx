@@ -3,21 +3,27 @@ import { FormModalProps } from "@/shared/type/modal";
 import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
 
-interface CustomModalProps extends FormModalProps {
+interface CustomFormModalProps extends FormModalProps {
   title: string;
   children: React.ReactNode;
+  // onSubmit: () => void;
+  // onHide: () => void;
+  formId: string;
+  formHideHandler: () => void;
 }
 
-const CustomModal = function ({
+const CustomFormModal = function ({
   show,
   toggleShow,
   title,
   children,
-}: CustomModalProps) {
-  const formHideHandler = () => {
-    //팝업 창 닫기
-    toggleShow();
-  };
+  formId,
+  formHideHandler,
+}: CustomFormModalProps) {
+  // const formHideHandler = () => {
+  //   //팝업 창 닫기
+  //   toggleShow();
+  // };
 
   return (
     <Modal show={show} onHide={formHideHandler} className="custom-modal">
@@ -35,7 +41,13 @@ const CustomModal = function ({
           >
             <i className="fe-x-circle"></i>취소
           </Button>
-          <Button size="sm" variant="primary" classList={["rounded-pill"]}>
+          <Button
+            type="submit"
+            form={formId}
+            size="sm"
+            variant="primary"
+            classList={["rounded-pill"]}
+          >
             <i className="fe-edit"></i>저장
           </Button>
         </div>
@@ -44,4 +56,4 @@ const CustomModal = function ({
   );
 };
 
-export default CustomModal;
+export default CustomFormModal;

@@ -1,8 +1,11 @@
+import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import GroupRegisterModal from "@/component/Group/GroupRegisterModal";
 import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";
 import { useStores } from "@/modules/Store";
+import { useModal } from "@/shared/hooks/modal";
 import { paginateData, searchData } from "@/shared/util/table";
 import {
   GroupTableData,
@@ -13,7 +16,6 @@ import {
   Group as TGroup,
 } from "@/shared/var/group";
 import { ERROR } from "@/shared/var/msg";
-import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -45,6 +47,9 @@ const Group = function () {
 
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
   const pagedData = pageSizedPaginateData(searchedData, page);
+
+  //모달 영역
+  const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
@@ -84,26 +89,27 @@ const Group = function () {
   }, []);
 
   return (
-    <div className="card-box">
-      <div className="card-box-body">
-        <div className="table-control-top">
-          <div className="table-search-wrap">
-            <TableSearch<GroupTableData>
-              optionList={searchOptionList}
-              onSubmit={handleSearchBtnClick}
-            />
-          </div>
-          <div className="btn-wrap">
-            {/* <Button
-              onClick={toggleRegModal}
-              variant="primary"
-              size="sm"
-              classList={["rounded-pill"]}
-            >
-              <i className="fe-edit" />
-              등록
-            </Button>
-            <Button
+    <>
+      <div className="card-box">
+        <div className="card-box-body">
+          <div className="table-control-top">
+            <div className="table-search-wrap">
+              <TableSearch<GroupTableData>
+                optionList={searchOptionList}
+                onSubmit={handleSearchBtnClick}
+              />
+            </div>
+            <div className="btn-wrap">
+              <Button
+                onClick={toggleRegModal}
+                variant="primary"
+                size="sm"
+                classList={["rounded-pill"]}
+              >
+                <i className="fe-edit" />
+                등록
+              </Button>
+              {/* <Button
               onClick={handleDeleteBtnClick}
               variant="danger"
               size="sm"
@@ -112,31 +118,39 @@ const Group = function () {
               <i className="fe-x-circle" />
               선택 삭제
             </Button> */}
+            </div>
           </div>
+          <div className="table-wrap">
+            {originData.length === 0 ? (
+              <div>Loading...</div>
+            ) : (
+              <Table<GroupTableData>
+                columns={columns}
+                data={pagedData}
+                isSelectable={true}
+                dataIdKey="groupId"
+                selectedData={selectedData}
+                setSelectedData={setSelectedData}
+              />
+            )}
+          </div>
+          <CustomPagination
+            count={count}
+            pageSize={pageSize}
+            pagingSize={pagingSize}
+            page={page}
+            setPage={setPage}
+          />
         </div>
-        <div className="table-wrap">
-          {originData.length === 0 ? (
-            <div>Loading...</div>
-          ) : (
-            <Table<GroupTableData>
-              columns={columns}
-              data={pagedData}
-              isSelectable={true}
-              dataIdKey="groupId"
-              selectedData={selectedData}
-              setSelectedData={setSelectedData}
-            />
-          )}
-        </div>
-        <CustomPagination
-          count={count}
-          pageSize={pageSize}
-          pagingSize={pagingSize}
-          page={page}
-          setPage={setPage}
-        />
       </div>
-    </div>
+
+      {/* 등록 모달창 */}
+      <GroupRegisterModal
+        show={regModalShow}
+        toggleShow={toggleRegModal}
+        onSubmitSuccess={loadTableData}
+      />
+    </>
   );
 };
 
