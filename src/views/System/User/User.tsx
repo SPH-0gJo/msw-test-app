@@ -7,7 +7,7 @@ import Pagination from "@/component/ui-components/Pagination";
 import PageNext from "@/component/ui-components/PageNext";
 import PagePrev from "@/component/ui-components/PagePrev";
 import PageEllipsis from "@/component/ui-components/PageEllipsis";
-import { usePagination } from "@/shared/pagination";
+import { usePagination } from "@/shared/hooks/pagination";
 import PageItem from "@/component/ui-components/PageItem";
 import PageItemList from "@/component/ui-components/PageItemList";
 import { Column, SearchParam } from "@/shared/type/table";
@@ -17,17 +17,18 @@ import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
+import { useModal } from "@/shared/hooks/modal";
+import UserModifyModal from "@/component/User/UserModifyModal";
+import { User as TUser } from "@/shared/var/user";
 
 const User = function () {
   const { accountStore } = useStores();
 
   //등록 모달
-  const [regModalShow, setRegModalShow] = useState<boolean>(false);
+  const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
 
-  // Show/hide the modal
-  const toggleRegModal = () => {
-    setRegModalShow(!regModalShow);
-  };
+  //수정 모달
+  const { modalShow: modModalShow, toggleModal: toggleModModal } = useModal();
 
   const pageSize = 10,
     initPage = 1;
@@ -37,6 +38,14 @@ const User = function () {
 
   const [originData, setOriginData] = useState<UserTableData[]>([]);
 
+  //수정 대상 사용자
+  const [modifyUser, setModifyUser] = useState<TUser | null>(null);
+
+  const handleUserModBtnClick = function (user: TUser) {
+    setModifyUser(user);
+    toggleModModal();
+  };
+
   const loadTableData = useCallback(function () {
     accountStore
       .findAll()
@@ -44,7 +53,7 @@ const User = function () {
         console.log("result", result);
 
         if (result.data) {
-          const users = getUserTableData(result.data);
+          const users = getUserTableData(result.data, handleUserModBtnClick);
           setOriginData(users);
         }
       })
@@ -262,11 +271,20 @@ const User = function () {
           </Pagination>
         </div>
       </div>
-      {/* 모달창 */}
+      {/* 등록 모달창 */}
       <UserRegisterModal
-        onRegisterSuccess={loadTableData}
         show={regModalShow}
         toggleShow={toggleRegModal}
+        onSubmitSuccess={loadTableData}
+      />
+
+      {/* 수정 모달창  */}
+      {/* todo : user -> data로 추상화 (메뉴관리, 그룹관리에서도 사용)  */}
+      <UserModifyModal
+        show={modModalShow}
+        toggleShow={toggleModModal}
+        onSubmitSuccess={loadTableData}
+        user={modifyUser}
       />
     </>
   );

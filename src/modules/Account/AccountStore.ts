@@ -1,11 +1,18 @@
 import { RootStore } from "@/modules/Store";
-import AccountRepository, { AccountAddReqData } from "./AccountRepository";
+import AccountRepository, {
+  AccountAddReqData,
+  modUserData,
+} from "./AccountRepository";
+import { Group } from "../Group/GroupRepository";
+import { action, observable, makeObservable } from "mobx";
 
 class AccountStore {
   rootStore: RootStore;
+  @observable groups: Group[] | null = null;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+    makeObservable(this);
   }
 
   async isExist(userId: string) {
@@ -26,10 +33,26 @@ class AccountStore {
     return result;
   }
 
+  async modifyAccount(modUser: modUserData) {
+    const result = await AccountRepository.modifyAccount(modUser);
+    console.log("AccountStore modifyAccount :::: ", result);
+    return result;
+  }
+
   async findAll() {
     const result = await AccountRepository.findAll();
     console.log("AccountStore findAll :::: ", result);
     return result;
+  }
+
+  async findAllGroups() {
+    const result = await this.rootStore.groupStore.findAll();
+    return result;
+  }
+
+  @action
+  setGroups(groups: Group[]) {
+    this.groups = groups;
   }
 }
 

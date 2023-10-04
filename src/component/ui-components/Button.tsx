@@ -3,13 +3,13 @@ import { ButtonVariant } from "react-bootstrap/esm/types";
 
 type ButtonSize = "xs" | "sm" | "lg";
 
-type ButtonProps = {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   classList?: string[];
   children?: React.ReactNode;
   onClick?: MouseEventHandler;
-};
+}
 
 const Button = function ({
   variant,
