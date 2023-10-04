@@ -1,12 +1,13 @@
 import React, { useCallback, useMemo } from "react";
-import PagePrev from "./PagePrev";
-import PageItem from "./PageItem";
-import PageEllipsis from "./PageEllipsis";
-import PageItemList from "./PageItemList";
-import PageNext from "./PageNext";
+import PagePrev from "@/component/ui-components/PagePrev";
+import PageItem from "@/component/ui-components/PageItem";
+import PageEllipsis from "@/component/ui-components/PageEllipsis";
+import PageItemList from "@/component/ui-components/PageItemList";
+import PageNext from "@/component/ui-components/PageNext";
+import Pagination from "@/component/ui-components/Pagination";
 
 interface PaginationProps {
-  data: any[];
+  count: number;
   pageSize: number;
   pagingSize: number;
   page: number;
@@ -14,7 +15,7 @@ interface PaginationProps {
 }
 
 const CustomPagination = function ({
-  data,
+  count,
   pageSize,
   pagingSize,
   page,
@@ -22,9 +23,9 @@ const CustomPagination = function ({
 }: PaginationProps) {
   const lastPage = useMemo(() => {
     //data.length = 0 인 경우 lastPage가 음수로 계산됨
-    const calLastPage = Math.floor((data.length - 1) / pageSize) + 1;
+    const calLastPage = Math.floor((count - 1) / pageSize) + 1;
     return calLastPage > 0 ? calLastPage : 1;
-  }, [data]);
+  }, [count]);
 
   const firstPage = useMemo(() => 1, []);
 
@@ -73,28 +74,26 @@ const CustomPagination = function ({
   }, [hasNext]);
 
   return (
-    <div className="pagination-wrap">
-      <ul className="pagination pagination-rounded">
-        <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
+    <Pagination>
+      <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
 
-        {hasGoFirst && (
-          <>
-            <PageItem onClick={handleGoFirstPageClick}>{firstPage}</PageItem>
-            <PageEllipsis />
-          </>
-        )}
+      {hasGoFirst && (
+        <>
+          <PageItem onClick={handleGoFirstPageClick}>{firstPage}</PageItem>
+          <PageEllipsis />
+        </>
+      )}
 
-        <PageItemList pageList={pageList} page={page} setPage={setPage} />
-        {hasGoLast && (
-          <>
-            <PageEllipsis />
-            <PageItem onClick={handleGoLastPageClick}>{lastPage}</PageItem>
-          </>
-        )}
+      <PageItemList pageList={pageList} page={page} setPage={setPage} />
+      {hasGoLast && (
+        <>
+          <PageEllipsis />
+          <PageItem onClick={handleGoLastPageClick}>{lastPage}</PageItem>
+        </>
+      )}
 
-        <PageNext onClick={handlePageNextClick} disabled={!hasNext} />
-      </ul>
-    </div>
+      <PageNext onClick={handlePageNextClick} disabled={!hasNext} />
+    </Pagination>
   );
 };
 

@@ -1,5 +1,6 @@
 import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
+import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";
 import { useStores } from "@/modules/Store";
 import { paginateData, searchData } from "@/shared/util/table";
@@ -32,6 +33,8 @@ const Group = function () {
     () => searchData(originData, searchParam),
     [originData, searchParam]
   );
+  //총 데이터 수
+  const count = useMemo(() => searchedData.length, [searchedData]);
 
   //Pagination 영역
   const initialPage = 1,
@@ -112,28 +115,13 @@ const Group = function () {
             />
           )}
         </div>
-        {/* <Pagination>
-      <PagePrev onClick={handlePagePrevClick} disabled={!hasPrev} />
-
-      {hasGoFirst && (
-        <>
-          <PageItem onClick={handleGoFirstPageClick}>
-            {firstPage}
-          </PageItem>
-          <PageEllipsis />
-        </>
-      )}
-
-      <PageItemList pageList={pageList} page={page} setPage={setPage} />
-      {hasGoLast && (
-        <>
-          <PageEllipsis />
-          <PageItem onClick={handleGoLastPageClick}>{lastPage}</PageItem>
-        </>
-      )}
-
-      <PageNext onClick={handlePageNextClick} disabled={!hasNext} />
-    </Pagination> */}
+        <CustomPagination
+          count={count}
+          pageSize={pageSize}
+          pagingSize={pagingSize}
+          page={page}
+          setPage={setPage}
+        />
       </div>
     </div>
   );
