@@ -19,6 +19,12 @@ class MenuRepository {
       params: param,
     });
   }
+
+  deleteMenus(ids: string[]) {
+    return createPost<boolean>(this.URL + "/list/delete", {
+      ids,
+    });
+  }
 }
 
 export default new MenuRepository();

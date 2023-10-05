@@ -1,9 +1,10 @@
 import TableSearch from "@/component/TableSearch";
+import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";
 import { useStores } from "@/modules/Store";
 import { paginateData, searchData } from "@/shared/util/table";
-import { ERROR } from "@/shared/var/msg";
+import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import {
   MenuTableData,
   getMenuTableData,
@@ -82,6 +83,28 @@ const Menu = function () {
     });
   }, []);
 
+  const handleDeleteBtnClick = useCallback(() => {
+    const isConfirmed = window.confirm(CONFIRM.DELETE);
+    if (isConfirmed) {
+      const selectedDataArr = Array.from(selectedData);
+      menuStore
+        .deleteMenus(selectedDataArr)
+        .then((result) => {
+          if (result.data) {
+            alert(SUCCESS.PROCCESSED);
+            setPage(firstPage);
+            loadTableData();
+          } else {
+            throw new Error(ERROR.STATUS_OK_BUT_FAIL);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          alert(ERROR.NOT_PROCESSED);
+        });
+    }
+  }, [selectedData]);
+
   return (
     <>
       <div className="card-box">
@@ -102,7 +125,7 @@ const Menu = function () {
               >
                 <i className="fe-edit" />
                 등록
-              </Button>
+              </Button> */}
               <Button
                 onClick={handleDeleteBtnClick}
                 variant="danger"
@@ -111,7 +134,7 @@ const Menu = function () {
               >
                 <i className="fe-x-circle" />
                 선택 삭제
-              </Button> */}
+              </Button>
             </div>
           </div>
           <div className="table-wrap">
