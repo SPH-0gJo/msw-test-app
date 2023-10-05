@@ -32,6 +32,12 @@ class GroupStore {
     console.log("GroupStore modifyGroup :::: ", result);
     return result;
   }
+
+  async deleteGroups(ids: string[]) {
+    const result = await GroupRepository.deleteGroups(ids);
+    console.log("GroupStore deleteGroups :::: ", result);
+    return result;
+  }
 }
 
 export default GroupStore;

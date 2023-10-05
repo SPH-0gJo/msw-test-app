@@ -40,6 +40,12 @@ class GroupRepository {
       groupName,
     });
   }
+
+  deleteGroups(ids: string[]) {
+    return createPost<boolean>(this.URL + "/list/delete", {
+      ids,
+    });
+  }
 }
 
 export default new GroupRepository();
