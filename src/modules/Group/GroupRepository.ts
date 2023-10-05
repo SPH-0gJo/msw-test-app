@@ -33,6 +33,13 @@ class GroupRepository {
       groupName,
     });
   }
+
+  modifyGroup(groupId: string, groupName: string) {
+    return createPost(this.URL + "/modify", {
+      groupId,
+      groupName,
+    });
+  }
 }
 
 export default new GroupRepository();

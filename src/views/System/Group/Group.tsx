@@ -16,6 +16,7 @@ import {
   Group as TGroup,
 } from "@/shared/var/group";
 import { ERROR } from "@/shared/var/msg";
+import GroupModifyModal from "@/component/Group/GroupModifyModal";
 
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -50,12 +51,19 @@ const Group = function () {
 
   //모달 영역
   const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
+  const { modalShow: modModalShow, toggleModal: toggleModModal } = useModal();
+
+  //수정 영역
+  const [modifyGroup, setModifyGroup] = useState<TGroup | null>(null);
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
   const { groupStore } = useStores();
 
-  const handleGroupModBtnClick = (target: TGroup) => {};
+  const handleGroupModBtnClick = (group: TGroup) => {
+    setModifyGroup(group);
+    toggleModModal();
+  };
 
   const loadTableData = useCallback(function () {
     groupStore
@@ -149,6 +157,14 @@ const Group = function () {
         show={regModalShow}
         toggleShow={toggleRegModal}
         onSubmitSuccess={loadTableData}
+      />
+
+      {/* 수정 모달창 */}
+      <GroupModifyModal
+        show={modModalShow}
+        toggleShow={toggleModModal}
+        onSubmitSuccess={loadTableData}
+        group={modifyGroup}
       />
     </>
   );

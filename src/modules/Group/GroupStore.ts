@@ -26,6 +26,12 @@ class GroupStore {
     console.log("GroupStore addGroup :::: ", result);
     return result;
   }
+
+  async modifyGroup(groupId: string, groupName: string) {
+    const result = await GroupRepository.modifyGroup(groupId, groupName);
+    console.log("GroupStore modifyGroup :::: ", result);
+    return result;
+  }
 }
 
 export default GroupStore;
