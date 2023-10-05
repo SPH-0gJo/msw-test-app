@@ -15,7 +15,7 @@ import {
   groupSearchOptionList,
   Group as TGroup,
 } from "@/shared/var/group";
-import { ERROR } from "@/shared/var/msg";
+import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import GroupModifyModal from "@/component/Group/GroupModifyModal";
 
 const Group = function () {
@@ -96,6 +96,28 @@ const Group = function () {
     });
   }, []);
 
+  const handleDeleteBtnClick = useCallback(() => {
+    const isConfirmed = window.confirm(CONFIRM.DELETE);
+    if (isConfirmed) {
+      const selectedDataArr = Array.from(selectedData);
+      groupStore
+        .deleteGroups(selectedDataArr)
+        .then((result) => {
+          if (result.data) {
+            alert(SUCCESS.PROCCESSED);
+            setPage(firstPage);
+            loadTableData();
+          } else {
+            throw new Error(ERROR.STATUS_OK_BUT_FAIL);
+          }
+        })
+        .catch((e) => {
+          console.error(e);
+          alert(ERROR.NOT_PROCESSED);
+        });
+    }
+  }, [selectedData]);
+
   return (
     <>
       <div className="card-box">
@@ -117,15 +139,15 @@ const Group = function () {
                 <i className="fe-edit" />
                 등록
               </Button>
-              {/* <Button
-              onClick={handleDeleteBtnClick}
-              variant="danger"
-              size="sm"
-              classList={["rounded-pill"]}
-            >
-              <i className="fe-x-circle" />
-              선택 삭제
-            </Button> */}
+              <Button
+                onClick={handleDeleteBtnClick}
+                variant="danger"
+                size="sm"
+                classList={["rounded-pill"]}
+              >
+                <i className="fe-x-circle" />
+                선택 삭제
+              </Button>
             </div>
           </div>
           <div className="table-wrap">
