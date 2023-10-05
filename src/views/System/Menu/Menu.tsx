@@ -1,4 +1,5 @@
 import TableSearch from "@/component/TableSearch";
+import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";
 import { useStores } from "@/modules/Store";
 import { paginateData, searchData } from "@/shared/util/table";
@@ -127,13 +128,13 @@ const Menu = function () {
               />
             )}
           </div>
-          {/* <CustomPagination
+          <CustomPagination
             count={count}
             pageSize={pageSize}
             pagingSize={pagingSize}
             page={page}
             setPage={setPage}
-          /> */}
+          />
         </div>
       </div>
     </>
