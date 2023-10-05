@@ -1,3 +1,4 @@
+import TableSearch from "@/component/TableSearch";
 import Table from "@/component/ui-components/Table";
 import { useStores } from "@/modules/Store";
 import { paginateData, searchData } from "@/shared/util/table";
@@ -68,16 +69,28 @@ const Menu = function () {
     loadTableData();
   }, []);
 
+  //@@@@@@ 콜백함수 선언 @@@@@@
+  const handleSearchBtnClick = useCallback(function (
+    selectVal: keyof MenuTableData,
+    inputVal: string
+  ) {
+    setPage(firstPage);
+    setSearchParam({
+      field: selectVal,
+      query: inputVal,
+    });
+  }, []);
+
   return (
     <>
       <div className="card-box">
         <div className="card-box-body">
           <div className="table-control-top">
             <div className="table-search-wrap">
-              {/* <TableSearch<GroupTableData>
+              <TableSearch<MenuTableData>
                 optionList={searchOptionList}
                 onSubmit={handleSearchBtnClick}
-              /> */}
+              />
             </div>
             <div className="btn-wrap">
               {/* <Button
