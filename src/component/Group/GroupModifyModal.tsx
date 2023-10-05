@@ -1,7 +1,7 @@
 import React from "react";
 import { FormModalProps } from "@/shared/type/modal";
 import CustomFormModal from "../CustomFormModal";
-import GroupForm, { GroupFormInputs } from "./GroupForm";
+import GroupForm, { GroupFormInputs, GroupFormInputsConfig } from "./GroupForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
@@ -12,9 +12,10 @@ interface GroupModifyModalProps extends FormModalProps {
 }
 
 const GroupModifyModal = function (props: GroupModifyModalProps) {
+  console.log("GroupModifyModal is mount");
   const formId = "group-form-mod";
 
-  const { toggleShow, onSubmitSuccess } = props;
+  const { toggleShow, onSubmitSuccess, group } = props;
 
   const formHideHandler = () => {
     toggleShow();
@@ -28,7 +29,7 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
     console.log("모든 필드 validation 후 문제 없을 때 호출");
 
     try {
-      await groupStore.addGroup(data.groupName);
+      await groupStore.modifyGroup(group?.groupId!, data.groupName);
       alert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
@@ -44,6 +45,12 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
     console.log("필드 중 유효하지 않은 값이 있을 때 호출");
   };
 
+  const groupFormInputsConfig: GroupFormInputsConfig = {
+    groupName: {
+      value: group?.groupName,
+    },
+  };
+
   return (
     <CustomFormModal
       {...props}
@@ -55,6 +62,7 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
         formId={formId}
         onFormInvalid={handleFormInvalid}
         onFormValid={handleFormValid}
+        groupFormInputsConfig={groupFormInputsConfig}
       />
     </CustomFormModal>
   );

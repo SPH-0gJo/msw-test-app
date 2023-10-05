@@ -5,35 +5,41 @@ import FieldErrorBox from "../ui-components/FieldErrorBox";
 import { useStores } from "@/modules/Store";
 import { ErrorData } from "@/shared/request";
 import { AxiosError } from "axios";
+import { FormInputConfig } from "../User/UserForm";
 
 export interface GroupFormInputs {
   groupName: string;
 }
 
+export type GroupFormInputsConfig = {
+  [k in keyof GroupFormInputs]?: FormInputConfig;
+};
+
 export interface GroupFormProps {
   formId: string;
   onFormValid: SubmitHandler<GroupFormInputs>;
   onFormInvalid: SubmitErrorHandler<GroupFormInputs>;
+  groupFormInputsConfig?: GroupFormInputsConfig;
 }
 
 const GroupForm = function ({
   formId,
   onFormValid,
   onFormInvalid,
+  groupFormInputsConfig,
 }: GroupFormProps) {
   const {
     register,
     trigger,
     formState: { errors },
-    getValues,
     handleSubmit,
-    reset,
-    setError,
   } = useForm<GroupFormInputs>({
     mode: "onSubmit",
   });
 
   const groupNameErrorMsg = errors.groupName?.message;
+
+  const groupNameDefaultValue = groupFormInputsConfig?.groupName?.value || "";
 
   const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
 
@@ -58,6 +64,7 @@ const GroupForm = function ({
             placeholder="이름을 입력해주세요."
             type="text"
             className="form-control"
+            defaultValue={groupNameDefaultValue}
             {...register("groupName", {
               required: { value: true, message: VALIDATION_ERROR.GROUP_NAME },
               minLength: { value: 2, message: VALIDATION_ERROR.GROUP_NAME },
