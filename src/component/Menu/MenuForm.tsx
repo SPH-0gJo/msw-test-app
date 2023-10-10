@@ -1,9 +1,9 @@
 import { useStores } from "@/modules/Store";
 import { VALIDATION_ERROR } from "@/shared/var/msg";
-import { Menu } from "@/shared/var/sysMenu";
 import { observer } from "mobx-react";
 import React from "react";
 import { useForm } from "react-hook-form";
+import FieldErrorBox from "../ui-components/FieldErrorBox";
 
 export interface MenuFormInputs {
   upperMenuId: string;
@@ -26,8 +26,15 @@ const MenuForm = function () {
 
   const { menuStore } = useStores();
 
+  //상위 메뉴 옵션
   const parentMenus = menuStore.parentMenus || [];
   const defaultParentMenu = { menuId: "", menuName: "없음" };
+
+  //에러메시지
+  const menuNameErrorMsg = errors.menuName?.message;
+  const menuPathNameErrorMsg = errors.menupathName?.message;
+  const sortNoErrorMsg = errors.sortNo?.message;
+  const etcErrorMsg = errors.etc?.message;
 
   return (
     <div className="form-wrap">
@@ -69,6 +76,9 @@ const MenuForm = function () {
             className="form-control"
           />
         </div>
+        {/* 에러메시지 영역 */}
+        {menuNameErrorMsg && <FieldErrorBox message={menuNameErrorMsg} />}
+
         <div className="mb-2">
           <label className="form-label">영문메뉴명</label>
           <input
@@ -96,6 +106,11 @@ const MenuForm = function () {
             className="form-control"
           />
         </div>
+        {/* 에러메시지 영역 */}
+        {menuPathNameErrorMsg && (
+          <FieldErrorBox message={menuPathNameErrorMsg} />
+        )}
+
         <div className="mb-2">
           <label className="form-label">정렬순서</label>
           <input
@@ -118,6 +133,9 @@ const MenuForm = function () {
             className="form-control"
           />
         </div>
+        {/* 에러메시지 영역 */}
+        {sortNoErrorMsg && <FieldErrorBox message={sortNoErrorMsg} />}
+
         <div className="mb-2">
           <label className="form-label">Embed URL</label>
           <input
@@ -128,7 +146,20 @@ const MenuForm = function () {
         </div>
         <div className="mb-2">
           <label className="form-label">설명</label>
-          <textarea className="form-control" />
+          <textarea
+            {...register("etc", {
+              maxLength: {
+                value: 1000,
+                message: VALIDATION_ERROR.MENU_ETC,
+              },
+              onBlur: () => {
+                trigger("etc");
+              },
+            })}
+            className="form-control"
+          />
+          {/* 에러메시지 영역 */}
+          {etcErrorMsg && <FieldErrorBox message={etcErrorMsg} />}
         </div>
       </form>
     </div>
