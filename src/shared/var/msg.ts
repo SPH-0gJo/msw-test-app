@@ -18,4 +18,7 @@ export const VALIDATION_ERROR = {
   USER_NAME: "한글 또는 영문 2자 이상 20자 이내",
   PASSWORD: "영문, 숫자, 특수문자 포함 8자 이상 25자 이하",
   GROUP_NAME: "한글 또는 영문, 숫자 2자 이상 50자 이내",
+  MENU_NAME: "한글, 숫자 또는 영문 2자 이상 20자 이내 띄어쓰기 허용",
+  MENU_PATH_NAME: "영문 소문자, 숫자 2자 이상 30자 이내, 하이픈(-)만 사용가능",
+  MENU_SORT_NO: "0이상의 숫자만 가능합니다.",
 };

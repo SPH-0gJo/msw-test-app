@@ -1,8 +1,10 @@
+import MenuRegisterModal from "@/component/Menu/MenuRegisterModal";
 import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";
 import { useStores } from "@/modules/Store";
+import { useModal } from "@/shared/hooks/modal";
 import { paginateData, searchData } from "@/shared/util/table";
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import {
@@ -45,6 +47,9 @@ const Menu = function () {
 
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
   const pagedData = pageSizedPaginateData(searchedData, page);
+
+  //모달 영역
+  const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
@@ -117,7 +122,7 @@ const Menu = function () {
               />
             </div>
             <div className="btn-wrap">
-              {/* <Button
+              <Button
                 onClick={toggleRegModal}
                 variant="primary"
                 size="sm"
@@ -125,7 +130,7 @@ const Menu = function () {
               >
                 <i className="fe-edit" />
                 등록
-              </Button> */}
+              </Button>
               <Button
                 onClick={handleDeleteBtnClick}
                 variant="danger"
@@ -160,6 +165,13 @@ const Menu = function () {
           />
         </div>
       </div>
+
+      {/* 등록 모달 */}
+      <MenuRegisterModal
+        show={regModalShow}
+        toggleShow={toggleRegModal}
+        onSubmitSuccess={loadTableData}
+      />
     </>
   );
 };
