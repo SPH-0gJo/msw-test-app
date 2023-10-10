@@ -1,4 +1,7 @@
+import { useStores } from "@/modules/Store";
 import { VALIDATION_ERROR } from "@/shared/var/msg";
+import { Menu } from "@/shared/var/sysMenu";
+import { observer } from "mobx-react";
 import React from "react";
 import { useForm } from "react-hook-form";
 
@@ -21,6 +24,11 @@ const MenuForm = function () {
     mode: "onSubmit",
   });
 
+  const { menuStore } = useStores();
+
+  const parentMenus = menuStore.parentMenus || [];
+  const defaultParentMenu = { menuId: "", menuName: "없음" };
+
   return (
     <div className="form-wrap">
       <form>
@@ -31,7 +39,11 @@ const MenuForm = function () {
             aria-label="Default select example"
             className="form-select"
           >
-            <option value="">없음</option>
+            {[defaultParentMenu, ...parentMenus].map(({ menuId, menuName }) => (
+              <option key={menuId} value={menuId}>
+                {menuName}
+              </option>
+            ))}
           </select>
         </div>
         <div className="mb-2">
@@ -123,4 +135,4 @@ const MenuForm = function () {
   );
 };
 
-export default MenuForm;
+export default observer(MenuForm);

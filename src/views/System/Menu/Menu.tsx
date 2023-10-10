@@ -64,6 +64,8 @@ const Menu = function () {
         if (result.data) {
           const menus = getMenuTableData(result.data, handleMenuModBtnClick);
           setOriginData(menus);
+          //스토어에 메뉴 목록 저장
+          menuStore.setMenus(result.data);
         }
       })
       .catch((error) => {
