@@ -33,6 +33,18 @@ const Authority = function() {
     setGroups(result);
   }
 
+  function keySearchGroup(e:any){
+    if(e.key == "Enter"){
+      searchGroup();
+    }
+  }
+
+  function keySearchMenu(e:any){
+    if(e.key == "Enter"){
+      searchMenu();
+    }
+  }
+
   function searchMenu(){
     const result = originMenus.filter((menu:any)=>
       menu.menuName.includes(searchMenuNm.toString())
@@ -131,7 +143,7 @@ const Authority = function() {
                   <select name="" id="">
                     <option value="">그룹명</option>
                   </select>
-                  <input type="search" onChange={saveSearchGroupNm}/>
+                  <input type="search" onChange={saveSearchGroupNm} onKeyDown={keySearchGroup}/>
                   <button className="btn" onClick={()=>searchGroup()}>
                     <i className="fe-search" />
                   </button>
@@ -169,7 +181,7 @@ const Authority = function() {
                   <select name="" id="">
                     <option value="">메뉴명</option>
                   </select>
-                  <input type="search" onChange={saveSearchMenuNm} value={searchMenuNm.toString()}/>
+                  <input type="search" onChange={saveSearchMenuNm} onKeyDown={keySearchMenu} value={searchMenuNm.toString()}/>
                   <button className="btn" onClick={()=>searchMenu()}>
                     <i className="fe-search" />
                   </button>
@@ -201,7 +213,7 @@ const Authority = function() {
                     <tbody>
                       {menus.map((item:any)=>{
                         return (
-                          <tr key={item.menuId} className={`tr-menu-depth${item.depth} active`}>
+                          <tr key={item.menuId} className={`tr-menu-depth${item.depth} no-child`}>
                             <td>{item.menuName}</td>
                             <td>
                               <div className="checkbox">
