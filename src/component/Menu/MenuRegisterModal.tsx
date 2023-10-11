@@ -6,6 +6,8 @@ import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
 import MenuForm, { MenuFormInputs } from "./MenuForm";
 import { MenuAddParam } from "@/modules/Menu/MenuRepository";
+import { AxiosError } from "axios";
+import { ErrorData } from "@/shared/request";
 
 interface MenuRegisterModalProps extends FormModalProps {}
 
@@ -37,8 +39,14 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
       formHideHandler();
       //데이터 불러오기
       onSubmitSuccess();
-    } catch (error) {
+    } catch (error: AxiosError<ErrorData, any> | any) {
       console.error(error);
+      if (error.response) {
+        if (error.response.data.code === -401) {
+          alert(ERROR.EXIST_MENU_PATH_NAME);
+          return;
+        }
+      }
       alert(ERROR.NOT_PROCESSED);
     }
   };
