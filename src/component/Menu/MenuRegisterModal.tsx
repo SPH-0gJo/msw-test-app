@@ -26,7 +26,7 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
     const param: MenuAddParam = {
       ...data,
       upperMenuId: data.upperMenuId || undefined,
-      etc: data.etc || undefined,
+      //etc: data.etc || undefined,
       sortNo: Number(data.sortNo),
     };
 
