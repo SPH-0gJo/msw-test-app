@@ -23,13 +23,14 @@ export interface MenuFormProps {
   formId: string;
   onFormValid: SubmitHandler<MenuFormInputs>;
   onFormInvalid: SubmitErrorHandler<MenuFormInputs>;
-  groupFormInputsConfig?: MenuFormInputsConfig;
+  menuFormInputsConfig?: MenuFormInputsConfig;
 }
 
 const MenuForm = function ({
   formId,
   onFormValid,
   onFormInvalid,
+  menuFormInputsConfig,
 }: MenuFormProps) {
   const {
     register,
@@ -52,6 +53,15 @@ const MenuForm = function ({
   const sortNoErrorMsg = errors.sortNo?.message;
   const etcErrorMsg = errors.etc?.message;
 
+  //디폴트값
+  const upperMenuIdDefaultVal = menuFormInputsConfig?.upperMenuId?.value || "";
+  const menuNameDefaultVal = menuFormInputsConfig?.menuName?.value || "";
+  const menuPathNameDefaultVal =
+    menuFormInputsConfig?.menupathName?.value || "";
+  const sortNoDefaultVal = menuFormInputsConfig?.sortNo?.value || "";
+  const embedUrlDefaultVal = menuFormInputsConfig?.embedUrl?.value || "";
+  const etcDefaultVal = menuFormInputsConfig?.etc?.value || "";
+
   //Submit
   const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
 
@@ -66,7 +76,11 @@ const MenuForm = function ({
             className="form-select"
           >
             {[defaultParentMenu, ...parentMenus].map(({ menuId, menuName }) => (
-              <option key={menuId} value={menuId}>
+              <option
+                selected={menuId === upperMenuIdDefaultVal}
+                key={menuId}
+                value={menuId}
+              >
                 {menuName}
               </option>
             ))}
@@ -75,6 +89,7 @@ const MenuForm = function ({
         <div className="mb-2">
           <label className="form-label">메뉴명</label>
           <input
+            defaultValue={menuNameDefaultVal}
             {...register("menuName", {
               required: {
                 value: true,
@@ -101,6 +116,7 @@ const MenuForm = function ({
         <div className="mb-2">
           <label className="form-label">영문메뉴명</label>
           <input
+            defaultValue={menuPathNameDefaultVal}
             {...register("menupathName", {
               required: {
                 value: true,
@@ -133,6 +149,7 @@ const MenuForm = function ({
         <div className="mb-2">
           <label className="form-label">정렬순서</label>
           <input
+            defaultValue={sortNoDefaultVal}
             {...register("sortNo", {
               required: {
                 value: true,
@@ -158,6 +175,7 @@ const MenuForm = function ({
         <div className="mb-2">
           <label className="form-label">Embed URL</label>
           <input
+            defaultValue={embedUrlDefaultVal}
             {...register("embedUrl")}
             placeholder="Embed URL을 입력해주세요.(ex. /views/.../...)"
             type="text"
@@ -167,6 +185,7 @@ const MenuForm = function ({
         <div className="mb-2">
           <label className="form-label">설명</label>
           <textarea
+            defaultValue={etcDefaultVal}
             {...register("etc", {
               maxLength: {
                 value: 1000,

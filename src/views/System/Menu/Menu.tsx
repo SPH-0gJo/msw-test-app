@@ -1,3 +1,4 @@
+import MenuModifyModal from "@/component/Menu/MenuModifyModal";
 import MenuRegisterModal from "@/component/Menu/MenuRegisterModal";
 import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
@@ -50,12 +51,19 @@ const Menu = function () {
 
   //모달 영역
   const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
+  const { modalShow: modModalShow, toggleModal: toggleModModal } = useModal();
+
+  //수정 영역
+  const [modifyMenu, setModifyMenu] = useState<TMenu | null>(null);
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
   const { menuStore } = useStores();
 
-  const handleMenuModBtnClick = (menu: TMenu) => {};
+  const handleMenuModBtnClick = (menu: TMenu) => {
+    setModifyMenu(menu);
+    toggleModModal();
+  };
 
   const loadTableData = useCallback(function () {
     menuStore
@@ -173,6 +181,14 @@ const Menu = function () {
         show={regModalShow}
         toggleShow={toggleRegModal}
         onSubmitSuccess={loadTableData}
+      />
+
+      {/* 수정 모달 */}
+      <MenuModifyModal
+        show={modModalShow}
+        toggleShow={toggleModModal}
+        onSubmitSuccess={loadTableData}
+        menu={modifyMenu}
       />
     </>
   );
