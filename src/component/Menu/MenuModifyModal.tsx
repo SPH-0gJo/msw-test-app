@@ -6,13 +6,16 @@ import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
 import { Menu } from "@/shared/var/sysMenu";
 import MenuForm, { MenuFormInputs, MenuFormInputsConfig } from "./MenuForm";
+import { MenuModParam } from "@/modules/Menu/MenuRepository";
+import { AxiosError } from "axios";
+import { ErrorData } from "@/shared/request";
 
 interface MenuModifyModalProps extends FormModalProps {
   menu: Menu | null;
 }
 
 const MenuModifyModal = function (props: MenuModifyModalProps) {
-  const formId = "group-form-mod";
+  const formId = "menu-form-mod";
 
   const { toggleShow, onSubmitSuccess, menu } = props;
 
@@ -27,17 +30,30 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
   const handleFormValid: SubmitHandler<MenuFormInputs> = async function (data) {
     console.log("모든 필드 validation 후 문제 없을 때 호출");
 
-    // try {
-    //   await groupStore.modifyGroup(group?.groupId!, data.groupName);
-    //   alert(SUCCESS.PROCCESSED);
-    //   //팝업 창 리셋 후 닫기
-    //   formHideHandler();
-    //   //데이터 불러오기
-    //   onSubmitSuccess();
-    // } catch (error) {
-    //   console.error(error);
-    //   alert(ERROR.NOT_PROCESSED);
-    // }
+    const param: MenuModParam = {
+      ...data,
+      upperMenuId: data.upperMenuId || undefined,
+      sortNo: Number(data.sortNo),
+      menuId: menu?.menuId!,
+    };
+
+    try {
+      await menuStore.modifyMenu(param);
+      alert(SUCCESS.PROCCESSED);
+      //팝업 창 리셋 후 닫기
+      formHideHandler();
+      //데이터 불러오기
+      onSubmitSuccess();
+    } catch (error: AxiosError<ErrorData, any> | any) {
+      console.error(error);
+      if (error.response) {
+        if (error.response.data.code === -401) {
+          alert(ERROR.EXIST_MENU_PATH_NAME);
+          return;
+        }
+      }
+      alert(ERROR.NOT_PROCESSED);
+    }
   };
 
   const handleFormInvalid: SubmitErrorHandler<MenuFormInputs> = function () {

@@ -10,6 +10,10 @@ interface MenuQueryParam {
 
 export interface MenuAddParam extends MenuFormInputs {}
 
+export interface MenuModParam extends MenuFormInputs {
+  menuId: string;
+}
+
 class MenuRepository {
   URL = "/system/menu";
 
@@ -31,6 +35,10 @@ class MenuRepository {
 
   addMenu(param: MenuAddParam) {
     return createPost<Menu>(this.URL + "/add", param);
+  }
+
+  modifyMenu(param: MenuModParam) {
+    return createPost<Menu>(this.URL + "/modify", param);
   }
 }
 
