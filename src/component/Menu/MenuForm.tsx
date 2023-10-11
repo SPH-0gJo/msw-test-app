@@ -2,19 +2,35 @@ import { useStores } from "@/modules/Store";
 import { VALIDATION_ERROR } from "@/shared/var/msg";
 import { observer } from "mobx-react";
 import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "../ui-components/FieldErrorBox";
+import { FormInputConfig } from "../User/UserForm";
 
 export interface MenuFormInputs {
-  upperMenuId: string;
+  upperMenuId?: string;
   menupathName: string;
   menuName: string;
   embedUrl: string;
-  sortNo: number;
-  etc: string;
+  sortNo: number | string;
+  etc?: string;
 }
 
-const MenuForm = function () {
+export type MenuFormInputsConfig = {
+  [k in keyof MenuFormInputs]?: FormInputConfig;
+};
+
+export interface MenuFormProps {
+  formId: string;
+  onFormValid: SubmitHandler<MenuFormInputs>;
+  onFormInvalid: SubmitErrorHandler<MenuFormInputs>;
+  groupFormInputsConfig?: MenuFormInputsConfig;
+}
+
+const MenuForm = function ({
+  formId,
+  onFormValid,
+  onFormInvalid,
+}: MenuFormProps) {
   const {
     register,
     trigger,
@@ -36,9 +52,12 @@ const MenuForm = function () {
   const sortNoErrorMsg = errors.sortNo?.message;
   const etcErrorMsg = errors.etc?.message;
 
+  //Submit
+  const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
+
   return (
     <div className="form-wrap">
-      <form>
+      <form id={formId} onSubmit={handleFormSubmit}>
         <div className="mb-2">
           <label className="form-label">상위메뉴</label>
           <select
@@ -139,6 +158,7 @@ const MenuForm = function () {
         <div className="mb-2">
           <label className="form-label">Embed URL</label>
           <input
+            {...register("embedUrl")}
             placeholder="Embed URL을 입력해주세요.(ex. /views/.../...)"
             type="text"
             className="form-control"

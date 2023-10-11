@@ -1,5 +1,5 @@
 import { RootStore } from "@/modules/Store";
-import MenuRepository from "./MenuRepository";
+import MenuRepository, { MenuAddParam } from "./MenuRepository";
 import { action, computed, makeObservable, observable } from "mobx";
 import { Menu } from "@/shared/var/sysMenu";
 
@@ -21,6 +21,12 @@ class MenuStore {
   async deleteMenus(ids: string[]) {
     const result = await MenuRepository.deleteMenus(ids);
     console.log("MenuStore deleteMenus :::: ", result);
+    return result;
+  }
+
+  async addMenu(param: MenuAddParam) {
+    const result = await MenuRepository.addMenu(param);
+    console.log("MenuStore addMenu :::: ", result);
     return result;
   }
 
