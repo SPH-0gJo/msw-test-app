@@ -10,7 +10,6 @@ import {
 import { paginateData, searchData } from "@/shared/util/table";
 import { useStores } from "@/modules/Store";
 import { ERROR } from "@/shared/var/msg";
-import CustomTable from "@/component/ui-components/CustomTable";
 
 const Log = function () {
   //@@@@@@@ 선언 @@@@@@@
