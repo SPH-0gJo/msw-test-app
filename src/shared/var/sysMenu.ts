@@ -1,6 +1,7 @@
 import Button from "@/component/ui-components/Button";
 import { Column, SearchParam } from "@/shared/type/table";
 import { Option } from "@/shared/type/select";
+import { MenuInfo } from "./menu";
 export interface Menu {
   menuId: string; // "ecfb5430-0315-4cfe-99e7-433cb4c5ac73",
   bigparentId: string | null;
@@ -94,6 +95,14 @@ export const menuInitSearchParam: SearchParam<MenuTableData> = {
 interface DashMenu extends Menu {
   children?: DashMenu[];
 }
+
+const getMenuInfo = function (menu: Menu) {
+  const result: MenuInfo = {
+    title: menu.menuName,
+    path: "",
+    to: "",
+  };
+};
 
 const addChildMenu = function <T extends { children?: T[] }>(
   pMenu: T,
