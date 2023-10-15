@@ -38,7 +38,9 @@ class MenuStore {
 
   @computed
   get parentMenus() {
-    return this.menus && this.menus.filter((e) => e.depth === 1);
+    return (
+      this.menus && this.menus.filter((e) => e.depth === 1 || e.depth === 2)
+    );
   }
 
   @action
