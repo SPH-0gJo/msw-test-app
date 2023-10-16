@@ -129,7 +129,13 @@ const Log = function () {
               <DateRange
                 calendarFocus="backwards"
                 editableDateInputs={true}
-                onChange={(item) => setState([item.selection])}
+                onChange={(item) => {
+                  const selection = item.selection;
+                  setState([selection]);
+                  const { startDate, endDate } = selection;
+                  setStartDate(startDate!);
+                  setEndDate(endDate!);
+                }}
                 moveRangeOnFirstSelection={false}
                 ranges={state}
               />
