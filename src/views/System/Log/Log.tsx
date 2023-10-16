@@ -10,6 +10,9 @@ import {
 import { paginateData, searchData } from "@/shared/util/table";
 import { useStores } from "@/modules/Store";
 import { ERROR } from "@/shared/var/msg";
+import NonSelectableTable from "@/component/ui-components/NonSelectableTable";
+import CustomPagination from "@/component/ui-components/CustomPagination";
+import TableSearch from "@/component/TableSearch";
 
 const Log = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -63,15 +66,27 @@ const Log = function () {
     loadTableData();
   }, []);
 
+  //@@@@@@ 콜백함수 선언 @@@@@@
+  const handleSearchBtnClick = useCallback(function (
+    selectVal: keyof LogTableData,
+    inputVal: string
+  ) {
+    setPage(firstPage);
+    setSearchParam({
+      field: selectVal,
+      query: inputVal,
+    });
+  }, []);
+
   return (
     <div className="card-box">
       <div className="card-box-body">
         <div className="table-control-top">
           <div className="table-search-wrap">
-            {/* <TableSearch<GroupTableData>
+            <TableSearch<LogTableData>
               optionList={searchOptionList}
               onSubmit={handleSearchBtnClick}
-            /> */}
+            />
           </div>
           <div className="btn-wrap">
             <Button
@@ -86,26 +101,23 @@ const Log = function () {
           </div>
         </div>
         <div className="table-wrap">
-          {/* {originData.length === 0 ? (
+          {originData.length === 0 ? (
             <div>Loading...</div>
           ) : (
-            <Table<GroupTableData>
+            <NonSelectableTable<LogTableData>
               columns={columns}
               data={pagedData}
-              isSelectable={true}
-              dataIdKey="groupId"
-              selectedData={selectedData}
-              setSelectedData={setSelectedData}
+              dataIdKey="seq"
             />
-          )} */}
+          )}
         </div>
-        {/* <CustomPagination
+        <CustomPagination
           count={count}
           pageSize={pageSize}
           pagingSize={pagingSize}
           page={page}
           setPage={setPage}
-        /> */}
+        />
       </div>
     </div>
   );
