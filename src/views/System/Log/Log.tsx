@@ -14,6 +14,14 @@ import NonSelectableTable from "@/component/ui-components/NonSelectableTable";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import TableSearch from "@/component/TableSearch";
 
+//Date Picker 관련
+import { DateRangePicker, Range, DateRange } from "react-date-range";
+import { subMonths, format } from "date-fns";
+
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
+import { Dropdown } from "react-bootstrap";
+
 const Log = function () {
   //@@@@@@@ 선언 @@@@@@@
 
@@ -42,6 +50,27 @@ const Log = function () {
 
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
   const pagedData = pageSizedPaginateData(searchedData, page);
+
+  //Date Picker 관련
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const toggleDatePicker = useCallback(() => {
+    setShowDatePicker(!showDatePicker);
+  }, [showDatePicker]);
+
+  const initStartDate = subMonths(new Date(), 3),
+    initEndDate = new Date();
+
+  const [startDate, setStartDate] = useState(initStartDate);
+  const [endDate, setEndDate] = useState(initEndDate);
+
+  const [state, setState] = useState<Range[]>([
+    {
+      startDate: initStartDate,
+      endDate: initEndDate,
+      key: "selection",
+    },
+  ]);
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
@@ -82,6 +111,38 @@ const Log = function () {
     <div className="card-box">
       <div className="card-box-body">
         <div className="table-control-top">
+          <div>
+            <div
+              onClick={toggleDatePicker}
+              id="reportrange"
+              className="float-right form-control"
+            >
+              <i className="fe-calendar"></i>{" "}
+              <span>
+                {`${format(startDate, "yyyy.MM.dd")} - ${format(
+                  endDate,
+                  "yyyy.MM.dd"
+                )}`}
+              </span>
+            </div>
+            <Dropdown.Menu show={showDatePicker}>
+              <DateRange
+                calendarFocus="backwards"
+                editableDateInputs={true}
+                onChange={(item) => setState([item.selection])}
+                moveRangeOnFirstSelection={false}
+                ranges={state}
+              />
+              {/* <DateRangePicker
+                onChange={(item) => setState([item.selection])}
+                moveRangeOnFirstSelection={false}
+                months={2}
+                ranges={state}
+                direction="horizontal"
+              /> */}
+            </Dropdown.Menu>
+          </div>
+
           <div className="table-search-wrap">
             <TableSearch<LogTableData>
               optionList={searchOptionList}
