@@ -8,7 +8,7 @@ export interface modUserData {
   sysuserId: string | undefined;
   userId: string;
   userName: string;
-  password: string;
+  password?: string;
   adminType: boolean;
   groupId: string | undefined;
 }

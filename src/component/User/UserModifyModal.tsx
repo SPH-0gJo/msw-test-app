@@ -69,7 +69,7 @@ const UserModifyModal = function ({
       sysuserId: user?.sysuserId,
       userId: user?.userId!,
       userName: data.userName,
-      password: data.password,
+      password: data.password === "" ? undefined : data.password,
       adminType: Boolean(parseInt(data.adminType)),
       groupId: data.groupId === "" ? undefined : data.groupId,
     };

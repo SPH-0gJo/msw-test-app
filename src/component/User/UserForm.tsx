@@ -14,8 +14,8 @@ import { observer } from "mobx-react";
 export interface UserFormInputs {
   userName: string;
   userId: string;
-  password: string;
-  confirmpassword: string;
+  password?: string;
+  confirmpassword?: string;
   groupId: string;
   adminType: "1" | "0";
 }
@@ -45,6 +45,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
   { userFormInputsConfig, formId, onFormInvalid, onFormValid },
   ref
 ) {
+  const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
   const { accountStore } = useStores();
 
   useLayoutEffect(() => {
@@ -58,14 +59,18 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
           }
           throw new Error(ERROR.STATUS_OK_BUT_FAIL);
         })
+        .then(() => {
+          reset((values) => ({
+            ...values,
+            groupId: groupIdDefaultValue as string,
+          }));
+        })
         .catch((error) => {
           console.error(error);
           alert(error);
         });
     }
   }, []);
-
-  const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
 
   const {
     register,
@@ -179,7 +184,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             className="form-control"
             {...register("password", {
               required: {
-                value: true,
+                value: false,
                 message: VALIDATION_ERROR.PASSWORD,
               },
               pattern: {
@@ -206,12 +211,12 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             type="password"
             className="form-control"
             {...register("confirmpassword", {
-              required: { value: true, message: ERROR.PW_NOT_EQ },
+              required: { value: false, message: ERROR.PW_NOT_EQ },
               onBlur: () => {
                 //validateSetError("confirmpassword", ERROR.PW_NOT_EQ);
                 trigger("confirmpassword");
               },
-              validate: (value: string) => {
+              validate: (value?: string) => {
                 return value === getValues("password") || ERROR.PW_NOT_EQ;
               },
             })}
