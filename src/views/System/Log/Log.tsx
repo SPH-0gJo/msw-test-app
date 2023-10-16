@@ -16,7 +16,7 @@ import TableSearch from "@/component/TableSearch";
 
 //Date Picker 관련
 import { DateRangePicker, Range, DateRange } from "react-date-range";
-import { subMonths, format } from "date-fns";
+import { subMonths, format, addDays } from "date-fns";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -58,7 +58,7 @@ const Log = function () {
     setShowDatePicker(!showDatePicker);
   }, [showDatePicker]);
 
-  const initStartDate = subMonths(new Date(), 3),
+  const initStartDate = addDays(subMonths(new Date(), 3), 1),
     initEndDate = new Date();
 
   const [startDate, setStartDate] = useState(initStartDate);
@@ -76,24 +76,29 @@ const Log = function () {
 
   const { logStore } = useStores();
 
-  const loadTableData = useCallback(function () {
-    logStore
-      .find("2000-01-01", "2090-01-01")
-      .then((result) => {
-        if (result.data) {
-          const logs = getLogTableData(result.data);
-          setOriginData(logs);
-        }
-      })
-      .catch((error) => {
-        alert(ERROR.NOT_PROCESSED);
-        console.error(error);
-      });
-  }, []);
+  const loadTableData = useCallback(
+    function () {
+      const startDateParam = format(startDate, "yyyy-MM-dd");
+      const endDateParam = format(endDate, "yyyy-MM-dd");
+      logStore
+        .find(startDateParam, endDateParam)
+        .then((result) => {
+          if (result.data) {
+            const logs = getLogTableData(result.data);
+            setOriginData(logs);
+          }
+        })
+        .catch((error) => {
+          alert(ERROR.NOT_PROCESSED);
+          console.error(error);
+        });
+    },
+    [startDate, endDate]
+  );
 
   useLayoutEffect(() => {
     loadTableData();
-  }, []);
+  }, [startDate, endDate]);
 
   //@@@@@@ 콜백함수 선언 @@@@@@
   const handleSearchBtnClick = useCallback(function (
@@ -119,9 +124,9 @@ const Log = function () {
             >
               <i className="fe-calendar"></i>{" "}
               <span>
-                {`${format(startDate, "yyyy.MM.dd")} - ${format(
+                {`${format(startDate, "yyyy-MM-dd")} ~ ${format(
                   endDate,
-                  "yyyy.MM.dd"
+                  "yyyy-MM-dd"
                 )}`}
               </span>
             </div>
@@ -135,6 +140,8 @@ const Log = function () {
                   const { startDate, endDate } = selection;
                   setStartDate(startDate!);
                   setEndDate(endDate!);
+
+                  setPage(firstPage);
                 }}
                 moveRangeOnFirstSelection={false}
                 ranges={state}
