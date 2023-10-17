@@ -172,11 +172,11 @@ const Log = function () {
     <div className="card-box">
       <div className="card-box-body">
         <div className="table-control-top">
-          <div>
+          <div className="table-control-top-side">
             {/* DateRangeFilter */}
             <div
               onClick={handleDateRangeFilterClick}
-              className="float-right form-control"
+              className="form-control-dateRange form-control"
             >
               <i className="fe-calendar"></i>{" "}
               <span>{getFormattedDateRange(startDate, endDate)}</span>
@@ -191,14 +191,16 @@ const Log = function () {
                 maxDate={initEndDate}
               />
             </Dropdown.Menu>
+
+            <div className="table-search-wrap">
+              <TableSearch<LogTableData>
+                  optionList={searchOptionList}
+                  onSubmit={handleSearchBtnClick}
+              />
+            </div>
           </div>
 
-          <div className="table-search-wrap">
-            <TableSearch<LogTableData>
-              optionList={searchOptionList}
-              onSubmit={handleSearchBtnClick}
-            />
-          </div>
+
           <div className="btn-wrap">
             <CSVLink
               data={searchedData}

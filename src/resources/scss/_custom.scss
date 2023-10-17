@@ -380,6 +380,24 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .table-control-top-side {
+    display: flex;
+    gap: 14px;
+  }
+}
+
+.form-control-dateRange {
+  background-color: #f6f6f6;
+  border: 1px solid #dee2e6;
+  border-radius: 30px;
+  font-size: 14px;
+  padding: 0px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
 }
 
 .btn-wrap {
@@ -389,7 +407,7 @@
 
 .table-search-wrap {
   background-color: #f6f6f6;
-  border: 1px solid #f6f6f6;
+  border: 1px solid #dee2e6;
   border-radius: 30px;
   padding: 0 10px;
   height: 38px;
@@ -399,10 +417,11 @@
 
   select {
     border: 0;
-    width: 70px;
-    color: #888;
     height: 100%;
+    min-width: 70px;
     background-color: transparent;
+    outline: 0;
+    font-size: 14px;
   }
 
   input {
@@ -410,6 +429,8 @@
     border: 0;
     width: 130px;
     height: 100%;
+    outline: 0;
+    font-size: 14px;
   }
 
   .btn {
@@ -707,7 +728,7 @@ body.authentication-bg {
 .form-wrap {
   padding: 0 20px;
   margin-top: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 
   form {
     > .mb-2 {
@@ -721,11 +742,25 @@ body.authentication-bg {
     .form-control {
       border-radius: 20px;
       padding: 0.58rem 0.9rem;
+      font-size: 14px;
     }
 
     .form-select {
       border-radius: 20px;
       padding: 0.58rem 0.9rem;
+      font-size: 14px;
+    }
+
+    .validation-text {
+      transform: translateY(-0.5rem);
+      color: #888;
+      font-size: 13px;
+      font-weight: 300;
+      padding-left: 0.9rem;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
     }
   }
 }
