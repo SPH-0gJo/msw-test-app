@@ -1,4 +1,11 @@
-import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Button from "@/component/ui-components/Button";
 import {
   LogTableData,
@@ -15,7 +22,7 @@ import CustomPagination from "@/component/ui-components/CustomPagination";
 import TableSearch from "@/component/TableSearch";
 
 //Date Picker 관련
-import { DateRangePicker, Range, DateRange } from "react-date-range";
+import { Range, DateRange, RangeKeyDict } from "react-date-range";
 import { subMonths, format, addDays } from "date-fns";
 
 import "react-date-range/dist/styles.css"; // main css file
@@ -51,13 +58,16 @@ const Log = function () {
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
   const pagedData = pageSizedPaginateData(searchedData, page);
 
-  //Date Picker 관련
+  //Date Picker DropDown 관련
   const [showDatePicker, setShowDatePicker] = useState(false);
 
   const toggleDatePicker = useCallback(() => {
     setShowDatePicker(!showDatePicker);
   }, [showDatePicker]);
 
+  const dpDropDownRef = useRef<HTMLDivElement | null>(null);
+
+  //Date Picker 관련
   const initStartDate = addDays(subMonths(new Date(), 3), 1),
     initEndDate = new Date();
 
@@ -100,6 +110,23 @@ const Log = function () {
     loadTableData();
   }, [startDate, endDate]);
 
+  //외부 영역 클릭시 datePickerDropDown 닫기
+  useEffect(() => {
+    const handleDpDropDownClose = (e: MouseEvent) => {
+      console.log("handleDpDropDownClose", e.target);
+      if (
+        showDatePicker &&
+        !dpDropDownRef.current?.contains(e.target as Node)
+      ) {
+        setShowDatePicker(false);
+      }
+    };
+
+    document.addEventListener("click", handleDpDropDownClose);
+
+    return () => document.removeEventListener("click", handleDpDropDownClose);
+  }, [showDatePicker]);
+
   //@@@@@@ 콜백함수 선언 @@@@@@
   const handleSearchBtnClick = useCallback(function (
     selectVal: keyof LogTableData,
@@ -112,14 +139,30 @@ const Log = function () {
     });
   }, []);
 
+  const handleDateRangeFilterClick = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    toggleDatePicker();
+  };
+
+  const handleDatePickerRangeChange = (item: RangeKeyDict) => {
+    const selection = item.selection;
+    setState([selection]);
+    const { startDate, endDate } = selection;
+    setStartDate(startDate!);
+    setEndDate(endDate!);
+
+    setPage(firstPage);
+  };
+
   return (
     <div className="card-box">
       <div className="card-box-body">
         <div className="table-control-top">
           <div>
             <div
-              onClick={toggleDatePicker}
-              id="reportrange"
+              onClick={handleDateRangeFilterClick}
               className="float-right form-control"
             >
               <i className="fe-calendar"></i>{" "}
@@ -130,29 +173,15 @@ const Log = function () {
                 )}`}
               </span>
             </div>
-            <Dropdown.Menu show={showDatePicker}>
+            <Dropdown.Menu ref={dpDropDownRef} show={showDatePicker}>
               <DateRange
                 calendarFocus="backwards"
                 editableDateInputs={true}
-                onChange={(item) => {
-                  const selection = item.selection;
-                  setState([selection]);
-                  const { startDate, endDate } = selection;
-                  setStartDate(startDate!);
-                  setEndDate(endDate!);
-
-                  setPage(firstPage);
-                }}
+                onChange={handleDatePickerRangeChange}
                 moveRangeOnFirstSelection={false}
                 ranges={state}
+                maxDate={initEndDate}
               />
-              {/* <DateRangePicker
-                onChange={(item) => setState([item.selection])}
-                moveRangeOnFirstSelection={false}
-                months={2}
-                ranges={state}
-                direction="horizontal"
-              /> */}
             </Dropdown.Menu>
           </div>
 
