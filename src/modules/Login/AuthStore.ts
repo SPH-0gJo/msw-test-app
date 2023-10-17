@@ -2,7 +2,8 @@ import { action, makeObservable, observable } from "mobx";
 
 import AuthRepository from "./AuthRepository";
 import { RootStore } from "@/modules/Store";
-import { AuthMenu } from "@/shared/var/authMenu";
+import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
+import { MenuInfo } from "@/shared/var/menu";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
@@ -11,7 +12,7 @@ class AuthStore {
   @observable
   isLoggedIn = Boolean(localStorage.getItem(TOKEN));
   @observable
-  authMenuList: AuthMenu[] = [];
+  authMenuInfoList: MenuInfo[] = [];
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
@@ -49,9 +50,9 @@ class AuthStore {
   }
 
   @action
-  async configAuthMenuList() {
+  async configAuthMenuInfoList() {
     const result = await this.getAuthMenuList();
-    this.authMenuList = result.data;
+    this.authMenuInfoList = getMenuInfoList(result.data);
   }
 
   logout() {

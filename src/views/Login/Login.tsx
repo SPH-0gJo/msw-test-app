@@ -42,7 +42,7 @@ const Login = function () {
       await authStore.login(data.userId, data.password);
 
       //권한이 있는 메뉴 목록 요청 후 store에 세팅
-      await authStore.configAuthMenuList();
+      await authStore.configAuthMenuInfoList();
 
       //메인 화면으로 이동
       navigate("/");

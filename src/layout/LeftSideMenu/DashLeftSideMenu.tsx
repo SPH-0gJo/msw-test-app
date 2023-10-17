@@ -1,7 +1,8 @@
 import HasSubMenuLink from "@/component/HasSubMenuLink";
 import MenuLink from "@/component/MenuLink";
-import { authMenuInfoList } from "@/shared/var/authMenu";
-import { MenuInfo, menuInfoList } from "@/shared/var/menu";
+import { useStores } from "@/modules/Store";
+import { MenuInfo } from "@/shared/var/menu";
+import { observer } from "mobx-react";
 import React from "react";
 
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
@@ -28,6 +29,10 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
 };
 
 const DashLeftSideMenu = function () {
+  const { authStore } = useStores();
+
+  const authMenuInfoList = authStore.authMenuInfoList;
+
   return (
     <div className="side-menu-wrap" id="sidebar-menu">
       <ul className="side-menu side-menu-level1">
@@ -37,4 +42,4 @@ const DashLeftSideMenu = function () {
   );
 };
 
-export default DashLeftSideMenu;
+export default observer(DashLeftSideMenu);

@@ -16,7 +16,6 @@ import Log from "./views/System/Log/Log";
 import SystemDefault from "./views/SystemDefault";
 import { rootPath } from "@/shared/env";
 import { useStores } from "@/modules/Store";
-import { getMenuInfoList } from "@/shared/var/authMenu";
 import { observer } from "mobx-react";
 
 const getRoutes = function (menuInfoList: MenuInfo[]) {
@@ -32,9 +31,7 @@ const getRoutes = function (menuInfoList: MenuInfo[]) {
 const AppRoutes = function () {
   const { authStore } = useStores();
 
-  const authMenuInfoList = getMenuInfoList(authStore.authMenuList);
-
-  console.log("authMenuInfoList", authMenuInfoList);
+  const authMenuInfoList = authStore.authMenuInfoList;
 
   return (
     // <StoreProvider value={stores}>
