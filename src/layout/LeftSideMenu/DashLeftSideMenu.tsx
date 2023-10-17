@@ -1,11 +1,12 @@
 import HasSubMenuLink from "@/component/HasSubMenuLink";
 import MenuLink from "@/component/MenuLink";
+import { authMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo, menuInfoList } from "@/shared/var/menu";
 import React from "react";
 
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
   return menuInfoList.map(({ children, title, to, icon, url }) => {
-    if (children) {
+    if (children && children.length > 0) {
       return (
         <HasSubMenuLink
           icon={icon ? <i className={icon} /> : null}
@@ -30,7 +31,7 @@ const DashLeftSideMenu = function () {
   return (
     <div className="side-menu-wrap" id="sidebar-menu">
       <ul className="side-menu side-menu-level1">
-        {getMenuLinks(menuInfoList, 1)}
+        {getMenuLinks(authMenuInfoList, 1)}
       </ul>
     </div>
   );

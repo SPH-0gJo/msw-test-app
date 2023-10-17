@@ -16,16 +16,19 @@ import Log from "./views/System/Log/Log";
 import SystemDefault from "./views/SystemDefault";
 import { StoreProvider, stores } from "@/modules/Store";
 import { rootPath } from "@/shared/env";
+import { authMenuInfoList } from "./shared/var/authMenu";
 
 const getRoutes = function (menuInfoList: MenuInfo[]) {
   return menuInfoList.map(({ path, children }) => {
-    if (children) {
+    if (children && children?.length > 0) {
       return <Route path={path}>{getRoutes(children)}</Route>;
     } else {
       return <Route path={path} />;
     }
   });
 };
+
+console.log("authMenuInfoList", authMenuInfoList);
 
 const App = function () {
   return (
@@ -42,7 +45,7 @@ const App = function () {
           >
             {/* "/" 요청시 라우팅 */}
             <Route index element={<Default />} />
-            <Route element={<Dashboard />}>{getRoutes(menuInfoList)}</Route>
+            <Route element={<Dashboard />}>{getRoutes(authMenuInfoList)}</Route>
             <Route path="system">
               <Route index element={<SystemDefault />} />
               <Route path="group" index element={<Group />} />

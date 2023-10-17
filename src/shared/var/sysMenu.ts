@@ -374,6 +374,3 @@ export const authMenu: Menu[] = [
     updateSysuserId: "yjjo",
   },
 ];
-
-console.log("-----------authMenuInfoList------------");
-console.log(getMenuInfoList(authMenu));
