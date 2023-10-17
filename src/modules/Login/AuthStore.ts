@@ -1,7 +1,8 @@
-import { action, observable } from "mobx";
+import { action, makeObservable, observable } from "mobx";
 
 import AuthRepository from "./AuthRepository";
 import { RootStore } from "@/modules/Store";
+import { AuthMenu } from "@/shared/var/authMenu";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
@@ -9,10 +10,13 @@ const REFRESH_TOKEN = "r_token";
 class AuthStore {
   @observable
   isLoggedIn = Boolean(localStorage.getItem(TOKEN));
+  @observable
+  authMenuList: AuthMenu[] = [];
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+    makeObservable(this);
   }
 
   //@action : 2번 렌더링 될거같아서 일단 주석
@@ -36,6 +40,18 @@ class AuthStore {
     console.log("login", result);
     const { access_token, refresh_token } = result.data;
     this.logUserIn(access_token, refresh_token);
+  }
+
+  async getAuthMenuList() {
+    const result = await AuthRepository.getAuthMenuList();
+    console.log("AuthStore getAuthMenuList :::: ", result);
+    return result;
+  }
+
+  @action
+  async configAuthMenuList() {
+    const result = await this.getAuthMenuList();
+    this.authMenuList = result.data;
   }
 
   logout() {

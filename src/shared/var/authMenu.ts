@@ -9,7 +9,7 @@ export interface AuthMenu
   childMenu: AuthMenu[];
 }
 
-const getMenuInfoList = function (
+export const getMenuInfoList = function (
   authMenus: AuthMenu[],
   parentPath: string = ""
 ): MenuInfo[] {

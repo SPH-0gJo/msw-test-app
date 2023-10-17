@@ -1,4 +1,5 @@
-import { createPost } from "@/shared/request";
+import { createGet, createPost } from "@/shared/request";
+import { AuthMenu } from "@/shared/var/authMenu";
 
 type LoginResData = {
   access_token: string;
@@ -17,6 +18,10 @@ class AuthRepository {
       userId,
       password,
     });
+  }
+
+  getAuthMenuList() {
+    return createGet<AuthMenu[]>(this.URL + "/menu");
   }
 
   refresh() {
