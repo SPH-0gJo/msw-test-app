@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useStores } from "@/modules/Store";
 import { getTableauUrl, menuInfoList } from "@/shared/var/menu";
 import TableauViz from "./TableauViz";
+import { authMenuInfoList } from "@/shared/var/authMenu";
 
 const applyTicket = function (url: string, ticket: string) {
   return url.replace("/views", `/trusted/${ticket}/views`);
@@ -21,7 +22,7 @@ const Dashboard = function () {
 
   useEffect(() => {
     console.log("pathname", pathname);
-    const tableauUrl = getTableauUrl(menuInfoList, pathname);
+    const tableauUrl = getTableauUrl(authMenuInfoList, pathname);
 
     if (tableauUrl) {
       console.log("tableauUrl is,,,", tableauUrl);
