@@ -6,7 +6,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import Button from "@/component/ui-components/Button";
 import {
   LogTableData,
   getLogTableData,
@@ -28,6 +27,8 @@ import { subMonths, format, addDays } from "date-fns";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { Dropdown } from "react-bootstrap";
+import { CSVLink } from "react-csv";
+import { getFormattedDateRange } from "@/shared/util/dateRange";
 
 const Log = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -81,6 +82,17 @@ const Log = function () {
       key: "selection",
     },
   ]);
+
+  //CSV 다운로드 관련
+  const excelHeaders = columns.map((column) => ({
+    key: column.key,
+    label: column.value as string,
+  }));
+
+  const excelFileName = `생생소리정보시스템-접속이력-${getFormattedDateRange(
+    startDate,
+    endDate
+  )}.csv`;
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
@@ -161,17 +173,13 @@ const Log = function () {
       <div className="card-box-body">
         <div className="table-control-top">
           <div>
+            {/* DateRangeFilter */}
             <div
               onClick={handleDateRangeFilterClick}
               className="float-right form-control"
             >
               <i className="fe-calendar"></i>{" "}
-              <span>
-                {`${format(startDate, "yyyy-MM-dd")} ~ ${format(
-                  endDate,
-                  "yyyy-MM-dd"
-                )}`}
-              </span>
+              <span>{getFormattedDateRange(startDate, endDate)}</span>
             </div>
             <Dropdown.Menu ref={dpDropDownRef} show={showDatePicker}>
               <DateRange
@@ -192,15 +200,15 @@ const Log = function () {
             />
           </div>
           <div className="btn-wrap">
-            <Button
-              onClick={() => {}}
-              variant="primary"
-              size="sm"
-              classList={["rounded-pill"]}
+            <CSVLink
+              data={searchedData}
+              headers={excelHeaders}
+              filename={excelFileName}
+              className="btn btn-primary btn-sm rounded-pill"
             >
               <i className="fe-file" />
               CSV
-            </Button>
+            </CSVLink>
           </div>
         </div>
         <div className="table-wrap">
