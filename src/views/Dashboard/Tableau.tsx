@@ -8,14 +8,15 @@ const { tableau } = window as customWindow;
 
 type TableauProps = {
   url: string;
+  ticket: string;
 };
-
-function Tableau({ url }: TableauProps) {
+function Tableau({ url, ticket }: TableauProps) {
   const ref = useRef(null);
   const viz = useRef(null);
 
-  const testUrl =
-    "http://34.22.86.214/trusted/VJQ04WBvSOaOsZgLOLatMQ==:c9JaVaoSxNl03hImPViQtZfJ/views/yeoron_server0817/Sentiment?:iid=1";
+  const trimmedUrl = url.startsWith("/") ? url.substring(1) : url;
+
+  const testUrl = `https://nyjdev.sphinfo.com/trusted/${ticket}/views/${trimmedUrl}`;
 
   //dom이 마운트되면
   useEffect(() => {
@@ -37,15 +38,24 @@ function Tableau({ url }: TableauProps) {
       (viz.current as any).dispose();
     }
 
-    viz.current = new tableau.Viz(ref.current, url, {
+    viz.current = new tableau.Viz(ref.current, testUrl, {
       height: vizHeight,
       width: vizWidth,
       //device: "phone",
-      onFirstVizSizeKnown: function (e: any) {
-        console.log(e);
+      onFirstInteractive: function (e: any) {
+        const iframeElem = e.getViz()["_impl"]["$1l"]; //document.getElementsByTagName("iframe")[0];
+        var cssLink = document.createElement("link");
+        cssLink.href =
+          "https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.6/dist/web/static/pretendard.css";
+        cssLink.rel = "stylesheet";
+        cssLink.type = "text/css";
+        // console.log(e.getViz());
+        // console.log(e.getViz()["_impl"]["$1l"]);
+        console.dir(iframeElem);
+        //iframeElem.ownerDocument.head.appendChild(cssLink);
       },
     });
-  }, [url]);
+  }, [testUrl]);
 
   return <div style={{ width: "100%", height: "100%" }} ref={ref} />;
 }
