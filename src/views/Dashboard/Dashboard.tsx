@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { useStores } from "@/modules/Store";
 import { getTableauUrl, menuInfoList } from "@/shared/var/menu";
 import TableauViz from "./TableauViz";
+import { authMenuInfoList } from "@/shared/var/authMenu";
 
 const applyTicket = function (url: string, ticket: string) {
   return url.replace("/views", `/trusted/${ticket}/views`);
@@ -13,7 +14,7 @@ const DEFAULT_URL = null; //"https://public.tableau.com/views/_16866371409120/sh
 
 const Dashboard = function () {
   const { state, pathname } = useLocation();
-  const { dashboardStore } = useStores();
+  const { dashboardStore, authStore } = useStores();
 
   const [url, setUrl] = useState<null | string>(DEFAULT_URL);
   const [ticket, setTicket] = useState<null | string>(null);
@@ -21,7 +22,8 @@ const Dashboard = function () {
 
   useEffect(() => {
     console.log("pathname", pathname);
-    const tableauUrl = getTableauUrl(menuInfoList, pathname);
+    const authMenuInfoList = authStore.authMenuInfoList;
+    const tableauUrl = getTableauUrl(authMenuInfoList, pathname);
 
     if (tableauUrl) {
       console.log("tableauUrl is,,,", tableauUrl);

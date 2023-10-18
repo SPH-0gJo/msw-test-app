@@ -1,11 +1,13 @@
 import HasSubMenuLink from "@/component/HasSubMenuLink";
 import MenuLink from "@/component/MenuLink";
-import { MenuInfo, menuInfoList } from "@/shared/var/menu";
+import { useStores } from "@/modules/Store";
+import { MenuInfo } from "@/shared/var/menu";
+import { observer } from "mobx-react";
 import React from "react";
 
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
   return menuInfoList.map(({ children, title, to, icon, url }) => {
-    if (children) {
+    if (children && children.length > 0) {
       return (
         <HasSubMenuLink
           icon={icon ? <i className={icon} /> : null}
@@ -27,13 +29,17 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
 };
 
 const DashLeftSideMenu = function () {
+  const { authStore } = useStores();
+
+  const authMenuInfoList = authStore.authMenuInfoList;
+
   return (
     <div className="side-menu-wrap" id="sidebar-menu">
       <ul className="side-menu side-menu-level1">
-        {getMenuLinks(menuInfoList, 1)}
+        {getMenuLinks(authMenuInfoList, 1)}
       </ul>
     </div>
   );
 };
 
-export default DashLeftSideMenu;
+export default observer(DashLeftSideMenu);
