@@ -14,7 +14,7 @@ const DEFAULT_URL = null; //"https://public.tableau.com/views/_16866371409120/sh
 
 const Dashboard = function () {
   const { state, pathname } = useLocation();
-  const { dashboardStore } = useStores();
+  const { dashboardStore, authStore } = useStores();
 
   const [url, setUrl] = useState<null | string>(DEFAULT_URL);
   const [ticket, setTicket] = useState<null | string>(null);
@@ -22,6 +22,7 @@ const Dashboard = function () {
 
   useEffect(() => {
     console.log("pathname", pathname);
+    const authMenuInfoList = authStore.authMenuInfoList;
     const tableauUrl = getTableauUrl(authMenuInfoList, pathname);
 
     if (tableauUrl) {
