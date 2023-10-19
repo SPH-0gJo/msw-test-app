@@ -4,6 +4,7 @@ import AuthRepository from "./AuthRepository";
 import { RootStore } from "@/modules/Store";
 import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo } from "@/shared/var/menu";
+import { jwtVerify } from "jose";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
@@ -13,28 +14,28 @@ class AuthStore {
   isLoggedIn = Boolean(localStorage.getItem(TOKEN));
   @observable
   authMenuInfoList: MenuInfo[] = [];
-  // authMenuInfoList: MenuInfo[] = JSON.parse(
-  //   localStorage.getItem("authMenu") || "[]"
-  // );
+  @observable
+  isAdmin = false;
+
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    console.log("새로고침");
+    console.log("새로고침"); //navigate 한다고 발생하는 것은 아님.
 
     makeObservable(this);
 
-    //결과가 이전과 동일하다면 (이건 서버에서도 Cache-Control:max-age=0 설정을 해주어야함.. )
-    //https://toss.tech/article/smart-web-service-cache
-    // this.authMenuInfoList = JSON.parse(localStorage.getItem("authMenu"));
-    //아니라면 getAuthMenuList후 새롭게 this.authMenuInfoLis ...
     if (this.isLoggedIn) {
-      try {
-        this.configAuthMenuInfoList();
-      } catch (e) {
-        //401 에러인 경우 에러 처리 후 login 이동
-        console.error(e);
-      }
+      //async, await을 쓰지 않는 Promise의 경우 .catch로 에러 캐치 (try~catch 아님)
+      this.configAuthMenuInfoList()
+        .then((value) => {
+          console.log(value);
+          return this.configureIsAdmin();
+        })
+        .catch((e) => {
+          //configAuthMenuInfoList or configureIsAdmin 에서 발생한 에러 catch
+          console.error("Promise Chain Error", e);
+        });
     }
   }
 
@@ -57,6 +58,24 @@ class AuthStore {
     const authMenuInfoList = getMenuInfoList(result.data);
     this.authMenuInfoList = authMenuInfoList;
     // localStorage.setItem("authMenu", JSON.stringify(authMenuInfoList));
+    return authMenuInfoList;
+  }
+
+  configureIsAdmin() {
+    const token = localStorage.getItem(TOKEN);
+    const secretKey =
+      "7fbfd344d1a975b2f630a01fc7be5f2f136edae363607f11e3f35df516da9500";
+    const secret = new TextEncoder().encode(secretKey);
+    if (token) {
+      jwtVerify(token, secret)
+        .then((result) => {
+          const { payload } = result;
+          console.log("token--------------------", payload);
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+    }
   }
 
   logout() {

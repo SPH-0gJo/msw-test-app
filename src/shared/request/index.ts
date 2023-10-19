@@ -83,21 +83,25 @@ axios.interceptors.response.use(
           });
         });
 
-        //refresh 요청
-        const { data } = await AuthRepository.refresh();
+        try {
+          //refresh 요청
+          const { data } = await AuthRepository.refresh();
 
-        //토큰 재세팅
-        localStorage.setItem("token", data.access_token);
-        localStorage.setItem("r_token", data.refresh_token);
+          //토큰 재세팅
+          localStorage.setItem("token", data.access_token);
+          localStorage.setItem("r_token", data.refresh_token);
 
-        isTokenRefreshing = false;
+          isTokenRefreshing = false;
 
-        //지연 요청 진행
-        onTokenRefreshed(data.access_token);
+          //지연 요청 진행
+          onTokenRefreshed(data.access_token);
 
-        //??? 이렇게 되면 맨 처음 받은 refresh를 요구하는 요청은 누락되는거 아닌가,,,?
-
-        return retryOriginalRequest;
+          //??? 이렇게 되면 맨 처음 받은 refresh를 요구하는 요청은 누락되는거 아닌가,,,?
+          return retryOriginalRequest;
+        } catch (e) {
+          console.error(e);
+          return Promise.reject(error);
+        }
       } else {
         const retryOriginalRequest = new Promise((resolve) => {
           addRefreshSubscriber((accessToken: string) => {
@@ -110,10 +114,10 @@ axios.interceptors.response.use(
       }
     } else if (status === 401 || status === 403) {
       // /auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
-      console.log("login 페이지 이동");
-      localStorage.removeItem("token");
-      localStorage.removeItem("r_token");
-      window.location.href = rootPath === "" ? "/login" : `/${rootPath}/login`;
+      // console.log("login 페이지 이동");
+      // localStorage.removeItem("token");
+      // localStorage.removeItem("r_token");
+      // window.location.href = rootPath === "" ? "/login" : `/${rootPath}/login`;
     }
 
     return Promise.reject(error);
