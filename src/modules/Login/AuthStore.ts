@@ -29,7 +29,12 @@ class AuthStore {
     // this.authMenuInfoList = JSON.parse(localStorage.getItem("authMenu"));
     //아니라면 getAuthMenuList후 새롭게 this.authMenuInfoLis ...
     if (this.isLoggedIn) {
-      this.configAuthMenuInfoList();
+      try {
+        this.configAuthMenuInfoList();
+      } catch (e) {
+        //401 에러인 경우 에러 처리 후 login 이동
+        console.error(e);
+      }
     }
   }
 
