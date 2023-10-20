@@ -45,7 +45,10 @@ const Login = function () {
       await authStore.configAuthMenuInfoList();
 
       //ROLE 확인 후 store에 관리자 여부 세팅
-      await authStore.configureIsAdmin();
+      authStore.configureIsAdmin();
+
+      //로그인한 사용자의 프로필 정보 store에 저장
+      await authStore.configureUserInfo();
 
       //메인 화면으로 이동
       navigate("/");

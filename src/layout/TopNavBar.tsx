@@ -5,11 +5,20 @@ import { useNavigate } from "react-router-dom";
 import { useStores } from "@/modules/Store";
 import FoldableWrapper from "./FoldableWrapper";
 import { observer } from "mobx-react";
+import UserModifyModal from "@/component/User/UserModifyModal";
+import { useModal } from "@/shared/hooks/modal";
 
 const TopNavBar = function () {
   const { authStore } = useStores();
 
   const isAdmin = authStore.isAdmin;
+
+  console.log("UserInfo", authStore.userInfo);
+
+  const userInfo = authStore.userInfo;
+
+  //수정 모달
+  const { modalShow: modModalShow, toggleModal: toggleModModal } = useModal();
 
   const navigate = useNavigate();
 
@@ -35,8 +44,12 @@ const TopNavBar = function () {
             <i className="fe-user" />
           </div>
           <NavDropdown title={"사용자"} id="basic-nav-dropdown">
-            <NavDropdown.Item onClick={handleLogoutBtnClick}>
-              로그아웃
+            <NavDropdown.Item
+              onClick={() => {
+                toggleModModal();
+              }}
+            >
+              사용자 정보
             </NavDropdown.Item>
             <NavDropdown.Divider />
             {isAdmin ? (
@@ -44,9 +57,19 @@ const TopNavBar = function () {
                 관리자 페이지
               </NavDropdown.Item>
             ) : null}
+            <NavDropdown.Divider />
+            <NavDropdown.Item onClick={handleLogoutBtnClick}>
+              로그아웃
+            </NavDropdown.Item>
           </NavDropdown>
         </div>
       </div>
+      <UserModifyModal
+        show={modModalShow}
+        toggleShow={toggleModModal}
+        onSubmitSuccess={() => {}}
+        user={userInfo}
+      />
     </FoldableWrapper>
   );
 };

@@ -5,6 +5,7 @@ import { RootStore } from "@/modules/Store";
 import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo } from "@/shared/var/menu";
 import { decodeJwt } from "jose";
+import { User } from "@/shared/var/user";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
@@ -18,6 +19,8 @@ class AuthStore {
   authMenuInfoList: MenuInfo[] = [];
   @observable
   isAdmin = false;
+  @observable
+  userInfo: User | null = null;
 
   rootStore: RootStore;
 
@@ -31,9 +34,9 @@ class AuthStore {
       //async, await을 쓰지 않는 Promise의 경우 .catch로 에러 캐치 (try~catch 아님)
       //새로 고침시 configAuthMenuInfoList는 API 요청을 통해 토큰 만료여부 등을 확인하는 역할을 함
       this.configAuthMenuInfoList()
-        .then((value) => {
-          console.log(value);
-          return this.configureIsAdmin();
+        .then(() => {
+          this.configureIsAdmin();
+          return this.configureUserInfo();
         })
         .catch((e) => {
           //configAuthMenuInfoList or configureIsAdmin 에서 발생한 에러 catch
@@ -55,23 +58,52 @@ class AuthStore {
     return result;
   }
 
-  @action
+  async getUserInfo(userId: string) {
+    const result = await AuthRepository.getUserInfo(userId);
+    console.log("AuthStore getUserInfo :::: ", result.data);
+    return result;
+  }
+
   async configAuthMenuInfoList() {
     const result = await this.getAuthMenuList();
     const authMenuInfoList = getMenuInfoList(result.data);
-    this.authMenuInfoList = authMenuInfoList;
-    // localStorage.setItem("authMenu", JSON.stringify(authMenuInfoList));
+    //this.authMenuInfoList = authMenuInfoList;
+    this.setAuthMenuInfoList(authMenuInfoList);
     return authMenuInfoList;
   }
 
   @action
+  setAuthMenuInfoList(authMenuInfoList: MenuInfo[]) {
+    this.authMenuInfoList = authMenuInfoList;
+  }
+
   configureIsAdmin() {
     const token = localStorage.getItem(TOKEN);
     if (token) {
       const payload = decodeJwt(token);
-      console.log("payload", payload);
-      this.isAdmin = this.isRoleAdmin(payload.role as Role);
+      const isAdmin = this.isRoleAdmin(payload.role as Role);
+      this.setIsAdmin(isAdmin);
     }
+  }
+  @action
+  setIsAdmin(isAdmin: boolean) {
+    this.isAdmin = isAdmin;
+  }
+
+  async configureUserInfo() {
+    const token = localStorage.getItem(TOKEN);
+    if (token) {
+      const payload = decodeJwt(token);
+      const userId = payload.sub!;
+      const result = await this.getUserInfo(userId);
+      const userInfo = result.data;
+      this.setUserInfo(userInfo);
+    }
+  }
+
+  @action
+  setUserInfo(userInfo: User) {
+    this.userInfo = userInfo;
   }
 
   isRoleAdmin(role: Role) {
