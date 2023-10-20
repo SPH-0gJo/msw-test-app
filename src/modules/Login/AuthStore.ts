@@ -36,7 +36,7 @@ class AuthStore {
       //새로 고침시 configAuthMenuInfoList는 API 요청을 통해 토큰 만료여부 등을 확인하는 역할을 함
       this.configAuthMenuInfoList()
         .then(() => {
-          this.configureIsAdmin();
+          //this.configureIsAdmin();
           return this.configureUserInfo();
         })
         .catch((e) => {
@@ -99,6 +99,7 @@ class AuthStore {
       const result = await this.getUserInfo(userId);
       const userInfo = result.data;
       this.setUserInfo(userInfo);
+      this.setIsAdmin(userInfo.adminType);
     }
   }
 

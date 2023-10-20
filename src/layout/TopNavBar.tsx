@@ -16,6 +16,7 @@ const TopNavBar = function () {
   console.log("UserInfo", authStore.userInfo);
 
   const userInfo = authStore.userInfo;
+  const userName = userInfo?.userName || "";
 
   //수정 모달
   const { modalShow: modModalShow, toggleModal: toggleModModal } = useModal();
@@ -43,7 +44,7 @@ const TopNavBar = function () {
           <div className="user-menu-icon">
             <i className="fe-user" />
           </div>
-          <NavDropdown title={"사용자"} id="basic-nav-dropdown">
+          <NavDropdown title={userName} id="basic-nav-dropdown">
             <NavDropdown.Item
               onClick={() => {
                 toggleModModal();
