@@ -47,6 +47,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
 ) {
   const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
   const isGroupDisabled = userFormInputsConfig.groupId?.disabled || false;
+  const isAdminTypeDisabled = userFormInputsConfig.adminType?.disabled || false;
   const adminTypeDefaultValue =
     userFormInputsConfig.adminType?.value === 0 ? 0 : 1;
   const { accountStore } = useStores();
@@ -241,6 +242,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             aria-label="Default select example"
             className="form-select"
             defaultValue={adminTypeDefaultValue}
+            disabled={isAdminTypeDisabled}
           >
             <option value={1}>관리자</option>
             <option value={0}>사용자</option>

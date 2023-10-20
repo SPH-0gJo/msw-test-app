@@ -61,6 +61,7 @@ const ProfileModifyModal = function ({
     },
     adminType: {
       value: user?.adminType ? 1 : 0,
+      disabled: true,
     },
   };
 
@@ -71,7 +72,7 @@ const ProfileModifyModal = function ({
       userId: user?.userId!,
       userName: data.userName,
       password: data.password === "" ? undefined : data.password,
-      adminType: Boolean(parseInt(data.adminType)),
+      adminType: user?.adminType!,
       groupId: data.groupId === "" ? undefined : data.groupId,
     };
 
