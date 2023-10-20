@@ -1,6 +1,7 @@
 import { createGet, createPost } from "@/shared/request";
 import { AuthMenu } from "@/shared/var/authMenu";
 import { User } from "@/shared/var/user";
+import { modUserData } from "../Account/AccountRepository";
 
 type LoginResData = {
   access_token: string;
@@ -32,6 +33,10 @@ class AuthRepository {
         id: userId,
       },
     });
+  }
+
+  modifyProfile(modUser: modUserData) {
+    return createPost<User>(this.PROFILE_URL + "/modify", modUser);
   }
 
   refresh() {

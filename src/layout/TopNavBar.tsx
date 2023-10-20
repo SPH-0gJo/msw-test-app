@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useStores } from "@/modules/Store";
 import FoldableWrapper from "./FoldableWrapper";
 import { observer } from "mobx-react";
-import UserModifyModal from "@/component/User/UserModifyModal";
 import { useModal } from "@/shared/hooks/modal";
+import ProfileModifyModal from "@/component/Profile/ProfileModifyModal";
 
 const TopNavBar = function () {
   const { authStore } = useStores();
@@ -64,7 +64,7 @@ const TopNavBar = function () {
           </NavDropdown>
         </div>
       </div>
-      <UserModifyModal
+      <ProfileModifyModal
         show={modModalShow}
         toggleShow={toggleModModal}
         onSubmitSuccess={() => {}}

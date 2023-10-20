@@ -6,6 +6,7 @@ import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo } from "@/shared/var/menu";
 import { decodeJwt } from "jose";
 import { User } from "@/shared/var/user";
+import { modUserData } from "../Account/AccountRepository";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
@@ -104,6 +105,12 @@ class AuthStore {
   @action
   setUserInfo(userInfo: User) {
     this.userInfo = userInfo;
+  }
+
+  async modifyProfile(modUser: modUserData) {
+    const result = await AuthRepository.modifyProfile(modUser);
+    console.log("AuthStore modifyProfile :::: ", result);
+    return result;
   }
 
   isRoleAdmin(role: Role) {
