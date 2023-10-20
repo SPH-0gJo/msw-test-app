@@ -46,7 +46,11 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
   ref
 ) {
   const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
+  const adminTypeDefaultValue =
+    userFormInputsConfig.adminType?.value === 0 ? 0 : 1;
   const { accountStore } = useStores();
+
+  console.log(userFormInputsConfig);
 
   useLayoutEffect(() => {
     if (accountStore.groups === null) {
@@ -232,7 +236,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             {...register("adminType")}
             aria-label="Default select example"
             className="form-select"
-            defaultValue={userFormInputsConfig.adminType?.value || 1}
+            defaultValue={adminTypeDefaultValue}
           >
             <option value={1}>관리자</option>
             <option value={0}>사용자</option>
