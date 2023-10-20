@@ -46,10 +46,16 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
   ref
 ) {
   const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
+  const isGroupDisabled = userFormInputsConfig.groupId?.disabled || false;
+  const isAdminTypeDisabled = userFormInputsConfig.adminType?.disabled || false;
+  const adminTypeDefaultValue =
+    userFormInputsConfig.adminType?.value === 0 ? 0 : 1;
   const { accountStore } = useStores();
 
+  console.log(userFormInputsConfig);
+
   useLayoutEffect(() => {
-    if (accountStore.groups === null) {
+    if (!isGroupDisabled && accountStore.groups === null) {
       accountStore
         .findAllGroups()
         .then((result) => {
@@ -117,10 +123,14 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             {...register("groupId")}
             aria-label="Default select example"
             className="form-select"
+            disabled={isGroupDisabled}
           >
-            {groups === null ? (
+            {isGroupDisabled && <option>{groupIdDefaultValue}</option>}
+            {!isGroupDisabled && groups === null && (
               <option>Loading...</option>
-            ) : (
+            )}{" "}
+            {!isGroupDisabled &&
+              groups &&
               [
                 { groupId: "", groupName: "선택 없음 (게스트로 등록)" },
                 ...groups,
@@ -132,8 +142,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
                 >
                   {groupName}
                 </option>
-              ))
-            )}
+              ))}
           </select>
         </div>
         {/* 이름 */}
@@ -232,7 +241,8 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             {...register("adminType")}
             aria-label="Default select example"
             className="form-select"
-            defaultValue={userFormInputsConfig.adminType?.value || 1}
+            defaultValue={adminTypeDefaultValue}
+            disabled={isAdminTypeDisabled}
           >
             <option value={1}>관리자</option>
             <option value={0}>사용자</option>

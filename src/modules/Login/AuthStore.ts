@@ -4,32 +4,45 @@ import AuthRepository from "./AuthRepository";
 import { RootStore } from "@/modules/Store";
 import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo } from "@/shared/var/menu";
+import { decodeJwt } from "jose";
+import { User } from "@/shared/var/user";
+import { modUserData } from "../Account/AccountRepository";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
+
+type Role = "ROLE_ADMIN" | "ROLE_USER";
 
 class AuthStore {
   @observable
   isLoggedIn = Boolean(localStorage.getItem(TOKEN));
   @observable
   authMenuInfoList: MenuInfo[] = [];
-  // authMenuInfoList: MenuInfo[] = JSON.parse(
-  //   localStorage.getItem("authMenu") || "[]"
-  // );
+  @observable
+  isAdmin = false;
+  @observable
+  userInfo: User | null = null;
+
   rootStore: RootStore;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    console.log("새로고침");
+    console.log("새로고침"); //navigate 한다고 발생하는 것은 아님.
 
     makeObservable(this);
 
-    //결과가 이전과 동일하다면 (이건 서버에서도 Cache-Control:max-age=0 설정을 해주어야함.. )
-    //https://toss.tech/article/smart-web-service-cache
-    // this.authMenuInfoList = JSON.parse(localStorage.getItem("authMenu"));
-    //아니라면 getAuthMenuList후 새롭게 this.authMenuInfoLis ...
     if (this.isLoggedIn) {
-      this.configAuthMenuInfoList();
+      //async, await을 쓰지 않는 Promise의 경우 .catch로 에러 캐치 (try~catch 아님)
+      //새로 고침시 configAuthMenuInfoList는 API 요청을 통해 토큰 만료여부 등을 확인하는 역할을 함
+      this.configAuthMenuInfoList()
+        .then(() => {
+          //this.configureIsAdmin();
+          return this.configureUserInfo();
+        })
+        .catch((e) => {
+          //configAuthMenuInfoList or configureIsAdmin 에서 발생한 에러 catch
+          console.error("Promise Chain Error", e);
+        });
     }
   }
 
@@ -46,12 +59,63 @@ class AuthStore {
     return result;
   }
 
-  @action
+  async getUserInfo(userId: string) {
+    const result = await AuthRepository.getUserInfo(userId);
+    console.log("AuthStore getUserInfo :::: ", result.data);
+    return result;
+  }
+
   async configAuthMenuInfoList() {
     const result = await this.getAuthMenuList();
     const authMenuInfoList = getMenuInfoList(result.data);
+    //this.authMenuInfoList = authMenuInfoList;
+    this.setAuthMenuInfoList(authMenuInfoList);
+    return authMenuInfoList;
+  }
+
+  @action
+  setAuthMenuInfoList(authMenuInfoList: MenuInfo[]) {
     this.authMenuInfoList = authMenuInfoList;
-    // localStorage.setItem("authMenu", JSON.stringify(authMenuInfoList));
+  }
+
+  configureIsAdmin() {
+    const token = localStorage.getItem(TOKEN);
+    if (token) {
+      const payload = decodeJwt(token);
+      const isAdmin = this.isRoleAdmin(payload.role as Role);
+      this.setIsAdmin(isAdmin);
+    }
+  }
+  @action
+  setIsAdmin(isAdmin: boolean) {
+    this.isAdmin = isAdmin;
+  }
+
+  async configureUserInfo() {
+    const token = localStorage.getItem(TOKEN);
+    if (token) {
+      const payload = decodeJwt(token);
+      const userId = payload.sub!;
+      const result = await this.getUserInfo(userId);
+      const userInfo = result.data;
+      this.setUserInfo(userInfo);
+      this.setIsAdmin(userInfo.adminType);
+    }
+  }
+
+  @action
+  setUserInfo(userInfo: User) {
+    this.userInfo = userInfo;
+  }
+
+  async modifyProfile(modUser: modUserData) {
+    const result = await AuthRepository.modifyProfile(modUser);
+    console.log("AuthStore modifyProfile :::: ", result);
+    return result;
+  }
+
+  isRoleAdmin(role: Role) {
+    return role === "ROLE_ADMIN";
   }
 
   logout() {

@@ -1,7 +1,7 @@
 //import "./index.css";
 import "@/resources/scss/main.scss";
 import AppContent from "./layout/AppContent";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Login from "./views/Login/Login";
 import Default from "./views/Default";
 
@@ -17,6 +17,7 @@ import SystemDefault from "./views/SystemDefault";
 import { rootPath } from "@/shared/env";
 import { useStores } from "@/modules/Store";
 import { observer } from "mobx-react";
+import RequireAdminRole from "./views/System/RequireAdminRole";
 
 const getRoutes = function (menuInfoList: MenuInfo[]) {
   return menuInfoList.map(({ path, children }) => {
@@ -48,7 +49,14 @@ const AppRoutes = function () {
           {/* "/" 요청시 라우팅 */}
           <Route index element={<Default />} />
           <Route element={<Dashboard />}>{getRoutes(authMenuInfoList)}</Route>
-          <Route path="system">
+          <Route
+            path="system"
+            element={
+              <RequireAdminRole>
+                <Outlet />
+              </RequireAdminRole>
+            }
+          >
             <Route index element={<SystemDefault />} />
             <Route path="group" index element={<Group />} />
             <Route path="user" element={<User />} />
