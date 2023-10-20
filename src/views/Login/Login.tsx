@@ -44,6 +44,9 @@ const Login = function () {
       //권한이 있는 메뉴 목록 요청 후 store에 세팅
       await authStore.configAuthMenuInfoList();
 
+      //ROLE 확인 후 store에 관리자 여부 세팅
+      await authStore.configureIsAdmin();
+
       //메인 화면으로 이동
       navigate("/");
     } catch (error: AxiosError<ErrorData, any> | any) {

@@ -4,10 +4,12 @@ import AuthRepository from "./AuthRepository";
 import { RootStore } from "@/modules/Store";
 import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo } from "@/shared/var/menu";
-import { jwtVerify } from "jose";
+import { decodeJwt } from "jose";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
+
+type Role = "ROLE_ADMIN" | "ROLE_USER";
 
 class AuthStore {
   @observable
@@ -27,6 +29,7 @@ class AuthStore {
 
     if (this.isLoggedIn) {
       //async, await을 쓰지 않는 Promise의 경우 .catch로 에러 캐치 (try~catch 아님)
+      //새로 고침시 configAuthMenuInfoList는 API 요청을 통해 토큰 만료여부 등을 확인하는 역할을 함
       this.configAuthMenuInfoList()
         .then((value) => {
           console.log(value);
@@ -61,21 +64,18 @@ class AuthStore {
     return authMenuInfoList;
   }
 
+  @action
   configureIsAdmin() {
     const token = localStorage.getItem(TOKEN);
-    const secretKey =
-      "7fbfd344d1a975b2f630a01fc7be5f2f136edae363607f11e3f35df516da9500";
-    const secret = new TextEncoder().encode(secretKey);
     if (token) {
-      jwtVerify(token, secret)
-        .then((result) => {
-          const { payload } = result;
-          console.log("token--------------------", payload);
-        })
-        .catch((e) => {
-          console.error(e);
-        });
+      const payload = decodeJwt(token);
+      console.log("payload", payload);
+      this.isAdmin = this.isRoleAdmin(payload.role as Role);
     }
+  }
+
+  isRoleAdmin(role: Role) {
+    return role === "ROLE_ADMIN";
   }
 
   logout() {

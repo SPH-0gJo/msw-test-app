@@ -4,9 +4,12 @@ import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { useStores } from "@/modules/Store";
 import FoldableWrapper from "./FoldableWrapper";
+import { observer } from "mobx-react";
 
 const TopNavBar = function () {
   const { authStore } = useStores();
+
+  const isAdmin = authStore.isAdmin;
 
   const navigate = useNavigate();
 
@@ -31,19 +34,16 @@ const TopNavBar = function () {
           <div className="user-menu-icon">
             <i className="fe-user" />
           </div>
-          {/* <div className="user-menu-dropdown">
-            <a href="#">
-              관리자 <i className="mdi mdi-chevron-down" />
-            </a>
-          </div> */}
           <NavDropdown title={"사용자"} id="basic-nav-dropdown">
             <NavDropdown.Item onClick={handleLogoutBtnClick}>
               로그아웃
             </NavDropdown.Item>
             <NavDropdown.Divider />
-            <NavDropdown.Item onClick={handleSysPageBtnClick}>
-              관리자 페이지
-            </NavDropdown.Item>
+            {isAdmin ? (
+              <NavDropdown.Item onClick={handleSysPageBtnClick}>
+                관리자 페이지
+              </NavDropdown.Item>
+            ) : null}
           </NavDropdown>
         </div>
       </div>
@@ -51,4 +51,4 @@ const TopNavBar = function () {
   );
 };
 
-export default TopNavBar;
+export default observer(TopNavBar);
