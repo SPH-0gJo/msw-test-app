@@ -10,7 +10,7 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
     if (children && children.length > 0) {
       return (
         <HasSubMenuLink
-          icon={icon ? <i className={icon} /> : null}
+          icon={<i className={"mdi mdi-chart-box-outline"} />}
           title={title}
           subMenues={children}
           level={level}
