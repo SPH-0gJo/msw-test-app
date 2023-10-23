@@ -7,8 +7,10 @@ import UserStore from "./User/UserStore";
 import AuthorityStore from "./Authority/AuthorityStore";
 import MenuStore from "./Menu/MenuStore";
 import LogStore from "./Log/LogStore";
+import CommonStore from "./CommonStore";
 
 export class RootStore {
+  commonStore: CommonStore;
   userStore: UserStore;
   authStore: AuthStore;
   dashboardStore: DashboardStore;
@@ -18,6 +20,7 @@ export class RootStore {
   menuStore: MenuStore;
   logStore: LogStore;
   constructor() {
+    this.commonStore = new CommonStore(this);
     this.userStore = new UserStore(this);
     this.authStore = new AuthStore(this);
     this.dashboardStore = new DashboardStore(this);
