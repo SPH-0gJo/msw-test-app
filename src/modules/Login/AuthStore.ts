@@ -10,6 +10,7 @@ import { modUserData } from "../Account/AccountRepository";
 
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
+const IS_ADMIN = "is_admin";
 
 type Role = "ROLE_ADMIN" | "ROLE_USER";
 
@@ -19,7 +20,7 @@ class AuthStore {
   @observable
   authMenuInfoList: MenuInfo[] = [];
   @observable
-  isAdmin = false;
+  isAdmin = localStorage.getItem(IS_ADMIN) === "t";
   @observable
   userInfo: User | null = null;
 
@@ -88,6 +89,8 @@ class AuthStore {
   }
   @action
   setIsAdmin(isAdmin: boolean) {
+    const strIsAdmin = isAdmin ? "t" : "f";
+    localStorage.setItem(IS_ADMIN, strIsAdmin);
     this.isAdmin = isAdmin;
   }
 
