@@ -17,7 +17,9 @@ const GroupRegisterModal = function (props: GroupRegisterModalProps) {
     toggleShow();
   };
 
-  const { groupStore } = useStores();
+  const { groupStore, commonStore } = useStores();
+
+  const customAlert = commonStore.setToastMessage;
 
   const handleFormValid: SubmitHandler<GroupFormInputs> = async function (
     data
@@ -26,14 +28,16 @@ const GroupRegisterModal = function (props: GroupRegisterModalProps) {
 
     try {
       await groupStore.addGroup(data.groupName);
-      alert(SUCCESS.PROCCESSED);
+      //alert(SUCCESS.PROCCESSED);
+      customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
       //데이터 불러오기
       onSubmitSuccess();
     } catch (error) {
       console.error(error);
-      alert(ERROR.NOT_PROCESSED);
+      //alert(ERROR.NOT_PROCESSED);
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   };
 

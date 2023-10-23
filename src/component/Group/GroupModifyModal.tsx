@@ -21,7 +21,9 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
     toggleShow();
   };
 
-  const { groupStore } = useStores();
+  const { groupStore, commonStore } = useStores();
+
+  const customAlert = commonStore.setToastMessage;
 
   const handleFormValid: SubmitHandler<GroupFormInputs> = async function (
     data
@@ -30,7 +32,8 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
 
     try {
       await groupStore.modifyGroup(group?.groupId!, data.groupName);
-      alert(SUCCESS.PROCCESSED);
+      //alert(SUCCESS.PROCCESSED);
+      customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
       //데이터 불러오기

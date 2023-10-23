@@ -58,12 +58,14 @@ const Group = function () {
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
-  const { groupStore } = useStores();
+  const { groupStore, commonStore } = useStores();
 
   const handleGroupModBtnClick = (group: TGroup) => {
     setModifyGroup(group);
     toggleModModal();
   };
+
+  const customAlert = commonStore.setToastMessage;
 
   const loadTableData = useCallback(function () {
     groupStore
@@ -75,7 +77,8 @@ const Group = function () {
         }
       })
       .catch((error) => {
-        alert(ERROR.NOT_PROCESSED);
+        //alert(ERROR.NOT_PROCESSED);
+        customAlert(ERROR.NOT_PROCESSED, "FAIL");
         console.error(error);
       });
   }, []);
@@ -104,7 +107,8 @@ const Group = function () {
         .deleteGroups(selectedDataArr)
         .then((result) => {
           if (result.data) {
-            alert(SUCCESS.PROCCESSED);
+            //alert(SUCCESS.PROCCESSED);
+            customAlert(SUCCESS.PROCCESSED);
             setPage(firstPage);
             loadTableData();
           } else {
@@ -113,7 +117,8 @@ const Group = function () {
         })
         .catch((e) => {
           console.error(e);
-          alert(ERROR.NOT_PROCESSED);
+          //alert(ERROR.NOT_PROCESSED);
+          customAlert(ERROR.NOT_PROCESSED, "FAIL");
         });
     }
   }, [selectedData]);
