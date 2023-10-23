@@ -392,12 +392,21 @@
   border: 1px solid #dee2e6;
   border-radius: 30px;
   font-size: 14px;
-  padding: 0px 20px;
+  padding: 0 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   height: 38px;
+
+  & + .dropdown-menu {
+    margin: 0;
+    padding: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    transform: translate(0, 43px);
+    box-shadow: 4px 4px 10px rgba(0,0,0,0.05);
+  }
 }
 
 .btn-wrap {
