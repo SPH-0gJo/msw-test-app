@@ -21,7 +21,7 @@ const getThemeMember = (theme: ToastTheme) => {
 
 const CustomToast = (props: CustomToastProps) => {
   const { commonStore } = useStores();
-  const { message, theme } = commonStore.toastState;
+  const { theme, message } = commonStore.toastState;
 
   const { color, icon } = getThemeMember(theme);
 
@@ -35,7 +35,7 @@ const CustomToast = (props: CustomToastProps) => {
     } else {
       setShow(true);
     }
-  }, [message]);
+  }, [commonStore.toastState]);
 
   return (
     <Toast
