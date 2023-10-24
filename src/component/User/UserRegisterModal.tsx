@@ -56,7 +56,7 @@ const UserRegisterModal = function ({
       return !result.data || "이미 사용중인 아이디입니다.";
     } catch (error: AxiosError<ErrorData, any> | any) {
       console.error(error);
-      customAlert(ERROR.NOT_PROCESSED);
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   }, []);
 
@@ -86,7 +86,7 @@ const UserRegisterModal = function ({
         onSubmitSuccess();
       } catch (error) {
         console.error(error);
-        customAlert(ERROR.NOT_PROCESSED);
+        customAlert(ERROR.NOT_PROCESSED, "FAIL");
       }
     };
 

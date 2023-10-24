@@ -66,7 +66,7 @@ const Authority = function () {
 
   async function clickSave() {
     if (selectedGroupId.length <= 0) {
-      customAlert(ERROR.NO_SELECTION);
+      customAlert(ERROR.NO_SELECTION, "FAIL");
       return;
     }
 
