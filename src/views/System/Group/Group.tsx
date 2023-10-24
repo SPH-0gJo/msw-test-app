@@ -17,6 +17,7 @@ import {
 } from "@/shared/var/group";
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import GroupModifyModal from "@/component/Group/GroupModifyModal";
+import { customConfirm } from "@/confirm-lib/util";
 
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -99,8 +100,9 @@ const Group = function () {
     });
   }, []);
 
-  const handleDeleteBtnClick = useCallback(() => {
-    const isConfirmed = window.confirm(CONFIRM.DELETE);
+  const handleDeleteBtnClick = useCallback(async () => {
+    //const isConfirmed = window.confirm(CONFIRM.DELETE);
+    const isConfirmed = await customConfirm(CONFIRM.DELETE);
     if (isConfirmed) {
       const selectedDataArr = Array.from(selectedData);
       groupStore
