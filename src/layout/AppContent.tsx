@@ -5,7 +5,7 @@ import TopNavBar from "./TopNavBar";
 import LeftSideMenu from "./LeftSideMenu";
 import FoldableWrapper from "./FoldableWrapper";
 import loadLeftMenuScript from "@/main";
-import CustomToast from "@/component/ui-components/CustomToast";
+import CustomToast from "@/component/CustomToast";
 import { ToastContainer } from "react-bootstrap";
 
 function AppContent() {

@@ -1,7 +1,6 @@
 import { action, makeObservable, observable } from "mobx";
 import { RootStore } from "@/modules/Store";
-import { ToastTheme } from "@/component/ui-components/CustomToast";
-
+import { ToastTheme } from "@/component/CustomToast";
 interface ToastState {
   message?: string;
   theme: ToastTheme;
