@@ -101,7 +101,6 @@ const Group = function () {
   }, []);
 
   const handleDeleteBtnClick = useCallback(async () => {
-    //const isConfirmed = window.confirm(CONFIRM.DELETE);
     const isConfirmed = await customConfirm(CONFIRM.DELETE);
     if (isConfirmed) {
       const selectedDataArr = Array.from(selectedData);

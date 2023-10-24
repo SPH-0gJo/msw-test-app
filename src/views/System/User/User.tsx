@@ -20,6 +20,7 @@ import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import { useModal } from "@/shared/hooks/modal";
 import UserModifyModal from "@/component/User/UserModifyModal";
 import { User as TUser } from "@/shared/var/user";
+import { customConfirm } from "@/confirm-lib/util";
 
 const User = function () {
   const { accountStore } = useStores();
@@ -179,8 +180,8 @@ const User = function () {
 
   const [selectedData, setSelectedData] = useState(new Set<string>());
 
-  const handleDeleteBtnClick = useCallback(() => {
-    const isConfirmed = window.confirm(CONFIRM.DELETE);
+  const handleDeleteBtnClick = useCallback(async () => {
+    const isConfirmed = await customConfirm(CONFIRM.DELETE);
     if (isConfirmed) {
       const selectedDataArr = Array.from(selectedData);
       accountStore

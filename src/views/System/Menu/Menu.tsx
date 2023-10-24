@@ -4,6 +4,7 @@ import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";
+import { customConfirm } from "@/confirm-lib/util";
 import { useStores } from "@/modules/Store";
 import { useModal } from "@/shared/hooks/modal";
 import { paginateData, searchData } from "@/shared/util/table";
@@ -98,8 +99,8 @@ const Menu = function () {
     });
   }, []);
 
-  const handleDeleteBtnClick = useCallback(() => {
-    const isConfirmed = window.confirm(CONFIRM.DELETE);
+  const handleDeleteBtnClick = useCallback(async () => {
+    const isConfirmed = await customConfirm(CONFIRM.DELETE);
     if (isConfirmed) {
       const selectedDataArr = Array.from(selectedData);
       menuStore
