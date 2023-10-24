@@ -5,6 +5,7 @@ export const ERROR = {
   STATUS_OK_BUT_FAIL: "200 OK, but result data is failed",
   EXIST_GROUP_NAME: "이미 사용중인 그룹명입니다.",
   EXIST_MENU_PATH_NAME: "이미 사용중인 영문메뉴명입니다.",
+  NO_SELECTION: "작업할 항목을 선택해주세요",
 };
 
 export const CONFIRM = {

@@ -50,7 +50,10 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
   const isAdminTypeDisabled = userFormInputsConfig.adminType?.disabled || false;
   const adminTypeDefaultValue =
     userFormInputsConfig.adminType?.value === 0 ? 0 : 1;
-  const { accountStore } = useStores();
+  const {
+    accountStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   console.log(userFormInputsConfig);
 
@@ -73,7 +76,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
         })
         .catch((error) => {
           console.error(error);
-          alert(error);
+          customAlert(error, "FAIL");
         });
     }
   }, []);

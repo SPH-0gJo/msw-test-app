@@ -22,7 +22,10 @@ const UserModifyModal = function ({
   user,
   onSubmitSuccess,
 }: UserModifyModalProps) {
-  const { accountStore } = useStores();
+  const {
+    accountStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   const formRef = useRef<ExternalUserForm>(null);
 
@@ -76,14 +79,14 @@ const UserModifyModal = function ({
 
     try {
       await accountStore.modifyAccount(modUser);
-      alert(SUCCESS.PROCCESSED);
+      customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
       //데이터 불러오기
       onSubmitSuccess();
     } catch (error) {
       console.error(error);
-      alert(ERROR.NOT_PROCESSED);
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   };
 

@@ -43,15 +43,17 @@ const GroupForm = function ({
 
   const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
 
-  const { groupStore } = useStores();
+  const { groupStore, commonStore } = useStores();
+
+  const customAlert = commonStore.setToastMessage;
 
   const isGroupNameExist = useCallback(async (groupName: string) => {
     try {
       const result = await groupStore.isExist(groupName);
       return !result.data || ERROR.EXIST_GROUP_NAME;
     } catch (error: AxiosError<ErrorData, any> | any) {
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
       console.error(error);
-      alert(ERROR.NOT_PROCESSED);
     }
   }, []);
 

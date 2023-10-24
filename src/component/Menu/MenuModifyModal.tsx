@@ -25,7 +25,8 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
     toggleShow();
   };
 
-  const { menuStore } = useStores();
+  const { menuStore, commonStore } = useStores();
+  const customAlert = commonStore.setToastMessage;
 
   const handleFormValid: SubmitHandler<MenuFormInputs> = async function (data) {
     console.log("모든 필드 validation 후 문제 없을 때 호출");
@@ -39,7 +40,7 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
 
     try {
       await menuStore.modifyMenu(param);
-      alert(SUCCESS.PROCCESSED);
+      customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
       //데이터 불러오기
@@ -48,11 +49,11 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
       console.error(error);
       if (error.response) {
         if (error.response.data.code === -401) {
-          alert(ERROR.EXIST_MENU_PATH_NAME);
+          customAlert(ERROR.EXIST_MENU_PATH_NAME, "FAIL");
           return;
         }
       }
-      alert(ERROR.NOT_PROCESSED);
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   };
 

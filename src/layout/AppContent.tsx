@@ -5,6 +5,8 @@ import TopNavBar from "./TopNavBar";
 import LeftSideMenu from "./LeftSideMenu";
 import FoldableWrapper from "./FoldableWrapper";
 import loadLeftMenuScript from "@/main";
+import CustomToast from "@/component/CustomToast";
+import { ToastContainer } from "react-bootstrap";
 
 function AppContent() {
   useEffect(() => {
@@ -13,6 +15,9 @@ function AppContent() {
 
   return (
     <>
+      <ToastContainer position="top-center">
+        <CustomToast />
+      </ToastContainer>
       {/* Top NavBar */}
       <TopNavBar />
       {/* Left Side Menu */}

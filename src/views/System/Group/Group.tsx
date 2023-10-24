@@ -17,6 +17,7 @@ import {
 } from "@/shared/var/group";
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import GroupModifyModal from "@/component/Group/GroupModifyModal";
+import { customConfirm } from "@/confirm-lib/util";
 
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -58,12 +59,14 @@ const Group = function () {
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
-  const { groupStore } = useStores();
+  const { groupStore, commonStore } = useStores();
 
   const handleGroupModBtnClick = (group: TGroup) => {
     setModifyGroup(group);
     toggleModModal();
   };
+
+  const customAlert = commonStore.setToastMessage;
 
   const loadTableData = useCallback(function () {
     groupStore
@@ -75,7 +78,8 @@ const Group = function () {
         }
       })
       .catch((error) => {
-        alert(ERROR.NOT_PROCESSED);
+        //alert(ERROR.NOT_PROCESSED);
+        customAlert(ERROR.NOT_PROCESSED, "FAIL");
         console.error(error);
       });
   }, []);
@@ -96,15 +100,16 @@ const Group = function () {
     });
   }, []);
 
-  const handleDeleteBtnClick = useCallback(() => {
-    const isConfirmed = window.confirm(CONFIRM.DELETE);
+  const handleDeleteBtnClick = useCallback(async () => {
+    const isConfirmed = await customConfirm(CONFIRM.DELETE);
     if (isConfirmed) {
       const selectedDataArr = Array.from(selectedData);
       groupStore
         .deleteGroups(selectedDataArr)
         .then((result) => {
           if (result.data) {
-            alert(SUCCESS.PROCCESSED);
+            //alert(SUCCESS.PROCCESSED);
+            customAlert(SUCCESS.PROCCESSED);
             setPage(firstPage);
             loadTableData();
           } else {
@@ -113,7 +118,8 @@ const Group = function () {
         })
         .catch((e) => {
           console.error(e);
-          alert(ERROR.NOT_PROCESSED);
+          //alert(ERROR.NOT_PROCESSED);
+          customAlert(ERROR.NOT_PROCESSED, "FAIL");
         });
     }
   }, [selectedData]);

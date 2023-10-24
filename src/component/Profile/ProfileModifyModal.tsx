@@ -22,7 +22,10 @@ const ProfileModifyModal = function ({
   user,
   onSubmitSuccess,
 }: UserModifyModalProps) {
-  const { authStore } = useStores();
+  const {
+    authStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   const formRef = useRef<ExternalUserForm>(null);
 
@@ -82,14 +85,14 @@ const ProfileModifyModal = function ({
       const { data } = await authStore.modifyProfile(modUser);
       //수정후 store에 userInfo 변경
       authStore.setUserInfo(data);
-      alert(SUCCESS.PROCCESSED);
+      customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
       //데이터 불러오기
       onSubmitSuccess();
     } catch (error) {
       console.error(error);
-      alert(ERROR.NOT_PROCESSED);
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   };
 

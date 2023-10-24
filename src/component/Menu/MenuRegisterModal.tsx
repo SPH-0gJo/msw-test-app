@@ -20,7 +20,10 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
     toggleShow();
   };
 
-  const { menuStore } = useStores();
+  const {
+    menuStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   const handleFormValid: SubmitHandler<MenuFormInputs> = async function (data) {
     console.log("모든 필드 validation 후 문제 없을 때 호출", data);
@@ -34,7 +37,7 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
 
     try {
       await menuStore.addMenu(param);
-      alert(SUCCESS.PROCCESSED);
+      customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
       //데이터 불러오기
@@ -43,11 +46,11 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
       console.error(error);
       if (error.response) {
         if (error.response.data.code === -401) {
-          alert(ERROR.EXIST_MENU_PATH_NAME);
+          customAlert(ERROR.EXIST_MENU_PATH_NAME, "FAIL");
           return;
         }
       }
-      alert(ERROR.NOT_PROCESSED);
+      customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   };
 
