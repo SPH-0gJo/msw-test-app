@@ -18,10 +18,10 @@ type ConfirmationProps = ConfirmDialogProps<CustomConfirmOpts, boolean>;
 
 const Confirmation = (props: ConfirmationProps) => (
   <Modal
-    animation={false}
+    // animation={false}
     show={props.show}
     onHide={() => props.proceed(false)}
-    backdrop={true}
+    // backdrop={true}
     className="custom-modal"
   >
     <Modal.Header>
@@ -30,10 +30,10 @@ const Confirmation = (props: ConfirmationProps) => (
     <Modal.Body>{props.confirmation}</Modal.Body>
     <Modal.Footer>
       <Button onClick={() => props.proceed(false)}>
-        {props.cancelLabel || "cancel"}
+        {props.cancelLabel || "취소"}
       </Button>
       <Button className="button-l" onClick={() => props.proceed(true)}>
-        {props.okLabel || "ok"}
+        {props.okLabel || "확인"}
       </Button>
     </Modal.Footer>
   </Modal>
