@@ -23,7 +23,10 @@ import { User as TUser } from "@/shared/var/user";
 import { customConfirm } from "@/confirm-lib/util";
 
 const User = function () {
-  const { accountStore } = useStores();
+  const {
+    accountStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   //등록 모달
   const { modalShow: regModalShow, toggleModal: toggleRegModal } = useModal();
@@ -188,7 +191,7 @@ const User = function () {
         .deleteAccounts(selectedDataArr)
         .then((result) => {
           if (result.data) {
-            alert(SUCCESS.PROCCESSED);
+            customAlert(SUCCESS.PROCCESSED);
             setPage(firstPage);
             loadTableData();
           } else {
@@ -197,7 +200,7 @@ const User = function () {
         })
         .catch((e) => {
           console.error(e);
-          alert(ERROR.NOT_PROCESSED);
+          customAlert(ERROR.NOT_PROCESSED, "FAIL");
         });
     }
   }, [selectedData]);

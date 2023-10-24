@@ -96,7 +96,10 @@ const Log = function () {
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
-  const { logStore } = useStores();
+  const {
+    logStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   const loadTableData = useCallback(
     function () {
@@ -111,7 +114,7 @@ const Log = function () {
           }
         })
         .catch((error) => {
-          alert(ERROR.NOT_PROCESSED);
+          customAlert(ERROR.NOT_PROCESSED, "FAIL");
           console.error(error);
         });
     },
@@ -194,12 +197,11 @@ const Log = function () {
 
             <div className="table-search-wrap">
               <TableSearch<LogTableData>
-                  optionList={searchOptionList}
-                  onSubmit={handleSearchBtnClick}
+                optionList={searchOptionList}
+                onSubmit={handleSearchBtnClick}
               />
             </div>
           </div>
-
 
           <div className="btn-wrap">
             <CSVLink

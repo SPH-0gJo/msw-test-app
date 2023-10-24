@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { ERROR } from "@/shared/var/msg";
+import { ERROR, SUCCESS } from "@/shared/var/msg";
 import FieldErrorBox from "../ui-components/FieldErrorBox";
 import { AccountAddReqData } from "@/modules/Account/AccountRepository";
 import { useStores } from "@/modules/Store";
@@ -26,7 +26,11 @@ const UserRegisterModal = function ({
   toggleShow,
   onSubmitSuccess,
 }: UserRegisterModalProps) {
-  const { groupStore, accountStore } = useStores();
+  const {
+    groupStore,
+    accountStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   const [groups, setGroups] = useState<Group[]>([]);
 
@@ -52,9 +56,7 @@ const UserRegisterModal = function ({
       return !result.data || "이미 사용중인 아이디입니다.";
     } catch (error: AxiosError<ErrorData, any> | any) {
       console.error(error);
-      alert(
-        "서버와의 통신 중 오류가 발생헀습니다. 관리자에게 문의하여 주세요."
-      );
+      customAlert(ERROR.NOT_PROCESSED);
     }
   }, []);
 
@@ -77,22 +79,20 @@ const UserRegisterModal = function ({
 
       try {
         await accountStore.addAccount(addFormData);
-        alert("등록이 완료되었습니다");
+        customAlert(SUCCESS.PROCCESSED);
         //팝업 창 리셋 후 닫기
         formHideHandler();
         //데이터 불러오기
         onSubmitSuccess();
       } catch (error) {
         console.error(error);
-        alert("작업 중 오류가 발생했습니다. 관리자에게 문의하세요.");
+        customAlert(ERROR.NOT_PROCESSED);
       }
     };
 
   //필드 중 유효하지 않은 값이 있을 때 호출
   const formValidFailCallback: SubmitErrorHandler<UserRegisterFormInputs> =
-    function () {
-      alert("유효하지 않은 입력값이 있습니다.");
-    };
+    function () {};
 
   //useCallback 사용불가
   const formHideHandler = () => {

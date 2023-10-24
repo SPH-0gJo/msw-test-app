@@ -59,7 +59,10 @@ const Menu = function () {
 
   //@@@@@@@ 컴포넌트 로직 @@@@@@@
 
-  const { menuStore } = useStores();
+  const {
+    menuStore,
+    commonStore: { setToastMessage: customAlert },
+  } = useStores();
 
   const handleMenuModBtnClick = (menu: TMenu) => {
     setModifyMenu(menu);
@@ -78,7 +81,7 @@ const Menu = function () {
         }
       })
       .catch((error) => {
-        alert(ERROR.NOT_PROCESSED);
+        customAlert(ERROR.NOT_PROCESSED, "FAIL");
         console.error(error);
       });
   }, []);
@@ -107,7 +110,7 @@ const Menu = function () {
         .deleteMenus(selectedDataArr)
         .then((result) => {
           if (result.data) {
-            alert(SUCCESS.PROCCESSED);
+            customAlert(SUCCESS.PROCCESSED);
             setPage(firstPage);
             loadTableData();
           } else {
@@ -116,7 +119,7 @@ const Menu = function () {
         })
         .catch((e) => {
           console.error(e);
-          alert(ERROR.NOT_PROCESSED);
+          customAlert(ERROR.NOT_PROCESSED, "FAIL");
         });
     }
   }, [selectedData]);

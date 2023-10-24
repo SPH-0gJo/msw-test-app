@@ -28,7 +28,6 @@ const GroupRegisterModal = function (props: GroupRegisterModalProps) {
 
     try {
       await groupStore.addGroup(data.groupName);
-      //alert(SUCCESS.PROCCESSED);
       customAlert(SUCCESS.PROCCESSED);
       //팝업 창 리셋 후 닫기
       formHideHandler();
@@ -36,7 +35,6 @@ const GroupRegisterModal = function (props: GroupRegisterModalProps) {
       onSubmitSuccess();
     } catch (error) {
       console.error(error);
-      //alert(ERROR.NOT_PROCESSED);
       customAlert(ERROR.NOT_PROCESSED, "FAIL");
     }
   };
