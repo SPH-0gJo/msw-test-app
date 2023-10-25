@@ -16,6 +16,12 @@ function NonSelectableTable<T>({
 
   return (
     <table className="table table-custom">
+      {/* colgroup */}
+      <colgroup>
+        {columns.map((col) => (
+          <col key={col.key as string} width={col.width || "auto"} />
+        ))}
+      </colgroup>
       {/* headers */}
       <thead>
         <tr>

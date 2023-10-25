@@ -49,6 +49,7 @@ export const menuColumns: Column<MenuTableData>[] = [
   {
     key: "no",
     value: "NO",
+    width: "5%",
   },
   {
     key: "menuUrl",
@@ -57,18 +58,22 @@ export const menuColumns: Column<MenuTableData>[] = [
   {
     key: "menuName",
     value: "메뉴명",
+    width: "15%",
   },
   {
     key: "menupathName",
     value: "영문 메뉴명",
+    width: "15%",
   },
   {
     key: "registDate",
     value: "등록일",
+    width: "20%",
   },
   {
     key: "mng",
     value: "관리",
+    width: "10%",
   },
 ];
 

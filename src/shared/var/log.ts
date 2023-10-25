@@ -24,18 +24,22 @@ export const logColumns: Column<LogTableData>[] = [
   {
     key: "seq",
     value: "NO",
+    width: "5%",
   },
   {
     key: "loginDate",
     value: "접속일시",
+    width: "25%",
   },
   {
     key: "userId",
     value: "사용자 아이디",
+    width: "15%",
   },
   {
     key: "userName",
     value: "사용자명",
+    width: "15%",
   },
   {
     key: "groupName",
@@ -44,6 +48,7 @@ export const logColumns: Column<LogTableData>[] = [
   {
     key: "adminType",
     value: "유형",
+    width: "10%",
   },
 ];
 

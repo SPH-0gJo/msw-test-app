@@ -101,13 +101,10 @@ const User = function () {
 
   const columns: Column<UserTableData>[] = useMemo(
     () => [
-      // {
-      //   key: "ckbox",
-      //   value: <CheckBox />,
-      // },
       {
         key: "no",
         value: "NO",
+        width: "5%",
       },
       {
         key: "groupName",
@@ -116,18 +113,22 @@ const User = function () {
       {
         key: "userId",
         value: "아이디",
+        width: "10%",
       },
       {
         key: "userName",
         value: "이름",
+        width: "20%",
       },
       {
         key: "registDate",
         value: "등록일",
+        width: "20%",
       },
       {
         key: "mng",
         value: "관리",
+        width: "10%",
       },
     ],
     []

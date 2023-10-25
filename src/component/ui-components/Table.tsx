@@ -1,6 +1,5 @@
 import { Column } from "@/shared/type/table";
-import React, { useState } from "react";
-import CheckBox from "./CheckBox";
+import React from "react";
 
 interface TableProps<T> {
   columns: Column<T>[];
@@ -50,6 +49,13 @@ function Table<T>({
 
   return (
     <table className="table table-custom">
+      {/* colgroup */}
+      <colgroup>
+        {isSelectable && <col width={"5%"} />}
+        {columns.map((col) => (
+          <col key={col.key as string} width={col.width || "auto"} />
+        ))}
+      </colgroup>
       {/* headers */}
       <thead>
         <tr>

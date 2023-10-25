@@ -41,6 +41,7 @@ export const groupColumns: Column<GroupTableData>[] = [
   {
     key: "no",
     value: "NO",
+    width: "5%",
   },
   {
     key: "groupName",
@@ -49,10 +50,12 @@ export const groupColumns: Column<GroupTableData>[] = [
   {
     key: "registDate",
     value: "등록일",
+    width: "20%",
   },
   {
     key: "mng",
     value: "관리",
+    width: "10%",
   },
 ];
 
