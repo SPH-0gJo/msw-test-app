@@ -36,6 +36,7 @@ const Log = function () {
   //Table 데이터 영역
   const columns = useMemo(() => logColumns, []);
   const [originData, setOriginData] = useState<LogTableData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   //Search 영역
   const searchOptionList = useMemo(() => logSearchOptionList, []);
@@ -103,6 +104,7 @@ const Log = function () {
 
   const loadTableData = useCallback(
     function () {
+      setIsLoading(true);
       const startDateParam = format(startDate, "yyyy-MM-dd");
       const endDateParam = format(endDate, "yyyy-MM-dd");
       logStore
@@ -116,6 +118,9 @@ const Log = function () {
         .catch((error) => {
           customAlert(ERROR.NOT_PROCESSED, "FAIL");
           console.error(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
     },
     [startDate, endDate]
@@ -216,8 +221,10 @@ const Log = function () {
           </div>
         </div>
         <div className="table-wrap">
-          {originData.length === 0 ? (
+          {isLoading ? (
             <div>Loading...</div>
+          ) : originData.length === 0 ? (
+            <div>No Data</div>
           ) : (
             <NonSelectableTable<LogTableData>
               columns={columns}
