@@ -3,11 +3,10 @@ import "@/resources/scss/main.scss";
 import AppContent from "./layout/AppContent";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Login from "./views/Login/Login";
-import Default from "./views/Default";
 
 import User from "./views/System/User/User";
 import RequireAuth from "./views/Login/RequireAuth";
-import { MenuInfo, menuInfoList } from "./shared/var/menu";
+import { MenuInfo } from "./shared/var/menu";
 import Dashboard from "./views/Dashboard/Dashboard";
 import Group from "./views/System/Group/Group";
 import Menu from "./views/System/Menu/Menu";
@@ -18,6 +17,8 @@ import { rootPath } from "@/shared/env";
 import { useStores } from "@/modules/Store";
 import { observer } from "mobx-react";
 import RequireAdminRole from "./views/System/RequireAdminRole";
+import Default from "./views/Default";
+import Index from "./views/Index";
 
 const getRoutes = function (menuInfoList: MenuInfo[]) {
   return menuInfoList.map(({ path, children }) => {
@@ -34,6 +35,8 @@ const AppRoutes = function () {
 
   const authMenuInfoList = authStore.authMenuInfoList;
 
+  //console.log("AppRoutes :: authMenuInfoList", authMenuInfoList);
+
   return (
     // <StoreProvider value={stores}>
     <BrowserRouter basename={`/${rootPath}`}>
@@ -47,7 +50,7 @@ const AppRoutes = function () {
           }
         >
           {/* "/" 요청시 라우팅 */}
-          <Route index element={<Default />} />
+          <Route index element={<Index />} />
           <Route element={<Dashboard />}>{getRoutes(authMenuInfoList)}</Route>
           <Route
             path="system"

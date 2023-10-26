@@ -23,6 +23,8 @@ class AuthStore {
   isAdmin = localStorage.getItem(IS_ADMIN) === "t";
   @observable
   userInfo: User | null = null;
+  @observable
+  isAuthMenuListLoading: boolean = false;
 
   rootStore: RootStore;
 
@@ -33,9 +35,13 @@ class AuthStore {
     makeObservable(this);
 
     if (this.isLoggedIn) {
+      this.setIsAuthMenuListLoading(true);
       //async, await을 쓰지 않는 Promise의 경우 .catch로 에러 캐치 (try~catch 아님)
       //새로 고침시 configAuthMenuInfoList는 API 요청을 통해 토큰 만료여부 등을 확인하는 역할을 함
       this.configAuthMenuInfoList()
+        .finally(() => {
+          this.setIsAuthMenuListLoading(false);
+        })
         .then(() => {
           //this.configureIsAdmin();
           return this.configureUserInfo();
@@ -72,6 +78,11 @@ class AuthStore {
     //this.authMenuInfoList = authMenuInfoList;
     this.setAuthMenuInfoList(authMenuInfoList);
     return authMenuInfoList;
+  }
+
+  @action
+  setIsAuthMenuListLoading(isLoading: boolean) {
+    this.isAuthMenuListLoading = isLoading;
   }
 
   @action
