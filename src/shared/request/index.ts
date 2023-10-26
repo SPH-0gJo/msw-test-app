@@ -113,11 +113,15 @@ axios.interceptors.response.use(
         return retryOriginalRequest;
       }
     } else if (status === 401 || status === 403) {
-      // /auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
-      console.log("login 페이지 이동");
-      localStorage.removeItem("token");
-      localStorage.removeItem("r_token");
-      window.location.href = rootPath === "" ? "/login" : `/${rootPath}/login`;
+      //auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
+      if (config.url !== "/auth/login") {
+        console.log("login 페이지 이동");
+        localStorage.removeItem("token");
+        localStorage.removeItem("r_token");
+        window.location.href =
+          rootPath === "" ? "/login" : `/${rootPath}/login`;
+      }
+      //로그인에 실패한 경우는 로그인 페이지로 redirect 없이 reject만 반환
     }
 
     return Promise.reject(error);
