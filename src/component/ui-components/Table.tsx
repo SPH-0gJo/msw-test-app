@@ -5,6 +5,7 @@ interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
   isSelectable: boolean;
+  useNo?: boolean;
   dataIdKey: keyof T;
   selectedData: Set<string>;
   setSelectedData: (data: Set<string>) => void;
@@ -14,6 +15,7 @@ function Table<T>({
   columns,
   data,
   isSelectable,
+  useNo,
   dataIdKey,
   selectedData,
   setSelectedData,
@@ -52,6 +54,7 @@ function Table<T>({
       {/* colgroup */}
       <colgroup>
         {isSelectable && <col width={"5%"} />}
+        {useNo && <col width={"5%"} />}
         {columns.map((col) => (
           <col key={col.key as string} width={col.width || "auto"} />
         ))}
@@ -71,6 +74,7 @@ function Table<T>({
               />
             </th>
           )}
+          {useNo && <th key={"no"}>NO</th>}
           {columns.map((col) => (
             <th key={col.key as string}>{col.value}</th>
           ))}
@@ -78,7 +82,7 @@ function Table<T>({
       </thead>
       <tbody>
         {/* rows */}
-        {data.map((dt) => {
+        {data.map((dt, idx) => {
           const dataIdVal = dt[dataIdKey] as string;
           return (
             <tr key={dataIdVal}>
@@ -94,6 +98,7 @@ function Table<T>({
                   />
                 </td>
               )}
+              {useNo && <td>{idx + 1}</td>}
               {columns.map((col) => {
                 const value = dt[col.key as keyof T];
                 return <td>{typeof value === "function" ? value() : value}</td>;

@@ -1,8 +1,12 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import UserRegisterModal from "@/component/User/UserRegisterModal";
 import Table from "@/component/ui-components/Table";
-import CheckBox from "@/component/ui-components/CheckBox";
-import { UserTableData, getUserTableData, users } from "@/shared/var/user";
+import {
+  UserTableData,
+  getUserTableData,
+  userColumns,
+  userOptionList,
+} from "@/shared/var/user";
 import Pagination from "@/component/ui-components/Pagination";
 import PageNext from "@/component/ui-components/PageNext";
 import PagePrev from "@/component/ui-components/PagePrev";
@@ -99,56 +103,10 @@ const User = function () {
 
   //Column의 key는 data의 정보를 가져 오기위해서는 data 객체의 key와 동일해야함.
 
-  const columns: Column<UserTableData>[] = useMemo(
-    () => [
-      {
-        key: "no",
-        value: "NO",
-        width: "5%",
-      },
-      {
-        key: "groupName",
-        value: "그룹명",
-      },
-      {
-        key: "userId",
-        value: "아이디",
-        width: "10%",
-      },
-      {
-        key: "userName",
-        value: "이름",
-        width: "20%",
-      },
-      {
-        key: "registDate",
-        value: "등록일",
-        width: "20%",
-      },
-      {
-        key: "mng",
-        value: "관리",
-        width: "10%",
-      },
-    ],
-    []
-  );
+  const columns: Column<UserTableData>[] = useMemo(() => userColumns, []);
 
   const searchOptionList: Option<UserTableData>[] = useMemo(
-    () => [
-      {
-        value: "userId",
-        title: "아이디",
-      },
-      {
-        value: "groupName",
-        title: "그룹명",
-      },
-      {
-        value: "userName",
-        title: "이름",
-      },
-    ],
+    () => userOptionList,
     []
   );
 
@@ -246,6 +204,7 @@ const User = function () {
                 columns={columns}
                 data={pagedData}
                 isSelectable={true}
+                useNo={true}
                 dataIdKey="sysuserId"
                 selectedData={selectedData}
                 setSelectedData={setSelectedData}
