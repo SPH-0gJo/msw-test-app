@@ -1,20 +1,12 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
+import ContentCenterWrapper from "./ContentCenterWrapper";
 
 const Loading = () => {
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100%",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div>
-        <Spinner animation="border" />
-      </div>
-    </div>
+    <ContentCenterWrapper>
+      <Spinner animation="border" />
+    </ContentCenterWrapper>
   );
 };
 
