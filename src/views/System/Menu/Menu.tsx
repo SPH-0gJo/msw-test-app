@@ -108,6 +108,10 @@ const Menu = function () {
   }, []);
 
   const handleDeleteBtnClick = useCallback(async () => {
+    if (selectedData.size === 0) {
+      customAlert(ERROR.NO_SELECTION, "FAIL");
+      return;
+    }
     const isConfirmed = await customConfirm(CONFIRM.DELETE);
     if (isConfirmed) {
       const selectedDataArr = Array.from(selectedData);
