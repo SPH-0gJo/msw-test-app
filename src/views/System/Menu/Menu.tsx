@@ -25,6 +25,7 @@ const Menu = function () {
   //Table 데이터 영역
   const columns = useMemo(() => menuColumns, []);
   const [originData, setOriginData] = useState<MenuTableData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   //선택된 데이터 영역
   const [selectedData, setSelectedData] = useState(new Set<string>());
@@ -70,6 +71,7 @@ const Menu = function () {
   };
 
   const loadTableData = useCallback(function () {
+    setIsLoading(true);
     menuStore
       .findAll()
       .then((result) => {
@@ -83,6 +85,9 @@ const Menu = function () {
       .catch((error) => {
         customAlert(ERROR.NOT_PROCESSED, "FAIL");
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 

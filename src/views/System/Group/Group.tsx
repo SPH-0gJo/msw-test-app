@@ -25,6 +25,7 @@ const Group = function () {
   //Table 데이터 영역
   const columns = useMemo(() => groupColumns, []);
   const [originData, setOriginData] = useState<GroupTableData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   //선택된 데이터 영역
   const [selectedData, setSelectedData] = useState(new Set<string>());
@@ -69,6 +70,7 @@ const Group = function () {
   const customAlert = commonStore.setToastMessage;
 
   const loadTableData = useCallback(function () {
+    setIsLoading(true);
     groupStore
       .findAll()
       .then((result) => {
@@ -81,6 +83,9 @@ const Group = function () {
         //alert(ERROR.NOT_PROCESSED);
         customAlert(ERROR.NOT_PROCESSED, "FAIL");
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -157,8 +162,10 @@ const Group = function () {
             </div>
           </div>
           <div className="table-wrap">
-            {originData.length === 0 ? (
+            {isLoading ? (
               <div>Loading...</div>
+            ) : originData.length === 0 ? (
+              <div>No Data</div>
             ) : (
               <Table<GroupTableData>
                 columns={columns}

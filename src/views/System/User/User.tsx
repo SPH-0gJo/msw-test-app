@@ -45,6 +45,7 @@ const User = function () {
   const pageSizedPaginateData = paginateData.bind(null, pageSize);
 
   const [originData, setOriginData] = useState<UserTableData[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   //수정 대상 사용자
   const [modifyUser, setModifyUser] = useState<TUser | null>(null);
@@ -55,6 +56,7 @@ const User = function () {
   };
 
   const loadTableData = useCallback(function () {
+    setIsLoading(true);
     accountStore
       .findAll()
       .then((result) => {
@@ -67,6 +69,9 @@ const User = function () {
       })
       .catch((error) => {
         console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
