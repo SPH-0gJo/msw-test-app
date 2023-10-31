@@ -25,6 +25,7 @@ import { useModal } from "@/shared/hooks/modal";
 import UserModifyModal from "@/component/User/UserModifyModal";
 import { User as TUser } from "@/shared/var/user";
 import { customConfirm } from "@/confirm-lib/util";
+import Loading from "@/component/ui-components/Loading";
 
 const User = function () {
   const {
@@ -207,7 +208,7 @@ const User = function () {
           </div>
           <div className="table-wrap">
             {isLoading ? (
-              <div>Loading...</div>
+              <Loading />
             ) : originData.length === 0 ? (
               <div>No Data</div>
             ) : (

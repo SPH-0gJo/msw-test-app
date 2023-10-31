@@ -3,6 +3,7 @@ import MenuRegisterModal from "@/component/Menu/MenuRegisterModal";
 import TableSearch from "@/component/TableSearch";
 import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
+import Loading from "@/component/ui-components/Loading";
 import Table from "@/component/ui-components/Table";
 import { customConfirm } from "@/confirm-lib/util";
 import { useStores } from "@/modules/Store";
@@ -167,7 +168,7 @@ const Menu = function () {
           </div>
           <div className="table-wrap">
             {isLoading ? (
-              <div>Loading...</div>
+              <Loading />
             ) : originData.length === 0 ? (
               <div>No Data</div>
             ) : (

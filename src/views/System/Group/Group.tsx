@@ -18,6 +18,7 @@ import {
 import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
 import GroupModifyModal from "@/component/Group/GroupModifyModal";
 import { customConfirm } from "@/confirm-lib/util";
+import Loading from "@/component/ui-components/Loading";
 
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
@@ -167,7 +168,7 @@ const Group = function () {
           </div>
           <div className="table-wrap">
             {isLoading ? (
-              <div>Loading...</div>
+              <Loading />
             ) : originData.length === 0 ? (
               <div>No Data</div>
             ) : (
