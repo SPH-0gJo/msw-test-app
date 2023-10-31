@@ -166,8 +166,10 @@ const Menu = function () {
             </div>
           </div>
           <div className="table-wrap">
-            {originData.length === 0 ? (
+            {isLoading ? (
               <div>Loading...</div>
+            ) : originData.length === 0 ? (
+              <div>No Data</div>
             ) : (
               <Table<MenuTableData>
                 columns={columns}

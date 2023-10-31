@@ -206,8 +206,10 @@ const User = function () {
             </div>
           </div>
           <div className="table-wrap">
-            {originData.length === 0 ? (
+            {isLoading ? (
               <div>Loading...</div>
+            ) : originData.length === 0 ? (
+              <div>No Data</div>
             ) : (
               <Table<UserTableData>
                 columns={columns}
