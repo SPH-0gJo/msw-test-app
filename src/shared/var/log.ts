@@ -10,20 +10,28 @@ export interface Log {
   loginDate: string; //"2023-10-15 14:53:24";
 }
 
-type LogTableDataExtras = {};
+type LogTableDataExtras = {
+  no: number;
+};
 
 export type LogTableData = LogTableDataExtras & Log;
 
 export const getLogTableData = function (logs: Log[]): LogTableData[] {
   return logs.map((log, i) => ({
     ...log,
+    no: i + 1,
   }));
 };
 
 export const logColumns: Column<LogTableData>[] = [
   {
-    key: "seq",
+    key: "no",
     value: "NO",
+    width: "5%",
+  },
+  {
+    key: "seq",
+    value: "ID",
     width: "5%",
   },
   {

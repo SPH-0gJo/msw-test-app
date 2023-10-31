@@ -204,7 +204,6 @@ const User = function () {
                 columns={columns}
                 data={pagedData}
                 isSelectable={true}
-                useNo={true}
                 dataIdKey="sysuserId"
                 selectedData={selectedData}
                 setSelectedData={setSelectedData}

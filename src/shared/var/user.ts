@@ -16,7 +16,7 @@ export interface User {
 }
 
 type UserTableDataExtras = {
-  //no: number;
+  no: number;
   mng: JSX.Element;
 };
 
@@ -27,7 +27,8 @@ export const getUserTableData = function (
   users: User[],
   onModBtnClick: (arg: User) => void
 ): UserTableData[] {
-  return users.map((user) => ({
+  return users.map((user, i) => ({
+    no: i + 1,
     sysuserId: user.sysuserId,
     groupName: user.groupName,
     userId: user.userId,
@@ -46,6 +47,11 @@ export const getUserTableData = function (
 };
 
 export const userColumns: Column<UserTableData>[] = [
+  {
+    key: "no",
+    value: "NO",
+    width: "5%",
+  },
   {
     key: "groupName",
     value: "그룹명",

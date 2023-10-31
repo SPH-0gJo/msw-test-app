@@ -17,11 +17,16 @@ export const searchData = function <T>(data: T[], searchParam: SearchParam<T>) {
     return cloneData;
   }
 
-  return cloneData.filter((dt: T) => {
-    const value = dt[searchParam.field as keyof T];
-    if (!value || typeof value !== "string") {
-      return false;
-    }
-    return value.includes(searchParam.query);
-  });
+  return cloneData
+    .filter((dt: T) => {
+      const value = dt[searchParam.field as keyof T];
+      if (!value || typeof value !== "string") {
+        return false;
+      }
+      return value.includes(searchParam.query);
+    })
+    .map((dt, i) => ({
+      ...dt,
+      no: i + 1,
+    }));
 };
