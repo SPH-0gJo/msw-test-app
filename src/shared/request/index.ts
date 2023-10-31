@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import AuthRepository from "@/modules/Login/AuthRepository";
-import { rootPath } from "../env";
+import { apiBaseUrl, rootPath } from "../env";
 
 export type ErrorData = {
   code: number;
@@ -19,7 +19,7 @@ const addRefreshSubscriber = (callback: any) => {
   refreshSubscribers.push(callback);
 };
 
-axios.defaults.baseURL = "/nyj-api";
+axios.defaults.baseURL = apiBaseUrl;
 axios.defaults.headers.common["Content-Type"] = "application/json";
 
 // 서버에 API 요청 후, JWT 만료로 응답받을 시에 로그인 화면으로 redirect
