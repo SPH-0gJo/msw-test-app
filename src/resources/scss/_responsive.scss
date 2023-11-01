@@ -2,7 +2,7 @@
 
 @media (max-width: 1640px) {
   .logo-box {
-    width: 180px;
+    width: 200px;
 
     .logo {
       font-size: 14px;
@@ -16,7 +16,7 @@
   }
 
   .left-side-menu {
-    width: 180px;
+    width: 200px;
 
     .side-menu-wrap {
       > ul > li {
@@ -38,14 +38,18 @@
   }
 
   .top-nav {
-    left: 180px;
+    left: 200px;
   }
 
   .content-page {
-    margin-left: 180px;
+    margin-left: 200px;
   }
+}
 
-
+@media (max-width: 1200px) {
+  .content-page {
+    margin-left: 0;
+  }
 }
 
 @media (max-width: 799px) {
