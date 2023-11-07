@@ -14,7 +14,6 @@ class DashboardStore {
 
   async getTicket() {
     const result = await DashboardRepository.getTicket();
-    console.log("getTicket", result);
     const ticket = result.data;
 
     if (ticket) {

@@ -21,8 +21,6 @@ const UserModifyModal = function ({
     toggleShow();
   };
 
-  console.log("UserModifyModal", user);
-
   /**
    * 등록 모달의 input, select 태그등은 그대로 쓰되
    * 공통으로 빼낼수 있는 함수들은 빼내기 (validationCallback 등)
@@ -33,7 +31,6 @@ const UserModifyModal = function ({
   const [groups, setGroups] = useState<Group[]>([]);
 
   useLayoutEffect(() => {
-    console.log("Group useLayoutEffect");
     groupStore
       .findAll()
       .then((result) => {

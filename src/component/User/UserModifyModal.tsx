@@ -36,8 +36,6 @@ const UserModifyModal = function ({
     formRef.current!.formReset();
   };
 
-  console.log("UserModifyModal", user);
-
   /**
    * 등록 모달의 input, select 태그등은 그대로 쓰되
    * 공통으로 빼낼수 있는 함수들은 빼내기 (validationCallback 등)
@@ -67,7 +65,6 @@ const UserModifyModal = function ({
   };
 
   const handleFormValid: SubmitHandler<UserFormInputs> = async function (data) {
-    console.log("모든 필드 validation 후 문제 없을 때 호출");
     const modUser = {
       sysuserId: user?.sysuserId,
       userId: user?.userId!,
@@ -90,9 +87,7 @@ const UserModifyModal = function ({
     }
   };
 
-  const handleFormInvalid: SubmitErrorHandler<UserFormInputs> = function () {
-    console.log("필드 중 유효하지 않은 값이 있을 때 호출");
-  };
+  const handleFormInvalid: SubmitErrorHandler<UserFormInputs> = function () {};
 
   const formId = "user-form-mod";
 

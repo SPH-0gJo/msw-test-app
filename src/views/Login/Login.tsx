@@ -35,8 +35,6 @@ const Login = function () {
 
   //유효성 검사 후 error가 없을 때만 호출됨
   const formSubmitHandler: SubmitHandler<Inputs> = async function (data) {
-    console.log("submit data", data);
-
     try {
       //로그인 요청
       await authStore.login(data.userId, data.password);
@@ -80,10 +78,6 @@ const Login = function () {
     }
   };
 
-  const checkKeyDown = (e: any) => {
-    if (e.key === "Enter") e.preventDefault();
-  };
-
   return (
     <div className="login-container">
       <div className="login-inner">
@@ -92,10 +86,7 @@ const Login = function () {
             <img src={Logo} alt="남양주 Logo" />
             <span className="logo-type">생생 시민소리 분석시스템</span>
           </div>
-          <form
-            onSubmit={handleSubmit(formSubmitHandler)}
-            //onKeyDown={(e) => checkKeyDown(e)}
-          >
+          <form onSubmit={handleSubmit(formSubmitHandler)}>
             <div className="form-row">
               <label htmlFor="userId" className="form-label">
                 아이디
@@ -108,7 +99,6 @@ const Login = function () {
                   required: true,
                   onChange: inputChangeHandler,
                 })}
-                //onChange={inputChangeHandler}
               />
             </div>
             <div className="form-row">
@@ -123,7 +113,6 @@ const Login = function () {
                   required: true,
                   onChange: inputChangeHandler,
                 })}
-                //onChange={inputChangeHandler}
               />
             </div>
             {(errors.userId || errors.password) && (

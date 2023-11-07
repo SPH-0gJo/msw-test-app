@@ -134,7 +134,6 @@ const Log = function () {
   //외부 영역 클릭시 datePickerDropDown 닫기
   useEffect(() => {
     const handleDpDropDownClose = (e: MouseEvent) => {
-      console.log("handleDpDropDownClose", e.target);
       if (
         showDatePicker &&
         !dpDropDownRef.current?.contains(e.target as Node)

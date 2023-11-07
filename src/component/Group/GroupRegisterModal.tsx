@@ -24,8 +24,6 @@ const GroupRegisterModal = function (props: GroupRegisterModalProps) {
   const handleFormValid: SubmitHandler<GroupFormInputs> = async function (
     data
   ) {
-    console.log("모든 필드 validation 후 문제 없을 때 호출");
-
     try {
       await groupStore.addGroup(data.groupName);
       customAlert(SUCCESS.PROCCESSED);
@@ -39,9 +37,7 @@ const GroupRegisterModal = function (props: GroupRegisterModalProps) {
     }
   };
 
-  const handleFormInvalid: SubmitErrorHandler<GroupFormInputs> = function () {
-    console.log("필드 중 유효하지 않은 값이 있을 때 호출");
-  };
+  const handleFormInvalid: SubmitErrorHandler<GroupFormInputs> = function () {};
 
   return (
     <CustomFormModal

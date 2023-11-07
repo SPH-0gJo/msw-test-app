@@ -1,11 +1,7 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { MenuInfo } from "@/shared/var/menu";
 import { getMenuLinks } from "@/layout/LeftSideMenu/DashLeftSideMenu";
-// type SubMenu = {
-//   title: string;
-//   to: string;
-// };
 
 type HasSubMenuLinkProps = {
   subMenues: MenuInfo[];
@@ -14,37 +10,6 @@ type HasSubMenuLinkProps = {
   level: number;
   to: string;
   url?: string;
-};
-
-// const getLinkClassName = function (isMenuActive: boolean, isOpen: boolean) {
-//   //has-sub is-open
-//   const activeClass = isMenuActive ? "active-page" : ""; //css 추가 or a 태그에 적용 필요 (클래스네임 : active)
-//   const openClass = isOpen ? "is-open" : "";
-//   return `${activeClass} ${openClass}`;
-// };
-
-const getLinkClassName = function (isMenuActive: boolean, isOpen: boolean) {
-  const openClass = isOpen || isMenuActive ? "is-open" : "";
-  return `${openClass}`;
-};
-
-const getIsSubMenuActive = function (
-  subMenues: MenuInfo[],
-  pathname: string
-): boolean {
-  let isActive = false;
-
-  for (let i = 0; i < subMenues.length; i++) {
-    const subMenu = subMenues[i];
-    isActive = isActive || subMenu.to === pathname;
-    if (subMenu.children) {
-      isActive = isActive || getIsSubMenuActive(subMenu.children, pathname);
-    }
-  }
-
-  return isActive;
-
-  //return subMenues.some((e) => e.to === pathname);
 };
 
 const _getIsSubMenuActive = function (
@@ -69,18 +34,8 @@ function HasSubMenuLink({
     const isMe = to === pathname;
     const isAnySubMenu = _getIsSubMenuActive(subMenues, pathname);
 
-    // const isAnySubMenu = subMenues.reduce(
-    //   (prev, { to }) => prev || to === pathname,
-    //   false
-    // );
-
-    console.log("isMenuActive", isMe, isAnySubMenu);
     return isMe || isAnySubMenu;
   }, [to, pathname, subMenues]);
-
-  const [isOpen, setIsOpen] = useState(false);
-
-  console.log("----HasSubMenuLink Render----", to, pathname);
 
   return (
     <li

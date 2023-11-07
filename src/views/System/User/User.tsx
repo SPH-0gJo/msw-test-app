@@ -61,8 +61,6 @@ const User = function () {
     accountStore
       .findAll()
       .then((result) => {
-        console.log("result", result);
-
         if (result.data) {
           const users = getUserTableData(result.data, handleUserModBtnClick);
           setOriginData(users);

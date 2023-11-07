@@ -18,9 +18,6 @@ function Table<T>({
   selectedData,
   setSelectedData,
 }: TableProps<T>): React.ReactElement {
-  console.log("data", data);
-
-  //const [selectedData, setSelectedData] = useState(new Set());
   //전체 선택 후 하나라도 풀면 전체 선택 체크박스 해제되어야함
   const isAllDataSelected = data.length === selectedData.size;
 

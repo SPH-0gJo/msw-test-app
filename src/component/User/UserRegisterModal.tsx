@@ -63,8 +63,6 @@ const UserRegisterModal = function ({
   //모든 필드 validation 후 문제 없을 때 호출
   const formValidSuccessCallback: SubmitHandler<UserRegisterFormInputs> =
     async function (data) {
-      console.log("usergisterformsubmitdata", data);
-
       const addFormData: AccountAddReqData = {
         userId: data.userId,
         userName: data.userName,
@@ -105,7 +103,6 @@ const UserRegisterModal = function ({
   };
 
   useLayoutEffect(() => {
-    console.log("Group useLayoutEffect");
     groupStore
       .findAll()
       .then((result) => {

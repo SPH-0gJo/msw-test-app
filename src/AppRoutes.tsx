@@ -35,8 +35,6 @@ const AppRoutes = function () {
 
   const authMenuInfoList = authStore.authMenuInfoList;
 
-  //console.log("AppRoutes :: authMenuInfoList", authMenuInfoList);
-
   return (
     // <StoreProvider value={stores}>
     <BrowserRouter basename={`/${rootPath}`}>

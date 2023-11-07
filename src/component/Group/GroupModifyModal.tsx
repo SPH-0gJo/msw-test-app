@@ -12,7 +12,6 @@ interface GroupModifyModalProps extends FormModalProps {
 }
 
 const GroupModifyModal = function (props: GroupModifyModalProps) {
-  console.log("GroupModifyModal is mount");
   const formId = "group-form-mod";
 
   const { toggleShow, onSubmitSuccess, group } = props;
@@ -28,8 +27,6 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
   const handleFormValid: SubmitHandler<GroupFormInputs> = async function (
     data
   ) {
-    console.log("모든 필드 validation 후 문제 없을 때 호출");
-
     try {
       await groupStore.modifyGroup(group?.groupId!, data.groupName);
       customAlert(SUCCESS.PROCCESSED);
@@ -43,9 +40,7 @@ const GroupModifyModal = function (props: GroupModifyModalProps) {
     }
   };
 
-  const handleFormInvalid: SubmitErrorHandler<GroupFormInputs> = function () {
-    console.log("필드 중 유효하지 않은 값이 있을 때 호출");
-  };
+  const handleFormInvalid: SubmitErrorHandler<GroupFormInputs> = function () {};
 
   const groupFormInputsConfig: GroupFormInputsConfig = {
     groupName: {

@@ -24,46 +24,10 @@ axios.defaults.headers.common["Content-Type"] = "application/json";
 
 // 서버에 API 요청 후, JWT 만료로 응답받을 시에 로그인 화면으로 redirect
 
-/*
-axios.interceptors.response.use(
-  (response) => response,
-  async (error: AxiosError<ErrorData, any>) => {
-    console.log("response", error);
-    const { status, data, config } = error.response!;
-
-    //토큰 만료 응답을 받은 경우
-    if (
-      status === 401 &&
-      data.code === -110 &&
-      config.url !== "/auth/refresh"
-    ) {
-      console.log("refresh 요청");
-      //refresh 요청
-      const { data } = await AuthRepository.refresh();
-
-      //토큰 재세팅
-      localStorage.setItem("token", data.access_token);
-      localStorage.setItem("r_token", data.refresh_token);
-
-      //기존 요청 재요청
-      return axios(config);
-    } else if (status === 401 || status === 403) {
-      // /auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
-      console.log("login 페이지 이동");
-      window.location.href = "/login";
-    }
-
-    return Promise.reject(error);
-  }
-);
-
-*/
-
 axios.interceptors.response.use(
   // 2xx 범위에 있는 상태 코드는 이 함수를 트리거 합니다.
   (response) => response,
   async (error: AxiosError<ErrorData, any>) => {
-    console.log("response", error);
     const { status, data, config } = error.response!;
 
     //토큰 만료 응답을 받은 경우
@@ -78,7 +42,6 @@ axios.interceptors.response.use(
         // 요청  refreshSubscribers에 저장
         const retryOriginalRequest = new Promise((resolve) => {
           addRefreshSubscriber((accessToken: string) => {
-            //config.headers.Authorization = "Bearer " + accessToken;
             resolve(axios(config));
           });
         });
@@ -105,7 +68,6 @@ axios.interceptors.response.use(
       } else {
         const retryOriginalRequest = new Promise((resolve) => {
           addRefreshSubscriber((accessToken: string) => {
-            //config.headers.Authorization = "Bearer " + accessToken;
             resolve(axios(config));
           });
         });
@@ -115,7 +77,6 @@ axios.interceptors.response.use(
     } else if (status === 401 || status === 403) {
       //auth/refresh 요청에서 토큰 만료 응답 받은 경우 포함 (이 말은 다른데서 로그인 했다는 뜻,,)
       if (config.url !== "/auth/login") {
-        console.log("login 페이지 이동");
         localStorage.removeItem("token");
         localStorage.removeItem("r_token");
         window.location.href =
@@ -130,7 +91,6 @@ axios.interceptors.response.use(
 
 axios.interceptors.request.use(
   function (config) {
-    console.log("request", config);
     const accessToken = localStorage.getItem("token");
 
     //헤더에 삽입

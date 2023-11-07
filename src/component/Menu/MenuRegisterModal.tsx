@@ -26,8 +26,6 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
   } = useStores();
 
   const handleFormValid: SubmitHandler<MenuFormInputs> = async function (data) {
-    console.log("모든 필드 validation 후 문제 없을 때 호출", data);
-
     const param: MenuAddParam = {
       ...data,
       upperMenuId: data.upperMenuId || undefined,
@@ -54,9 +52,7 @@ const MenuRegisterModal = function (props: MenuRegisterModalProps) {
     }
   };
 
-  const handleFormInvalid: SubmitErrorHandler<MenuFormInputs> = function () {
-    console.log("필드 중 유효하지 않은 값이 있을 때 호출");
-  };
+  const handleFormInvalid: SubmitErrorHandler<MenuFormInputs> = function () {};
 
   return (
     <CustomFormModal

@@ -19,8 +19,6 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
 
   const { toggleShow, onSubmitSuccess, menu } = props;
 
-  console.log("MenuModifyModal is mount", menu);
-
   const formHideHandler = () => {
     toggleShow();
   };
@@ -29,8 +27,6 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
   const customAlert = commonStore.setToastMessage;
 
   const handleFormValid: SubmitHandler<MenuFormInputs> = async function (data) {
-    console.log("모든 필드 validation 후 문제 없을 때 호출");
-
     const param: MenuModParam = {
       ...data,
       upperMenuId: data.upperMenuId || undefined,
@@ -57,9 +53,7 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
     }
   };
 
-  const handleFormInvalid: SubmitErrorHandler<MenuFormInputs> = function () {
-    console.log("필드 중 유효하지 않은 값이 있을 때 호출");
-  };
+  const handleFormInvalid: SubmitErrorHandler<MenuFormInputs> = function () {};
 
   const menuFormInputsConfig: MenuFormInputsConfig = {
     upperMenuId: {

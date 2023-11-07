@@ -12,8 +12,6 @@ function NonSelectableTable<T>({
   data,
   dataIdKey,
 }: NonSelectableTableProps<T>): React.ReactElement {
-  console.log("data", data);
-
   return (
     <table className="table table-custom">
       {/* colgroup */}

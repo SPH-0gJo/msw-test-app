@@ -17,31 +17,31 @@ class AccountStore {
 
   async isExist(userId: string) {
     const result = await AccountRepository.isExist(userId);
-    console.log("AccountStore isExist :::: ", result);
+    //console.log("AccountStore isExist :::: ", result);
     return result;
   }
 
   async addAccount(addFormData: AccountAddReqData) {
     const result = await AccountRepository.addAccount(addFormData);
-    console.log("AccountStore addAccount :::: ", result);
+    //console.log("AccountStore addAccount :::: ", result);
     return result;
   }
 
   async deleteAccounts(ids: string[]) {
     const result = await AccountRepository.deleteAccounts(ids);
-    console.log("AccountStore deleteAccounts :::: ", result);
+    //console.log("AccountStore deleteAccounts :::: ", result);
     return result;
   }
 
   async modifyAccount(modUser: modUserData) {
     const result = await AccountRepository.modifyAccount(modUser);
-    console.log("AccountStore modifyAccount :::: ", result);
+    //console.log("AccountStore modifyAccount :::: ", result);
     return result;
   }
 
   async findAll() {
     const result = await AccountRepository.findAll();
-    console.log("AccountStore findAll :::: ", result);
+    //console.log("AccountStore findAll :::: ", result);
     return result;
   }
 

@@ -10,7 +10,7 @@ class LogStore {
 
   async find(startDate: string, endDate: string) {
     const result = await LogRepository.find(startDate, endDate);
-    console.log("LogStore find :::: ", result);
+    //console.log("LogStore find :::: ", result);
     return result;
   }
 }

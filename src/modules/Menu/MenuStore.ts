@@ -14,25 +14,25 @@ class MenuStore {
 
   async findAll() {
     const result = await MenuRepository.find();
-    console.log("AccountStore findAll :::: ", result);
+    //console.log("AccountStore findAll :::: ", result);
     return result;
   }
 
   async deleteMenus(ids: string[]) {
     const result = await MenuRepository.deleteMenus(ids);
-    console.log("MenuStore deleteMenus :::: ", result);
+    //console.log("MenuStore deleteMenus :::: ", result);
     return result;
   }
 
   async addMenu(param: MenuAddParam) {
     const result = await MenuRepository.addMenu(param);
-    console.log("MenuStore addMenu :::: ", result);
+    //console.log("MenuStore addMenu :::: ", result);
     return result;
   }
 
   async modifyMenu(param: MenuModParam) {
     const result = await MenuRepository.modifyMenu(param);
-    console.log("MenuStore modifyMenu :::: ", result);
+    //console.log("MenuStore modifyMenu :::: ", result);
     return result;
   }
 

@@ -55,20 +55,20 @@ class AuthStore {
 
   async login(userId: string, password: string) {
     const result = await AuthRepository.login(userId, password);
-    console.log("login", result);
+    //console.log("login", result);
     const { access_token, refresh_token } = result.data;
     this.logUserIn(access_token, refresh_token);
   }
 
   async getAuthMenuList() {
     const result = await AuthRepository.getAuthMenuList();
-    console.log("AuthStore getAuthMenuList :::: ", result);
+    //console.log("AuthStore getAuthMenuList :::: ", result);
     return result;
   }
 
   async getUserInfo(userId: string) {
     const result = await AuthRepository.getUserInfo(userId);
-    console.log("AuthStore getUserInfo :::: ", result.data);
+    //console.log("AuthStore getUserInfo :::: ", result.data);
     return result;
   }
 
@@ -124,7 +124,7 @@ class AuthStore {
 
   async modifyProfile(modUser: modUserData) {
     const result = await AuthRepository.modifyProfile(modUser);
-    console.log("AuthStore modifyProfile :::: ", result);
+    //console.log("AuthStore modifyProfile :::: ", result);
     return result;
   }
 

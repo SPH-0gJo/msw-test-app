@@ -20,7 +20,6 @@ function Tableau({ url, ticket }: TableauProps) {
 
   //dom이 마운트되면
   useEffect(() => {
-    console.dir(ref.current);
     const divElement = ref.current;
     let vizWidth = "1600px",
       vizHeight = "1027px";

@@ -16,8 +16,6 @@ function MenuLink({
 
   const isActive = useMemo(() => pathname === to, [pathname, to]);
 
-  console.log("----MenuLink Render----", pathname, to);
-
   return (
     <li
       className={isActive ? "active-page" : ""}

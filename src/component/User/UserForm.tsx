@@ -55,8 +55,6 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
     commonStore: { setToastMessage: customAlert },
   } = useStores();
 
-  console.log(userFormInputsConfig);
-
   useLayoutEffect(() => {
     if (!isGroupDisabled && accountStore.groups === null) {
       accountStore

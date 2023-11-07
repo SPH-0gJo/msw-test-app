@@ -1,5 +1,4 @@
 import React, { useCallback } from "react";
-import Logo from "@/resources/images/logo-light.png";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { useStores } from "@/modules/Store";
@@ -13,8 +12,6 @@ const TopNavBar = function () {
 
   const isAdmin = authStore.isAdmin;
 
-  console.log("UserInfo", authStore.userInfo);
-
   const userInfo = authStore.userInfo;
   const userName = userInfo?.userName || "";
 
@@ -24,8 +21,6 @@ const TopNavBar = function () {
   const navigate = useNavigate();
 
   const handleLogoutBtnClick = useCallback(function () {
-    console.log("click user logout");
-
     authStore.logUserOut();
     navigate("/login");
   }, []);
