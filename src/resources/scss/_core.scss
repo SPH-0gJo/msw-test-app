@@ -34,6 +34,10 @@ ol, ul, dl {
       font-size: 16px;
       font-weight: 400;
     }
+
+    .btn-close {
+      filter: var(--bs-btn-close-white-filter);
+    }
   }
 
   .modal-footer {
