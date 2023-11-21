@@ -1,6 +1,6 @@
 import MenuModifyModal from "@/component/Menu/MenuModifyModal";
 import MenuRegisterModal from "@/component/Menu/MenuRegisterModal";
-import TableSearch from "@/component/TableSearch";
+import TableSearch from "@/component/Common/TableSearch";
 import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import Loading from "@/component/ui-components/Loading";

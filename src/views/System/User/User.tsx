@@ -16,7 +16,7 @@ import PageItem from "@/component/ui-components/PageItem";
 import PageItemList from "@/component/ui-components/PageItemList";
 import { Column, SearchParam } from "@/shared/type/table";
 import { Option } from "@/shared/type/select";
-import TableSearch from "@/component/TableSearch";
+import TableSearch from "@/component/Common/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";

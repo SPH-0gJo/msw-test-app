@@ -1,6 +1,6 @@
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 import GroupRegisterModal from "@/component/Group/GroupRegisterModal";
-import TableSearch from "@/component/TableSearch";
+import TableSearch from "@/component/Common/TableSearch";
 import Button from "@/component/ui-components/Button";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import Table from "@/component/ui-components/Table";

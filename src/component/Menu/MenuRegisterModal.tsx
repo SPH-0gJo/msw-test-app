@@ -1,6 +1,6 @@
 import React from "react";
 import { FormModalProps } from "@/shared/type/modal";
-import CustomFormModal from "@/component/CustomFormModal";
+import CustomFormModal from "@/component/Common/CustomFormModal";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";

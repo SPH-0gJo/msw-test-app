@@ -1,6 +1,6 @@
 import React from "react";
 import { FormModalProps } from "@/shared/type/modal";
-import CustomFormModal from "../CustomFormModal";
+import CustomFormModal from "../Common/CustomFormModal";
 import GroupForm, { GroupFormInputs, GroupFormInputsConfig } from "./GroupForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";

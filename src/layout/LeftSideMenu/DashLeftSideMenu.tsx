@@ -1,5 +1,5 @@
-import HasSubMenuLink from "@/component/HasSubMenuLink";
-import MenuLink from "@/component/MenuLink";
+import HasSubMenuLink from "@/component/Common/HasSubMenuLink";
+import MenuLink from "@/component/Common/MenuLink";
 import { useStores } from "@/modules/Store";
 import { MenuInfo } from "@/shared/var/menu";
 import { observer } from "mobx-react";

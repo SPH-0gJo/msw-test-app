@@ -18,7 +18,7 @@ import { useStores } from "@/modules/Store";
 import { ERROR } from "@/shared/var/msg";
 import NonSelectableTable from "@/component/ui-components/NonSelectableTable";
 import CustomPagination from "@/component/ui-components/CustomPagination";
-import TableSearch from "@/component/TableSearch";
+import TableSearch from "@/component/Common/TableSearch";
 
 //Date Picker 관련
 import { Range, DateRange, RangeKeyDict } from "react-date-range";
