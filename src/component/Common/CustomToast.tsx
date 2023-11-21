@@ -1,14 +1,15 @@
 import { useStores } from "@/modules/Store";
 import { observer } from "mobx-react";
 import React, { useEffect, useRef, useState } from "react";
-import { Toast, ToastBody, ToastContainer } from "react-bootstrap";
-
-interface CustomToastProps {
-  //message: string;
-}
+import { Toast, ToastBody } from "react-bootstrap";
 
 export type ToastTheme = "SUCCESS" | "FAIL";
 
+/**
+ * 알림창 테마에 맞는 icon과 color 반환하는 함수
+ * @param theme
+ * @returns
+ */
 const getThemeMember = (theme: ToastTheme) => {
   const icon = theme === "SUCCESS" ? "fe-check-circle" : "fe-x-circle";
   const color = theme === "SUCCESS" ? "success" : "danger";
@@ -19,7 +20,11 @@ const getThemeMember = (theme: ToastTheme) => {
   };
 };
 
-const CustomToast = (props: CustomToastProps) => {
+/**
+ * 알림창 컴포넌트
+ * @returns
+ */
+const CustomToast = () => {
   const { commonStore } = useStores();
   const { theme, message } = commonStore.toastState;
 

@@ -3,21 +3,27 @@ import { NavLink, useLocation } from "react-router-dom";
 import { MenuInfo } from "@/shared/var/menu";
 import { getMenuLinks } from "@/layout/LeftSideMenu/DashLeftSideMenu";
 
-type HasSubMenuLinkProps = {
+interface HasSubMenuLinkProps {
   subMenues: MenuInfo[];
   icon?: React.ReactNode;
   title: string;
   level: number;
   to: string;
   url?: string;
-};
+}
 
-const _getIsSubMenuActive = function (
+/**
+ * 서브메뉴나 서브메뉴의 자식
+ * @param subMenues
+ * @param pathname
+ * @returns
+ */
+const getIsSubMenuActive = function (
   subMenues: MenuInfo[],
   pathname: string
 ): boolean {
   return subMenues.some(
-    (e) => e.to === pathname || _getIsSubMenuActive(e.children || [], pathname)
+    (e) => e.to === pathname || getIsSubMenuActive(e.children || [], pathname)
   );
 };
 
@@ -32,7 +38,7 @@ function HasSubMenuLink({
 
   const isMenuActive = useMemo(() => {
     const isMe = to === pathname;
-    const isAnySubMenu = _getIsSubMenuActive(subMenues, pathname);
+    const isAnySubMenu = getIsSubMenuActive(subMenues, pathname);
 
     return isMe || isAnySubMenu;
   }, [to, pathname, subMenues]);

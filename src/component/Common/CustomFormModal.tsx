@@ -6,25 +6,22 @@ import Button from "@/component/ui-components/Button";
 interface CustomFormModalProps extends FormModalProps {
   title: string;
   children: React.ReactNode;
-  // onSubmit: () => void;
-  // onHide: () => void;
   formId: string;
   formHideHandler: () => void;
 }
 
+/**
+ * form을 포함하는 모달창 컴포넌트
+ * @param param0
+ * @returns
+ */
 const CustomFormModal = function ({
   show,
-  toggleShow,
   title,
   children,
   formId,
   formHideHandler,
 }: CustomFormModalProps) {
-  // const formHideHandler = () => {
-  //   //팝업 창 닫기
-  //   toggleShow();
-  // };
-
   return (
     <Modal show={show} onHide={formHideHandler} className="custom-modal">
       <Modal.Header onHide={formHideHandler} closeButton>
