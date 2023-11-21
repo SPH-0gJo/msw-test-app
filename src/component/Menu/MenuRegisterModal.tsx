@@ -4,13 +4,18 @@ import CustomFormModal from "@/component/Common/CustomFormModal";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
-import MenuForm, { MenuFormInputs } from "./MenuForm";
+import MenuForm, { MenuFormInputs } from "@/component/Menu/MenuForm";
 import { MenuAddParam } from "@/modules/Menu/MenuRepository";
 import { AxiosError } from "axios";
 import { ErrorData } from "@/shared/request";
 
 interface MenuRegisterModalProps extends FormModalProps {}
 
+/**
+ * 메뉴 관리 메뉴에서 사용하는 등록 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const MenuRegisterModal = function (props: MenuRegisterModalProps) {
   const formId = "menu-form-reg";
 

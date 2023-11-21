@@ -1,13 +1,23 @@
 import { Column } from "@/shared/type/table";
 import React from "react";
 
+/**
+ * columns : 테이블의 컬럼 목록 (컬럼명, 너비 등)
+ * data : 테이블 행에 대응되는 데이터 목록
+ * dataIdKey : 각 행을 구분하기 위해 사용되는 key
+ */
 interface NonSelectableTableProps<T> {
   columns: Column<T>[];
   data: T[];
   dataIdKey: keyof T;
 }
 
-function NonSelectableTable<T>({
+/**
+ * 선택 체크박스 기능이 없는 테이블 컴포넌트
+ * @param param0
+ * @returns
+ */
+const NonSelectableTable = function <T>({
   columns,
   data,
   dataIdKey,
@@ -44,6 +54,6 @@ function NonSelectableTable<T>({
       </tbody>
     </table>
   );
-}
+};
 
 export default React.memo(NonSelectableTable) as typeof NonSelectableTable;

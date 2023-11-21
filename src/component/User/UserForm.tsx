@@ -1,11 +1,5 @@
 import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
-import React, {
-  useCallback,
-  useLayoutEffect,
-  useState,
-  forwardRef,
-  useImperativeHandle,
-} from "react";
+import React, { useLayoutEffect, forwardRef, useImperativeHandle } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 import { useStores } from "@/modules/Store";
@@ -20,12 +14,21 @@ export interface UserFormInputs {
   adminType: "1" | "0";
 }
 
+/**
+ * 입력 필드에 적용할 설정값
+ * value : 필드의 초기값
+ * disabled : disabled 여부
+ * label : 필드 타이틀
+ */
 export interface FormInputConfig {
   value?: string | number;
   disabled?: boolean;
   label?: string;
 }
 
+/**
+ * 초기에 Form의 각 입력 필드에 적용할 설정값
+ */
 export type UserFormInputsConfig = {
   [k in keyof UserFormInputs]?: FormInputConfig;
 };
@@ -41,15 +44,20 @@ export interface ExternalUserForm {
   formReset: () => void;
 }
 
+/**
+ * 사용자 관리 메뉴의 등록/수정시 사용하는 form 컴포넌트
+ */
 const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
   { userFormInputsConfig, formId, onFormInvalid, onFormValid },
   ref
 ) {
+  //각 필드의 디폴트 값들
   const groupIdDefaultValue = userFormInputsConfig.groupId?.value || "";
   const isGroupDisabled = userFormInputsConfig.groupId?.disabled || false;
   const isAdminTypeDisabled = userFormInputsConfig.adminType?.disabled || false;
   const adminTypeDefaultValue =
     userFormInputsConfig.adminType?.value === 0 ? 0 : 1;
+
   const {
     accountStore,
     commonStore: { setToastMessage: customAlert },
@@ -57,6 +65,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
 
   useLayoutEffect(() => {
     if (!isGroupDisabled && accountStore.groups === null) {
+      //그룹 셀렉트 박스에 출력할 그룹 목록 호출 및 세팅
       accountStore
         .findAllGroups()
         .then((result) => {
@@ -86,7 +95,6 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
     getValues,
     handleSubmit,
     reset,
-    setError,
   } = useForm<UserFormInputs>({
     mode: "onSubmit",
   });
@@ -97,21 +105,9 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
     },
   }));
 
-  const validateSetError = useCallback(
-    (inputName: keyof UserFormInputs, errorMessage: string) => {
-      trigger(inputName).then((result) => {
-        if (result) return;
-        setError(inputName, {
-          type: "custom",
-          message: errorMessage,
-        });
-      });
-    },
-    []
-  );
-
   const handleFormSubmit = handleSubmit(onFormValid, onFormInvalid);
 
+  //그룹 셀렉트 박스에 출력할 그룹 목록
   const groups = accountStore.groups;
 
   return (
@@ -163,7 +159,6 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
                 message: VALIDATION_ERROR.USER_NAME,
               },
               onBlur: () => {
-                //validateSetError("userName", VALIDATION_ERROR.USER_NAME);
                 trigger("userName");
               },
             })}
@@ -202,7 +197,6 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
                 message: VALIDATION_ERROR.PASSWORD,
               },
               onBlur: () => {
-                //validateSetError("password", VALIDATION_ERROR.PASSWORD);
                 trigger("password");
               },
             })}
@@ -223,7 +217,6 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
             {...register("confirmpassword", {
               required: { value: false, message: ERROR.PW_NOT_EQ },
               onBlur: () => {
-                //validateSetError("confirmpassword", ERROR.PW_NOT_EQ);
                 trigger("confirmpassword");
               },
               validate: (value?: string) => {

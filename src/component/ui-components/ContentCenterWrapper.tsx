@@ -4,6 +4,11 @@ interface ContentCenterWrapperProps {
   children: React.ReactNode;
 }
 
+/**
+ * children 컴포넌트를 중앙 정렬 시키는 Wrapper 컴포넌트
+ * @param param0
+ * @returns
+ */
 const ContentCenterWrapper = ({ children }: ContentCenterWrapperProps) => {
   return (
     <div

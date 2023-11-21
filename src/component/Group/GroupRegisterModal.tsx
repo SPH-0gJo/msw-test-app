@@ -8,6 +8,11 @@ import { ERROR, SUCCESS } from "@/shared/var/msg";
 
 interface GroupRegisterModalProps extends FormModalProps {}
 
+/**
+ * 그룹 관리 메뉴에서 사용하는 등록 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const GroupRegisterModal = function (props: GroupRegisterModalProps) {
   const formId = "group-form-reg";
 

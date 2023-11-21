@@ -3,8 +3,8 @@ import { VALIDATION_ERROR } from "@/shared/var/msg";
 import { observer } from "mobx-react";
 import React from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import FieldErrorBox from "../ui-components/FieldErrorBox";
-import { FormInputConfig } from "../User/UserForm";
+import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
+import { FormInputConfig } from "@/component/User/UserForm";
 
 export interface MenuFormInputs {
   upperMenuId?: string;
@@ -26,6 +26,11 @@ export interface MenuFormProps {
   menuFormInputsConfig?: MenuFormInputsConfig;
 }
 
+/**
+ * 메뉴 관리 메뉴의 등록, 수정 창에서 사용되는 form 컴포넌트
+ * @param param0
+ * @returns
+ */
 const MenuForm = function ({
   formId,
   onFormValid,

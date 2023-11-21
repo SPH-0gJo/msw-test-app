@@ -5,7 +5,7 @@ import React, { useCallback, useLayoutEffect, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
-import FieldErrorBox from "../ui-components/FieldErrorBox";
+import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 import { AccountAddReqData } from "@/modules/Account/AccountRepository";
 import { useStores } from "@/modules/Store";
 import { FormModalProps } from "@/shared/type/modal";
@@ -20,7 +20,11 @@ export type UserRegisterFormInputs = {
   groupId?: string;
   adminType: boolean | string;
 };
-
+/**
+ * 사용자 관리 메뉴에서 사용하는 등록 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const UserRegisterModal = function ({
   show,
   toggleShow,
@@ -33,6 +37,20 @@ const UserRegisterModal = function ({
   } = useStores();
 
   const [groups, setGroups] = useState<Group[]>([]);
+
+  useLayoutEffect(() => {
+    //그룹 셀렉트 박스에 출력될 그룹 목록 호출 및 세팅
+    groupStore
+      .findAll()
+      .then((result) => {
+        if (result.data) {
+          setGroups(result.data);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   const [userIdResult, setUserIdResult] = useState(false);
 
@@ -47,6 +65,9 @@ const UserRegisterModal = function ({
     mode: "onSubmit",
   });
 
+  /**
+   * userId가 사용 중인지 여부를 확인 후 조치하는 함수
+   */
   const isUserIdExist = useCallback(async (userId: string) => {
     try {
       const result = await accountStore.isExist(userId);
@@ -68,7 +89,6 @@ const UserRegisterModal = function ({
         userName: data.userName,
         password: data.password,
         adminType: Boolean(parseInt(data.adminType as string)),
-        //groupId: data.groupId,
       };
 
       if (data.groupId !== "") {
@@ -101,19 +121,6 @@ const UserRegisterModal = function ({
     //아이디 유효 메시지 삭제
     setUserIdResult(false);
   };
-
-  useLayoutEffect(() => {
-    groupStore
-      .findAll()
-      .then((result) => {
-        if (result.data) {
-          setGroups(result.data);
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, []);
 
   const formSubmitHandler = handleSubmit(
     formValidSuccessCallback,

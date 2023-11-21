@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FormModalProps } from "@/shared/type/modal";
 import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
@@ -7,7 +7,7 @@ import UserForm, {
   ExternalUserForm,
   UserFormInputs,
   UserFormInputsConfig,
-} from "./UserForm";
+} from "@/component/User/UserForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
@@ -16,6 +16,11 @@ interface UserModifyModalProps extends FormModalProps {
   user: User | null;
 }
 
+/**
+ * 사용자 관리 메뉴에서 사용하는 수정 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const UserModifyModal = function ({
   show,
   toggleShow,
@@ -36,12 +41,7 @@ const UserModifyModal = function ({
     formRef.current!.formReset();
   };
 
-  /**
-   * 등록 모달의 input, select 태그등은 그대로 쓰되
-   * 공통으로 빼낼수 있는 함수들은 빼내기 (validationCallback 등)
-   * + groups는 store에 저장해서 한번만 불러오기
-   */
-
+  //form 필드 기본 설정값
   const modUserFormInputsConfig: UserFormInputsConfig = {
     groupId: {
       value: user?.groupId || "",
@@ -64,6 +64,7 @@ const UserModifyModal = function ({
     },
   };
 
+  //form의 모든 필드가 유효성 검사를 통과한 경우 콜백 함수
   const handleFormValid: SubmitHandler<UserFormInputs> = async function (data) {
     const modUser = {
       sysuserId: user?.sysuserId,
@@ -87,6 +88,7 @@ const UserModifyModal = function ({
     }
   };
 
+  //form의 필드 중 하나라도 유효하지 않은 경우 콜백함수
   const handleFormInvalid: SubmitErrorHandler<UserFormInputs> = function () {};
 
   const formId = "user-form-mod";

@@ -1,6 +1,14 @@
 import { Column } from "@/shared/type/table";
 import React from "react";
 
+/**
+ * columns : 테이블의 컬럼 목록 (컬럼명, 너비 등)
+ * data : 테이블 행에 대응되는 데이터 목록
+ * isSelectable : 선택 체크박스 사용 여부
+ * dataIdKey : 각 행을 구분하기 위해 사용되는 key
+ * selectedData : 선택된 데이터들의 key 값 집합
+ * setSelectedData : 선택된 데이터들을 설정하는 함수
+ */
 interface TableProps<T> {
   columns: Column<T>[];
   data: T[];
@@ -10,7 +18,12 @@ interface TableProps<T> {
   setSelectedData: (data: Set<string>) => void;
 }
 
-function Table<T>({
+/**
+ * 현재 페이지의 데이터를 출력하는 테이블 컴포넌트
+ * @param param0
+ * @returns
+ */
+const Table = function <T>({
   columns,
   data,
   isSelectable,
@@ -18,9 +31,10 @@ function Table<T>({
   selectedData,
   setSelectedData,
 }: TableProps<T>): React.ReactElement {
-  //전체 선택 후 하나라도 풀면 전체 선택 체크박스 해제되어야함
+  //행이 모두 선택되었는지 여부
   const isAllDataSelected = data.length === selectedData.size;
 
+  //행이 선택된 경우 이벤트 함수
   const handleDataSelect = function (dataId: string) {
     const nextSelectedData = new Set(selectedData);
     if (nextSelectedData.has(dataId)) {
@@ -32,6 +46,7 @@ function Table<T>({
     setSelectedData(nextSelectedData);
   };
 
+  //행 전체선택 체크박스 클릭 이벤트 함수
   const handleAllDataSelect = function () {
     let dataIds: string[] = [];
 
@@ -41,8 +56,6 @@ function Table<T>({
     const nextSelectedData = new Set(dataIds);
     setSelectedData(nextSelectedData);
   };
-
-  console.log(selectedData);
 
   return (
     <table className="table table-custom">
@@ -101,6 +114,6 @@ function Table<T>({
       </tbody>
     </table>
   );
-}
+};
 
 export default React.memo(Table) as typeof Table;

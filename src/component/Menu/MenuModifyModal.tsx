@@ -1,11 +1,14 @@
 import React from "react";
 import { FormModalProps } from "@/shared/type/modal";
-import CustomFormModal from "../Common/CustomFormModal";
+import CustomFormModal from "@/component/Common/CustomFormModal";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
 import { Menu } from "@/shared/var/sysMenu";
-import MenuForm, { MenuFormInputs, MenuFormInputsConfig } from "./MenuForm";
+import MenuForm, {
+  MenuFormInputs,
+  MenuFormInputsConfig,
+} from "@/component/Menu/MenuForm";
 import { MenuModParam } from "@/modules/Menu/MenuRepository";
 import { AxiosError } from "axios";
 import { ErrorData } from "@/shared/request";
@@ -14,6 +17,11 @@ interface MenuModifyModalProps extends FormModalProps {
   menu: Menu | null;
 }
 
+/**
+ * 메뉴 관리 메뉴에서 사용하는 수정 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const MenuModifyModal = function (props: MenuModifyModalProps) {
   const formId = "menu-form-mod";
 

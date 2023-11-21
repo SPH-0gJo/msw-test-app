@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import { FormModalProps } from "@/shared/type/modal";
 import { Modal } from "react-bootstrap";
 import Button from "@/component/ui-components/Button";
@@ -7,7 +7,7 @@ import UserForm, {
   ExternalUserForm,
   UserFormInputs,
   UserFormInputsConfig,
-} from "../User/UserForm";
+} from "@/component/User/UserForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
@@ -15,7 +15,11 @@ import { ERROR, SUCCESS } from "@/shared/var/msg";
 interface UserModifyModalProps extends FormModalProps {
   user: User | null;
 }
-
+/**
+ * 프로필 수정 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const ProfileModifyModal = function ({
   show,
   toggleShow,

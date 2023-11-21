@@ -1,7 +1,10 @@
 import React from "react";
 import { FormModalProps } from "@/shared/type/modal";
-import CustomFormModal from "../Common/CustomFormModal";
-import GroupForm, { GroupFormInputs, GroupFormInputsConfig } from "./GroupForm";
+import CustomFormModal from "@/component/Common/CustomFormModal";
+import GroupForm, {
+  GroupFormInputs,
+  GroupFormInputsConfig,
+} from "@/component/Group/GroupForm";
 import { SubmitErrorHandler, SubmitHandler } from "react-hook-form";
 import { useStores } from "@/modules/Store";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
@@ -10,7 +13,11 @@ import { Group } from "@/shared/var/group";
 interface GroupModifyModalProps extends FormModalProps {
   group: Group | null;
 }
-
+/**
+ * 그룹 관리 메뉴에서 사용하는 수정 모달창 컴포넌트
+ * @param props
+ * @returns
+ */
 const GroupModifyModal = function (props: GroupModifyModalProps) {
   const formId = "group-form-mod";
 
