@@ -2,7 +2,6 @@ import React from "react";
 import DashLeftSideMenu from "@/layout/LeftSideMenu/DashLeftSideMenu";
 import { useLocation } from "react-router-dom";
 import SysLeftSideMenu from "@/layout/LeftSideMenu/SysLeftSideMenu";
-import "./index.scss";
 import FoldableWrapper, {
   FoldableWrapperProps,
 } from "@/layout/FoldableWrapper";
