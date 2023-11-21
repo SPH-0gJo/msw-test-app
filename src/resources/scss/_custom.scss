@@ -1,6 +1,6 @@
 .wrap {
   position: relative;
-  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
 }
 
@@ -343,6 +343,10 @@
     position: relative;
     z-index: 1;
 
+    > .row {
+      height: 100%;
+    }
+
     .tableauPlaceholder {
       width: 100% !important;
       height: 100% !important;
@@ -370,7 +374,7 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 0 8px 4px rgba(0,0,0,0.02);
-  height: calc(100vh - 110px);
+  height: 100%;
 
   .card-box-body {
     flex: 1 1 auto;
@@ -707,7 +711,7 @@ body.authentication-bg {
   &::before {
     content: '';
     width: 391px;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     position: fixed;
     top: 0;
     left: 50px;
