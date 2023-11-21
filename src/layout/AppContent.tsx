@@ -4,11 +4,25 @@ import { Outlet } from "react-router-dom";
 import TopNavBar from "./TopNavBar";
 import LeftSideMenu from "./LeftSideMenu";
 import FoldableWrapper from "./FoldableWrapper";
-import loadLeftMenuScript from "@/main";
-import CustomToast from "@/component/CustomToast";
+
+import CustomToast from "@/component/Common/CustomToast";
 import { ToastContainer } from "react-bootstrap";
 
-function AppContent() {
+//MenuBar 접고 피는 코드 작성...
+const loadLeftMenuScript = () => {
+  const btnMenu = document.querySelector(".btn-menu");
+  const leftSideMenu = document.querySelector(".left-side-menu");
+  const contentPage = document.querySelector(".content-page");
+  const topNav = document.querySelector(".top-nav");
+
+  btnMenu?.addEventListener("click", function () {
+    leftSideMenu?.classList.toggle("fold");
+    contentPage?.classList.toggle("fold");
+    topNav?.classList.toggle("fold");
+  });
+};
+
+const AppContent = function () {
   useEffect(() => {
     loadLeftMenuScript();
   }, []);
@@ -29,6 +43,6 @@ function AppContent() {
       </FoldableWrapper>
     </>
   );
-}
+};
 
 export default AppContent;
