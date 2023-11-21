@@ -13,7 +13,7 @@ interface HasSubMenuLinkProps {
 }
 
 /**
- * 서브메뉴나 서브메뉴의 자식
+ * 서브메뉴나 서브메뉴의 자식 서브메뉴가 active인지 여부를 반환하는 함수
  * @param subMenues
  * @param pathname
  * @returns
@@ -27,7 +27,12 @@ const getIsSubMenuActive = function (
   );
 };
 
-function HasSubMenuLink({
+/**
+ * 서브 메뉴가 있는 메뉴 항목 컴포넌트
+ * @param param0
+ * @returns
+ */
+const HasSubMenuLink = function ({
   subMenues,
   icon,
   title,
@@ -44,13 +49,7 @@ function HasSubMenuLink({
   }, [to, pathname, subMenues]);
 
   return (
-    <li
-      className={`has-sub ${isMenuActive ? "is-open" : ""}`}
-      onClick={() => {
-        //onclick을 여기 달아서, 밑에 subMenu 누르면 이벤트가 전파되고, state가 바뀌어 리렌더링된다.
-        //setIsOpen((prevState) => !prevState);
-      }}
-    >
+    <li className={`has-sub ${isMenuActive ? "is-open" : ""}`}>
       <NavLink to={to} className="side-nav-link" end>
         {icon ? icon : null}
         {level === 1 ? title : <span>{title}</span>}
@@ -67,6 +66,6 @@ function HasSubMenuLink({
       </ul>
     </li>
   );
-}
+};
 
 export default HasSubMenuLink;

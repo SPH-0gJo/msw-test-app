@@ -1,7 +1,12 @@
 import React, { useMemo } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
-function MenuLink({
+/**
+ * 하위 메뉴가 없는 메뉴 항목 컴포넌트
+ * @param param0
+ * @returns
+ */
+const MenuLink = function ({
   to,
   children,
   url,
@@ -30,6 +35,6 @@ function MenuLink({
       </NavLink>
     </li>
   );
-}
+};
 
 export default MenuLink;
