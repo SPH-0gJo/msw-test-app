@@ -6,16 +6,17 @@ import { observer } from "mobx-react";
 import React from "react";
 
 /**
- * 권한있는 메뉴 목록 데이터를 바탕으로 대시보드 메뉴 목록 컴포넌트를 생성하는 함수
+ * 권한있는 메뉴 목록 데이터를 바탕으로 대시보드, 관리자 메뉴 목록 컴포넌트를 생성하는 함수
  * @param menuInfoList
  * @param level
  * @returns
  */
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
-  return menuInfoList.map(({ children, title, to, icon, url }) => {
+  return menuInfoList.map(({ children, title, to, icon, url, id }) => {
     if (children && children.length > 0) {
       return (
         <HasSubMenuLink
+          key={id}
           icon={
             level === 1 ? <i className={"mdi mdi-chart-box-outline"} /> : null
           }
@@ -28,7 +29,12 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
       );
     } else {
       return (
-        <MenuLink icon={icon ? <i className={icon} /> : null} to={to} url={url}>
+        <MenuLink
+          key={id}
+          icon={icon ? <i className={icon} /> : null}
+          to={to}
+          url={url}
+        >
           {title}
         </MenuLink>
       );
