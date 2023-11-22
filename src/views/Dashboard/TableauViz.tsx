@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from "react";
 import loadTableau from "./loadTableau";
-import { tableauHostURL } from "@/shared/env";
+import { tableauHostURL, tableauSiteRoot } from "@/shared/env";
 
 /**
  * 태블로 서버로부터 반환받은 대시보드 화면을 렌더링하는 컴포넌트
@@ -20,7 +20,7 @@ const TableauViz = function ({ ticket, url }: { ticket: string; url: string }) {
       <object className="tableauViz" style={{ display: "none" }}>
         <param name="host_url" value={`${tableauHostURL}/`} />
         <param name="embed_code_version" value={3} />
-        <param name="site_root" value="" />
+        <param name="site_root" value={tableauSiteRoot} />
         <param name="name" value={trimmedUrl} />
         <param name="tabs" value="false" />
         <param name="toolbar" value="false" />
