@@ -134,7 +134,6 @@ class AuthStore {
 
   logout() {
     this.logUserOut();
-    this.rootStore.userStore.userInfo = null;
   }
 
   @action
