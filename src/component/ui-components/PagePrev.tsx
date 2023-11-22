@@ -13,9 +13,7 @@ const PagePrev = function ({ disabled, onClick }: PageItemProps) {
       classList={["paginate_button", "prev"]}
       disabled={disabled}
     >
-      <a className="page-link" href="#">
-        <i className="mdi mdi-chevron-left" />
-      </a>
+      <i className="mdi mdi-chevron-left" />
     </PageItem>
   );
 };

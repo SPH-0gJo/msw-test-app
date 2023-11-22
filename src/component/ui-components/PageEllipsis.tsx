@@ -6,13 +6,7 @@ import PageItem from "@/component/ui-components/PageItem";
  * @returns
  */
 const PageEllipsis = function () {
-  return (
-    <PageItem disabled={true}>
-      <a className="page-link" href="#">
-        ...
-      </a>
-    </PageItem>
-  );
+  return <PageItem disabled={true}>...</PageItem>;
 };
 
 export default React.memo(PageEllipsis);

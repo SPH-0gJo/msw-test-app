@@ -13,9 +13,7 @@ const PageNext = function ({ disabled, onClick }: PageItemProps) {
       classList={["paginate_button", "next"]}
       disabled={disabled}
     >
-      <a className="page-link" href="#">
-        <i className="mdi mdi-chevron-right" />
-      </a>
+      <i className="mdi mdi-chevron-right" />
     </PageItem>
   );
 };
