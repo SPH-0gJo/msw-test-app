@@ -1,6 +1,9 @@
 import LogRepository from "./LogRepository";
 import { RootStore } from "@/modules/Store";
 
+/**
+ * 접속 이력 API 호출과 관련 state 관리를 담당하는 서비스 클래스
+ */
 class LogStore {
   rootStore: RootStore;
 

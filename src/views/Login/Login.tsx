@@ -7,11 +7,15 @@ import { AxiosError } from "axios";
 import { ErrorData } from "@/shared/request";
 import { useStores } from "@/modules/Store";
 
-type Inputs = {
+interface Inputs {
   userId: string;
   password: string;
-};
+}
 
+/**
+ * 로그인 화면 컴포넌트
+ * @returns
+ */
 const Login = function () {
   const {
     register,
@@ -19,7 +23,6 @@ const Login = function () {
     formState: { errors },
     clearErrors,
     setError,
-    trigger,
   } = useForm<Inputs>({
     mode: "onSubmit",
   });

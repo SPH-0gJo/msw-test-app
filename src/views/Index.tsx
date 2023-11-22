@@ -2,6 +2,10 @@ import React from "react";
 import { useStores } from "@/modules/Store";
 import { Navigate } from "react-router-dom";
 
+/**
+ * 사용자의 권한에 따른 Home 화면 컴포넌트
+ * @returns
+ */
 const Index = function () {
   const { authStore } = useStores();
 

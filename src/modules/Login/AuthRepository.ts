@@ -1,12 +1,15 @@
 import { createGet, createPost } from "@/shared/request";
 import { AuthMenu } from "@/shared/var/authMenu";
 import { User } from "@/shared/var/user";
-import { modUserData } from "../Account/AccountRepository";
+import { modUserData } from "@/modules/Account/AccountRepository";
 
-type LoginResData = {
+interface LoginResData {
   access_token: string;
   refresh_token: string;
-};
+}
+/**
+ * 사용자, 인증 API 호출을 담당하는 클래스
+ */
 
 class AuthRepository {
   URL = "/auth";

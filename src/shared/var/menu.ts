@@ -8,6 +8,7 @@ export interface MenuInfo {
   url?: string;
 }
 
+//시스템 관리 화면에서 사용할 메뉴 목록 변수
 export const sysMenuInfoList: MenuInfo[] = [
   {
     id: "sys-group",
@@ -46,102 +47,12 @@ export const sysMenuInfoList: MenuInfo[] = [
   },
 ];
 
-export const menuInfoList: MenuInfo[] = [
-  {
-    title: "생생 시민소리",
-    path: "dashboard",
-    to: "/dashboard",
-    icon: "mdi mdi-chart-box-outline",
-    url: "YEORON/M_MT",
-    children: [
-      {
-        title: "키워드 분석",
-        path: "Dashboard_1",
-        to: "/dashboard/Dashboard_1",
-        url: "YEORON/K_M",
-      },
-      {
-        title: "감정 분석",
-        path: "Dashboard_2",
-        to: "/dashboard/Dashboard_2",
-        url: "YEORON/S",
-      },
-      {
-        title: "게시글 분석",
-        path: "Dashboard_3",
-        to: "/dashboard/Dashboard_3",
-        url: "YEORON/P",
-      },
-      {
-        title: "채널 분석",
-        path: "Dashboard_4",
-        to: "/dashboard/Dashboard_4",
-        url: "YEORON/C",
-      },
-    ],
-  },
-  {
-    title: "뉴스 분석",
-    path: "newsAnalysis",
-    to: "/newsAnalysis",
-    icon: "mdi mdi-chart-pie-outline",
-    url: "news/M",
-    children: [
-      {
-        title: "추이 분석",
-        path: "Dashboard_1",
-        to: "/newsAnalysis/Dashboard_1",
-        url: "news/T",
-      },
-      {
-        title: "카테고리 분석",
-        path: "Dashboard_2",
-        to: "/newsAnalysis/Dashboard_2",
-        url: "news/C/sphserver/474c14b6-b58b-4279-8ecd-e93f8d5e0a0e",
-      },
-      {
-        title: "키워드 분석",
-        path: "Dashboard_3",
-        to: "/newsAnalysis/Dashboard_3",
-        url: "news/K/sphserver/f1c7c634-8069-4b38-8091-110425d8a742",
-      },
-    ],
-  },
-  {
-    title: "시정 민원",
-    path: "minwon",
-    to: "/minwon",
-    icon: "mdi mdi-view-dashboard-outline",
-    url: "minwon_0926/NEW_Main",
-    children: [
-      {
-        title: "지역 분석",
-        path: "Dashboard_1",
-        to: "/minwon/Dashboard_1",
-        url: "minwon_0926/NEW_Region",
-      },
-      {
-        title: "추이 분석",
-        path: "Dashboard_2",
-        to: "/minwon/Dashboard_2",
-        url: "minwon_0926/NEW_Trend",
-      },
-      {
-        title: "담당부서 분석",
-        path: "Dashboard_3",
-        to: "/minwon/Dashboard_3",
-        url: "minwon_0926/NEW_Dept",
-      },
-      {
-        title: "처리유형 분석",
-        path: "Dashboard_4",
-        to: "/minwon/Dashboard_4",
-        url: "minwon_0926/NEW_Type",
-      },
-    ],
-  },
-];
-
+/**
+ * 대시보드 메뉴 목록에서 pathname에 해당하는 메뉴의 태블로 임베딩 URL을 반환하는 함수
+ * @param menuInfoList
+ * @param pathname
+ * @returns
+ */
 export const getTableauUrl = function (
   menuInfoList: MenuInfo[],
   pathname: string

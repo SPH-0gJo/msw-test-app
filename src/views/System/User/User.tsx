@@ -27,6 +27,10 @@ import { User as TUser } from "@/shared/var/user";
 import { customConfirm } from "@/confirm-lib/util";
 import Loading from "@/component/ui-components/Loading";
 
+/**
+ * 사용자 관리 화면 컴포넌트
+ * @returns
+ */
 const User = function () {
   const {
     accountStore,

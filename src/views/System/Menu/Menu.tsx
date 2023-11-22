@@ -20,6 +20,10 @@ import {
 } from "@/shared/var/sysMenu";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
 
+/**
+ * 메뉴 관리 화면 컴포넌트
+ * @returns
+ */
 const Menu = function () {
   //@@@@@@@ 선언 @@@@@@@
 

@@ -1,5 +1,12 @@
 import { useMemo, useState } from "react";
-
+/**
+ * 페이지네이션에 필요한 변수, 함수를 반환하는 함수
+ * @param data 표시할 데이터
+ * @param initialPage 현재 page의 초기값
+ * @param pageSize 한 페이지에 노출할 게시글 수
+ * @param pagingSize 한 화면에 노출할 페이지 수
+ * @returns
+ */
 export const usePagination = function (
   data: any[],
   initialPage: number = 1,

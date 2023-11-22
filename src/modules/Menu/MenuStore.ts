@@ -3,6 +3,10 @@ import MenuRepository, { MenuAddParam, MenuModParam } from "./MenuRepository";
 import { action, computed, makeObservable, observable } from "mobx";
 import { Menu } from "@/shared/var/sysMenu";
 
+/**
+ * 메뉴 관리 API 호출과 관련 state 관리를 담당하는 서비스 클래스
+ */
+
 class MenuStore {
   rootStore: RootStore;
   @observable menus: Menu[] | null = null;

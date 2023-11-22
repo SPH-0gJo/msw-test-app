@@ -1,25 +1,29 @@
-//import "./index.css";
 import "@/resources/scss/main.scss";
 import AppContent from "./layout/AppContent";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
-import Login from "./views/Login/Login";
+import Login from "@/views/Login/Login";
 
-import User from "./views/System/User/User";
-import RequireAuth from "./views/Login/RequireAuth";
-import { MenuInfo } from "./shared/var/menu";
-import Dashboard from "./views/Dashboard/Dashboard";
-import Group from "./views/System/Group/Group";
-import Menu from "./views/System/Menu/Menu";
-import Authority from "./views/System/Authority/Authority";
-import Log from "./views/System/Log/Log";
-import SystemDefault from "./views/SystemDefault";
+import User from "@/views/System/User/User";
+import RequireAuth from "@/views/Login/RequireAuth";
+import { MenuInfo } from "@/shared/var/menu";
+import Dashboard from "@/views/Dashboard/Dashboard";
+import Group from "@/views/System/Group/Group";
+import Menu from "@/views/System/Menu/Menu";
+import Authority from "@/views/System/Authority/Authority";
+import Log from "@/views/System/Log/Log";
+import SystemDefault from "@/views/SystemDefault";
 import { rootPath } from "@/shared/env";
 import { useStores } from "@/modules/Store";
 import { observer } from "mobx-react";
-import RequireAdminRole from "./views/System/RequireAdminRole";
-import Default from "./views/Default";
-import Index from "./views/Index";
+import RequireAdminRole from "@/views/System/RequireAdminRole";
+import Default from "@/views/Default";
+import Index from "@/views/Index";
 
+/**
+ * 동적으로 대시보드 메뉴에 대응되는 Route를 생성하는 함수
+ * @param menuInfoList
+ * @returns
+ */
 const getRoutes = function (menuInfoList: MenuInfo[]) {
   return menuInfoList.map(({ path, children, id }) => {
     if (children && children?.length > 0) {
@@ -33,14 +37,16 @@ const getRoutes = function (menuInfoList: MenuInfo[]) {
     }
   });
 };
-
+/**
+ *  Router와 Route를 반환하는 컴포넌트 (경로와 컴포넌트를 매핑)
+ * @returns
+ */
 const AppRoutes = function () {
   const { authStore } = useStores();
 
   const authMenuInfoList = authStore.authMenuInfoList;
 
   return (
-    // <StoreProvider value={stores}>
     <BrowserRouter basename={`/${rootPath}`}>
       <Routes>
         <Route
@@ -75,7 +81,6 @@ const AppRoutes = function () {
         <Route path="*" element={<Default />} />
       </Routes>
     </BrowserRouter>
-    // </StoreProvider>
   );
 };
 

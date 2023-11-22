@@ -1,5 +1,5 @@
-import { Column, SearchParam } from "../type/table";
-import { Option } from "../type/select";
+import { Column, SearchParam } from "@/shared/type/table";
+import { Option } from "@/shared/type/select";
 
 export interface Log {
   seq: number; //1216;
@@ -16,6 +16,11 @@ type LogTableDataExtras = {
 
 export type LogTableData = LogTableDataExtras & Log;
 
+/**
+ * 응답 데이터를 정제하여 테이블에서 사용할 수 있는 형태로 정제하는 함수
+ * @param logs
+ * @returns
+ */
 export const getLogTableData = function (logs: Log[]): LogTableData[] {
   return logs.map((log, i) => ({
     ...log,
@@ -23,6 +28,7 @@ export const getLogTableData = function (logs: Log[]): LogTableData[] {
   }));
 };
 
+// 접속 이력 테이블 컬럼 정보
 export const logColumns: Column<LogTableData>[] = [
   {
     key: "no",
@@ -60,6 +66,7 @@ export const logColumns: Column<LogTableData>[] = [
   },
 ];
 
+// 접속이력 테이블 검색 Select 컴포넌트의 Option 설정 정보
 export const logSearchOptionList: Option<LogTableData>[] = [
   {
     value: "userName",
@@ -71,6 +78,7 @@ export const logSearchOptionList: Option<LogTableData>[] = [
   },
 ];
 
+// 접속이력 테이블 검색 파라미터 세팅정보
 export const logInitSearchParam: SearchParam<LogTableData> = {
   field: "userName",
   query: "",

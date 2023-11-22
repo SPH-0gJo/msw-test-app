@@ -32,6 +32,10 @@ import { CSVLink } from "react-csv";
 import { getFormattedDateRange } from "@/shared/util/dateRange";
 import Loading from "@/component/ui-components/Loading";
 
+/**
+ * 접속 이력 화면 컴포넌트
+ * @returns
+ */
 const Log = function () {
   //@@@@@@@ 선언 @@@@@@@
 

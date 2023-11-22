@@ -14,6 +14,10 @@ export interface MenuModParam extends MenuFormInputs {
   menuId: string;
 }
 
+/**
+ * 메뉴 관리 API 호출을 담당하는 클래스
+ */
+
 class MenuRepository {
   URL = "/system/menu";
 

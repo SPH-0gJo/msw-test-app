@@ -20,6 +20,10 @@ import GroupModifyModal from "@/component/Group/GroupModifyModal";
 import { customConfirm } from "@/confirm-lib/util";
 import Loading from "@/component/ui-components/Loading";
 
+/**
+ * 그룹 관리 화면 컴포넌트
+ * @returns
+ */
 const Group = function () {
   //@@@@@@@ 선언 @@@@@@@
 

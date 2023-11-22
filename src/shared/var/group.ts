@@ -1,6 +1,6 @@
 import Button from "@/component/ui-components/Button";
-import { Column, SearchParam } from "../type/table";
-import { Option } from "../type/select";
+import { Column, SearchParam } from "@/shared/type/table";
+import { Option } from "@/shared/type/select";
 
 export interface Group {
   groupId: string;
@@ -17,7 +17,12 @@ type GroupTableDataExtras = {
 };
 
 export type GroupTableData = GroupTableDataExtras & Group;
-
+/**
+ * 응답 데이터를 정제하여 테이블에서 사용할 수 있는 형태로 정제하는 함수
+ * @param groups
+ * @param onModBtnClick
+ * @returns
+ */
 export const getGroupTableData = function (
   groups: Group[],
   onModBtnClick: (target: Group) => void
@@ -37,6 +42,7 @@ export const getGroupTableData = function (
   }));
 };
 
+//그릅관리 테이블 컬럼 정보
 export const groupColumns: Column<GroupTableData>[] = [
   {
     key: "no",
@@ -59,13 +65,14 @@ export const groupColumns: Column<GroupTableData>[] = [
   },
 ];
 
+// 그룹관리 테이블 검색 Select 컴포넌트의 Option 설정 정보
 export const groupSearchOptionList: Option<GroupTableData>[] = [
   {
     value: "groupName",
     title: "그룹명",
   },
 ];
-
+// 그룹관리 테이블 검색 파라미터 세팅정보
 export const groupInitSearchParam: SearchParam<GroupTableData> = {
   field: "groupName",
   query: "",

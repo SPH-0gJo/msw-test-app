@@ -1,20 +1,23 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import AuthRepository from "@/modules/Login/AuthRepository";
-import { apiBaseUrl, rootPath } from "../env";
+import { apiBaseUrl, rootPath } from "@/shared/env";
 
-export type ErrorData = {
+export interface ErrorData {
   code: number;
   msg: string;
-};
-
+}
+//토큰이 리프레싱 요청 진행중인지 여부
 let isTokenRefreshing = false;
+//토큰 리프레시 후 시행될 함수들 목록
 let refreshSubscribers: any[] = [];
 
+//토큰 리프레시로 인해 지연된 함수들을 실행하는 함수
 const onTokenRefreshed = (accessToken: string) => {
   refreshSubscribers.map((callback) => callback(accessToken));
   refreshSubscribers = [];
 };
 
+//토큰 리프레시 후 시행할 함수 목록에 함수를 추가하는 함수
 const addRefreshSubscriber = (callback: any) => {
   refreshSubscribers.push(callback);
 };
@@ -110,10 +113,22 @@ axios.interceptors.request.use(
   }
 );
 
+/**
+ * Post 요청을 생성하는 함수
+ * @param url
+ * @param requestBody
+ * @returns
+ */
 const createPost = function <T>(url: string, requestBody: any) {
   return axios.post<T>(url, requestBody);
 };
 
+/**
+ * Get 요청을 생성하는 함수
+ * @param url
+ * @param config
+ * @returns
+ */
 const createGet = function <T>(
   url: string,
   config: AxiosRequestConfig<any> | undefined = {}

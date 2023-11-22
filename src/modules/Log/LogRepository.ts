@@ -1,6 +1,9 @@
 import { createGet } from "@/shared/request";
 import { Log } from "@/shared/var/log";
 
+/**
+ * 접속 이력 API 호출을 담당하는 클래스
+ */
 class LogRepository {
   URL = "/system/log";
 

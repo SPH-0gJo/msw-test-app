@@ -2,17 +2,22 @@ import { action, makeObservable, observable } from "mobx";
 
 import AuthRepository from "./AuthRepository";
 import { RootStore } from "@/modules/Store";
-import { AuthMenu, getMenuInfoList } from "@/shared/var/authMenu";
+import { getMenuInfoList } from "@/shared/var/authMenu";
 import { MenuInfo } from "@/shared/var/menu";
 import { decodeJwt } from "jose";
 import { User } from "@/shared/var/user";
-import { modUserData } from "../Account/AccountRepository";
+import { modUserData } from "@/modules/Account/AccountRepository";
 
+//localStorage 키값을 담은 변수
 const TOKEN = "token";
 const REFRESH_TOKEN = "r_token";
 const IS_ADMIN = "is_admin";
 
 type Role = "ROLE_ADMIN" | "ROLE_USER";
+
+/**
+ * 인증 API 호출과 관련 state 관리를 담당하는 서비스 클래스
+ */
 
 class AuthStore {
   @observable
@@ -30,7 +35,7 @@ class AuthStore {
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    console.log("새로고침"); //navigate 한다고 발생하는 것은 아님.
+    //console.log("새로고침"); //navigate 한다고 발생하는 것은 아님.
 
     makeObservable(this);
 
@@ -43,11 +48,10 @@ class AuthStore {
           this.setIsAuthMenuListLoading(false);
         })
         .then(() => {
-          //this.configureIsAdmin();
           return this.configureUserInfo();
         })
         .catch((e) => {
-          //configAuthMenuInfoList or configureIsAdmin 에서 발생한 에러 catch
+          //configAuthMenuInfoList or configureUserInfo 에서 발생한 에러 catch
           console.error("Promise Chain Error", e);
         });
     }

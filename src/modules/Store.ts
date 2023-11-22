@@ -1,12 +1,12 @@
 import React from "react";
-import AccountStore from "./Account/AccountStore";
-import DashboardStore from "./Dashboard/DashboardStore";
-import GroupStore from "./Group/GroupStore";
-import AuthStore from "./Login/AuthStore";
-import AuthorityStore from "./Authority/AuthorityStore";
-import MenuStore from "./Menu/MenuStore";
-import LogStore from "./Log/LogStore";
-import CommonStore from "./CommonStore";
+import AccountStore from "@/modules/Account/AccountStore";
+import DashboardStore from "@/modules/Dashboard/DashboardStore";
+import GroupStore from "@/modules/Group/GroupStore";
+import AuthStore from "@/modules/Login/AuthStore";
+import AuthorityStore from "@/modules/Authority/AuthorityStore";
+import MenuStore from "@/modules/Menu/MenuStore";
+import LogStore from "@/modules/Log/LogStore";
+import CommonStore from "@/modules/CommonStore";
 
 export class RootStore {
   commonStore: CommonStore;

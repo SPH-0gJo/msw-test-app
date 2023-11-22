@@ -23,6 +23,12 @@ type UserTableDataExtras = {
 export type UserTableData = UserTableDataExtras &
   Pick<User, "sysuserId" | "groupName" | "userId" | "userName" | "registDate">;
 
+/**
+ * 응답 데이터를 정제하여 테이블에서 사용할 수 있는 형태로 정제하는 함수
+ * @param users
+ * @param onModBtnClick
+ * @returns
+ */
 export const getUserTableData = function (
   users: User[],
   onModBtnClick: (arg: User) => void
@@ -46,6 +52,7 @@ export const getUserTableData = function (
   }));
 };
 
+//사용자 관리 테이블 컬럼 정보
 export const userColumns: Column<UserTableData>[] = [
   {
     key: "no",
@@ -78,6 +85,7 @@ export const userColumns: Column<UserTableData>[] = [
   },
 ];
 
+// 사용자 관리 테이블 검색 Select 컴포넌트의 Option 설정 정보
 export const userOptionList: Option<UserTableData>[] = [
   {
     value: "userId",
