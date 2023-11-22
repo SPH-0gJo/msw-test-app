@@ -18,7 +18,7 @@ const TableauViz = function ({ ticket, url }: { ticket: string; url: string }) {
   return (
     <div className="tableauPlaceholder">
       <object className="tableauViz" style={{ display: "none" }}>
-        <param name="host_url" value={tableauHostURL} />
+        <param name="host_url" value={`${tableauHostURL}/`} />
         <param name="embed_code_version" value={3} />
         <param name="site_root" value="" />
         <param name="name" value={trimmedUrl} />
