@@ -144,7 +144,9 @@ const UserRegisterModal = function ({
               >
                 <option value="">선택 없음 (게스트로 등록)</option>
                 {groups.map(({ groupId, groupName }) => (
-                  <option value={groupId}>{groupName}</option>
+                  <option key={groupId} value={groupId}>
+                    {groupName}
+                  </option>
                 ))}
               </select>
             </div>
