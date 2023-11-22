@@ -104,9 +104,13 @@ const Table = function <T>({
                   />
                 </td>
               )}
-              {columns.map((col) => {
+              {columns.map((col, i) => {
                 const value = dt[col.key as keyof T];
-                return <td>{typeof value === "function" ? value() : value}</td>;
+                return (
+                  <td key={`${dataIdVal}-col-${i}`}>
+                    {typeof value === "function" ? value() : value}
+                  </td>
+                );
               })}
             </tr>
           );

@@ -44,9 +44,13 @@ const NonSelectableTable = function <T>({
           const dataIdVal = dt[dataIdKey] as string;
           return (
             <tr key={dataIdVal}>
-              {columns.map((col) => {
+              {columns.map((col, i) => {
                 const value = dt[col.key as keyof T];
-                return <td>{typeof value === "function" ? value() : value}</td>;
+                return (
+                  <td key={`${dataIdVal}-col-${i}`}>
+                    {typeof value === "function" ? value() : value}
+                  </td>
+                );
               })}
             </tr>
           );
