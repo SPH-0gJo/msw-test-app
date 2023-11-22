@@ -21,11 +21,15 @@ import Default from "./views/Default";
 import Index from "./views/Index";
 
 const getRoutes = function (menuInfoList: MenuInfo[]) {
-  return menuInfoList.map(({ path, children }) => {
+  return menuInfoList.map(({ path, children, id }) => {
     if (children && children?.length > 0) {
-      return <Route path={path}>{getRoutes(children)}</Route>;
+      return (
+        <Route key={id} path={path}>
+          {getRoutes(children)}
+        </Route>
+      );
     } else {
-      return <Route path={path} />;
+      return <Route key={id} path={path} />;
     }
   });
 };

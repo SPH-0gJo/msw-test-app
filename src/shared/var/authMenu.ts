@@ -13,16 +13,19 @@ export const getMenuInfoList = function (
   authMenus: AuthMenu[],
   parentPath: string = ""
 ): MenuInfo[] {
-  return authMenus.map(({ menuName, menupathName, embedUrl, childMenu }) => {
-    const curFullPath = `${parentPath}/${menupathName}`;
-    return {
-      title: menuName,
-      path: menupathName,
-      to: curFullPath,
-      url: embedUrl,
-      children: getMenuInfoList(childMenu, curFullPath),
-    };
-  });
+  return authMenus.map(
+    ({ menuName, menupathName, embedUrl, childMenu, menuId }) => {
+      const curFullPath = `${parentPath}/${menupathName}`;
+      return {
+        id: menuId,
+        title: menuName,
+        path: menupathName,
+        to: curFullPath,
+        url: embedUrl,
+        children: getMenuInfoList(childMenu, curFullPath),
+      };
+    }
+  );
 };
 
 const authMenuList: AuthMenu[] = [

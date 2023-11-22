@@ -1,4 +1,5 @@
 export interface MenuInfo {
+  id?: string;
   title: string;
   path: string;
   children?: MenuInfo[];
