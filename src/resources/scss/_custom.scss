@@ -59,9 +59,7 @@
       width: 450px;
 
       .form-row {
-        &:not(:last-child) {
-          margin-bottom: 20px;
-        }
+        margin-bottom: 20px;
 
         .form-label {
           color: #fff;
@@ -389,6 +387,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
 
   .table-control-top-side {
     display: flex;
@@ -432,6 +432,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  max-width: 100%;
 
   select {
     border: 0;
@@ -470,11 +471,16 @@
 
   thead {
     border-top: 0 !important;
+    position: sticky;
+    top: 0;
+
     tr {
       th {
         background-color: #f6f6f6;
         color: #000;
         text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
       }
     }
   }
@@ -487,6 +493,8 @@
         color: #000;
         text-align: center;
         background-color: transparent;
+        white-space: nowrap;
+        vertical-align: middle;
       }
     }
   }

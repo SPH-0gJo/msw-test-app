@@ -65,6 +65,20 @@
 }
 
 @media (max-width: 499px) {
+  .top-nav {
+    height: 60px;
+  }
+
+  .content-page {
+    padding: 60px 20px 20px 20px;
+
+    .content {
+      > .row {
+        gap: 10px;
+      }
+    }
+  }
+
   .login-container {
     &::before {
       background-color: rgba(0,0,0,0.6);
@@ -74,8 +88,51 @@
       .login-box {
         background-color: transparent;
         backdrop-filter: none;
+        padding: 0 80px 30px 80px;
+
+        .login-logo {
+          margin-bottom: 20px;
+        }
+
+        .form-row {
+          margin-bottom: 15px;
+        }
+      }
+
+      .login-text {
+        margin-top: 0;
+        width: auto;
+        padding: 0 45px;
       }
     }
   }
 
+  .table-control-top {
+    justify-content: flex-end;
+    margin-bottom: 20px;
+
+    .table-control-top-side {
+      flex-wrap: wrap;
+      width: 100%;
+    }
+  }
+
+  .table-search-wrap {
+    width: 100%;
+
+  }
+
+  .card-box {
+    .card-box-body {
+      padding: 20px;
+    }
+  }
+
+  .pagination-wrap {
+    padding-top: 20px;
+  }
+
+  .custom-modal .modal-dialog {
+    margin: 20px;
+  }
 }
