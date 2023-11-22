@@ -23,6 +23,7 @@ import TableSearch from "@/component/Common/TableSearch";
 //Date Picker 관련
 import { Range, DateRange, RangeKeyDict } from "react-date-range";
 import { subMonths, format, addDays } from "date-fns";
+import * as locales from "react-date-range/dist/locale";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -197,6 +198,7 @@ const Log = function () {
                 moveRangeOnFirstSelection={false}
                 ranges={state}
                 maxDate={initEndDate}
+                locale={locales["ko"]}
               />
             </Dropdown.Menu>
 
