@@ -32,9 +32,10 @@ const TableSearch = function <T>({
         name=""
         id=""
       >
-        {optionList.map((opt) => {
+        {optionList.map((opt, i) => {
           return (
             <option
+              key={`opt-${i}`}
               selected={opt.value === selectVal}
               value={opt.value as string}
             >
