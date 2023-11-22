@@ -5,6 +5,12 @@ import { MenuInfo } from "@/shared/var/menu";
 import { observer } from "mobx-react";
 import React from "react";
 
+/**
+ * 권한있는 메뉴 목록 데이터를 바탕으로 대시보드 메뉴 목록 컴포넌트를 생성하는 함수
+ * @param menuInfoList
+ * @param level
+ * @returns
+ */
 export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
   return menuInfoList.map(({ children, title, to, icon, url }) => {
     if (children && children.length > 0) {
@@ -30,6 +36,10 @@ export const getMenuLinks = function (menuInfoList: MenuInfo[], level: number) {
   });
 };
 
+/**
+ * 대시보드 화면의 메뉴바 컴포넌트
+ * @returns
+ */
 const DashLeftSideMenu = function () {
   const { authStore } = useStores();
 

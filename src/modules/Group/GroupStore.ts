@@ -1,6 +1,9 @@
 import { RootStore } from "@/modules/Store";
 import GroupRepository from "./GroupRepository";
 
+/**
+ * 그룹 관리 API 호출과 관련 state 관리를 담당하는 서비스 클래스
+ */
 class GroupStore {
   rootStore: RootStore;
 

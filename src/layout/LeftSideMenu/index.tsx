@@ -8,6 +8,10 @@ import FoldableWrapper, {
 import { rootPath } from "@/shared/env";
 import Logo from "@/resources/images/logo-light.png";
 
+/**
+ * 화면 전체 레이아웃에서 로고를 포함한 메뉴바 영역을 렌더링하는 컴포넌트
+ * @returns
+ */
 const LeftSideMenu = function () {
   const { pathname } = useLocation();
 

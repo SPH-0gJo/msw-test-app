@@ -3,9 +3,12 @@ import AccountRepository, {
   AccountAddReqData,
   modUserData,
 } from "./AccountRepository";
-import { Group } from "../Group/GroupRepository";
+import { Group } from "@/modules/Group/GroupRepository";
 import { action, observable, makeObservable } from "mobx";
 
+/**
+ * 사용자 관리 API 호출과 사용자 관련 state 관리를 담당하는 서비스
+ */
 class AccountStore {
   rootStore: RootStore;
   @observable groups: Group[] | null = null;

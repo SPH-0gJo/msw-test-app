@@ -7,7 +7,11 @@ export interface FoldableWrapperProps
   classNm: string;
   children?: React.ReactNode;
 }
-
+/**
+ * 화면 너비에 따라 접히고 닫혀야하는 컴포넌트를 감싸는 Wrapper 컴포넌트
+ * @param param0
+ * @returns
+ */
 const FoldableWrapper = function ({
   classNm,
   children,

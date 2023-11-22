@@ -2,16 +2,19 @@ import React, { useCallback } from "react";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { useNavigate } from "react-router-dom";
 import { useStores } from "@/modules/Store";
-import FoldableWrapper from "./FoldableWrapper";
 import { observer } from "mobx-react";
 import { useModal } from "@/shared/hooks/modal";
 import ProfileModifyModal from "@/component/Profile/ProfileModifyModal";
+import FoldableWrapper from "@/layout/FoldableWrapper";
 
+/**
+ * 프로필 영역과 햄버거 메뉴를 포함한 상단바 컴포넌트
+ * @returns
+ */
 const TopNavBar = function () {
   const { authStore } = useStores();
 
   const isAdmin = authStore.isAdmin;
-
   const userInfo = authStore.userInfo;
   const userName = userInfo?.userName || "";
 

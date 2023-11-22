@@ -13,6 +13,9 @@ export interface modUserData {
   groupId: string | undefined;
 }
 
+/**
+ * 사용자 관리 API 호출 담당하는 클래스
+ */
 class AccountRepository {
   URL = "/system/account";
 
@@ -21,7 +24,7 @@ class AccountRepository {
   }
 
   isExist(userId: string) {
-    return createGet<boolean>(this.URL + `/exists`, {
+    return createGet<boolean>(this.URL + "/exists", {
       params: {
         userId,
       },

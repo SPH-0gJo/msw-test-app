@@ -1,4 +1,4 @@
-import { createGet, createPost } from "@/shared/request";
+import { createGet } from "@/shared/request";
 import { Log } from "@/shared/var/log";
 
 class LogRepository {

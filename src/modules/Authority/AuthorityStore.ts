@@ -2,6 +2,10 @@ import { RootStore } from "@/modules/Store";
 import AuthorityRepository from "./AuthorityRepository";
 import { Role } from "@/shared/var/role";
 
+/**
+ * 권한 관리 API 호출과 권한 관련 state 관리를 담당하는 서비스 클래스
+ */
+
 class AuthorityStore {
   rootStore: RootStore;
 

@@ -2,6 +2,10 @@ import React from "react";
 import { getMenuLinks } from "@/layout/LeftSideMenu/DashLeftSideMenu";
 import { sysMenuInfoList } from "@/shared/var/menu";
 
+/**
+ * 관리자 화면의 메뉴바 컴포넌트
+ * @returns
+ */
 const SysLeftSideMenu = function () {
   return (
     <div className="side-menu-wrap" id="sidebar-menu">

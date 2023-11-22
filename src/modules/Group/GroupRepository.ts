@@ -1,13 +1,17 @@
 import { createGet, createPost } from "@/shared/request";
 
-export type Group = {
+export interface Group {
   groupId: string;
   groupName: string;
   registDate: string;
   registSysuserId: string;
   updateDate: string;
   updateSysuserId: string;
-};
+}
+
+/**
+ * 그룹 관리 API 호출을 담당하는 클래스
+ */
 
 class GroupRepository {
   URL = "/system/group";
