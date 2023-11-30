@@ -49,6 +49,7 @@ const CustomToast = () => {
       show={show}
       delay={3000}
       autohide
+      style={{ width: "fit-content", maxWidth: "100%" }}
     >
       <ToastBody style={{ color: "#fff" }}>
         <i className={icon}></i> {message}
