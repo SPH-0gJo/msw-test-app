@@ -20,12 +20,13 @@ import TableSearch from "@/component/Common/TableSearch";
 import { paginateData, searchData } from "@/shared/util/table";
 import Button from "@/component/ui-components/Button";
 import { useStores } from "@/modules/Store";
-import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
+import { CONFIRM, ERROR, RESULT, SUCCESS } from "@/shared/var/msg";
 import { useModal } from "@/shared/hooks/modal";
 import UserModifyModal from "@/component/User/UserModifyModal";
 import { User as TUser } from "@/shared/var/user";
 import { customConfirm } from "@/confirm-lib/util";
 import Loading from "@/component/ui-components/Loading";
+import ContentCenterWrapper from "@/component/ui-components/ContentCenterWrapper";
 
 /**
  * 사용자 관리 화면 컴포넌트
@@ -211,8 +212,10 @@ const User = function () {
           <div className="table-wrap">
             {isLoading ? (
               <Loading />
-            ) : originData.length === 0 ? (
-              <div>No Data</div>
+            ) : originData.length === 0 || pagedData.length === 0 ? (
+              <ContentCenterWrapper>
+                <div>{RESULT.NO_DATA}</div>
+              </ContentCenterWrapper>
             ) : (
               <Table<UserTableData>
                 columns={columns}

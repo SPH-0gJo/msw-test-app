@@ -15,7 +15,7 @@ import {
 } from "@/shared/var/log";
 import { paginateData, searchData } from "@/shared/util/table";
 import { useStores } from "@/modules/Store";
-import { ERROR } from "@/shared/var/msg";
+import { ERROR, RESULT, VALIDATION_ERROR } from "@/shared/var/msg";
 import NonSelectableTable from "@/component/ui-components/NonSelectableTable";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import TableSearch from "@/component/Common/TableSearch";
@@ -31,6 +31,9 @@ import { Dropdown } from "react-bootstrap";
 import { CSVLink } from "react-csv";
 import { getFormattedDateRange } from "@/shared/util/dateRange";
 import Loading from "@/component/ui-components/Loading";
+import { AxiosError } from "axios";
+import { ErrorData } from "@/shared/request";
+import ContentCenterWrapper from "@/component/ui-components/ContentCenterWrapper";
 
 /**
  * 접속 이력 화면 컴포넌트
@@ -121,8 +124,12 @@ const Log = function () {
             setOriginData(logs);
           }
         })
-        .catch((error) => {
-          customAlert(ERROR.NOT_PROCESSED, "FAIL");
+        .catch((error: AxiosError<ErrorData, any> | any) => {
+          if (error.response?.data?.code === -501) {
+            customAlert(VALIDATION_ERROR.LOG_DATE_RANGE, "FAIL");
+          } else {
+            customAlert(ERROR.NOT_PROCESSED, "FAIL");
+          }
           console.error(error);
         })
         .finally(() => {
@@ -229,8 +236,10 @@ const Log = function () {
         <div className="table-wrap">
           {isLoading ? (
             <Loading />
-          ) : originData.length === 0 ? (
-            <div>No Data</div>
+          ) : originData.length === 0 || pagedData.length === 0 ? (
+            <ContentCenterWrapper>
+              <div>{RESULT.NO_DATA}</div>
+            </ContentCenterWrapper>
           ) : (
             <NonSelectableTable<LogTableData>
               columns={columns}
