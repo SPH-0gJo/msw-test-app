@@ -15,10 +15,11 @@ import {
   groupSearchOptionList,
   Group as TGroup,
 } from "@/shared/var/group";
-import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
+import { CONFIRM, ERROR, RESULT, SUCCESS } from "@/shared/var/msg";
 import GroupModifyModal from "@/component/Group/GroupModifyModal";
 import { customConfirm } from "@/confirm-lib/util";
 import Loading from "@/component/ui-components/Loading";
+import ContentCenterWrapper from "@/component/ui-components/ContentCenterWrapper";
 
 /**
  * 그룹 관리 화면 컴포넌트
@@ -173,8 +174,10 @@ const Group = function () {
           <div className="table-wrap">
             {isLoading ? (
               <Loading />
-            ) : originData.length === 0 ? (
-              <div>No Data</div>
+            ) : originData.length === 0 || pagedData.length === 0 ? (
+              <ContentCenterWrapper>
+                <div>{RESULT.NO_DATA}</div>
+              </ContentCenterWrapper>
             ) : (
               <Table<GroupTableData>
                 columns={columns}

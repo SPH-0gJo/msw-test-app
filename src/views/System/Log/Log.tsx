@@ -15,7 +15,7 @@ import {
 } from "@/shared/var/log";
 import { paginateData, searchData } from "@/shared/util/table";
 import { useStores } from "@/modules/Store";
-import { ERROR, VALIDATION_ERROR } from "@/shared/var/msg";
+import { ERROR, RESULT, VALIDATION_ERROR } from "@/shared/var/msg";
 import NonSelectableTable from "@/component/ui-components/NonSelectableTable";
 import CustomPagination from "@/component/ui-components/CustomPagination";
 import TableSearch from "@/component/Common/TableSearch";
@@ -33,6 +33,7 @@ import { getFormattedDateRange } from "@/shared/util/dateRange";
 import Loading from "@/component/ui-components/Loading";
 import { AxiosError } from "axios";
 import { ErrorData } from "@/shared/request";
+import ContentCenterWrapper from "@/component/ui-components/ContentCenterWrapper";
 
 /**
  * 접속 이력 화면 컴포넌트
@@ -235,8 +236,10 @@ const Log = function () {
         <div className="table-wrap">
           {isLoading ? (
             <Loading />
-          ) : originData.length === 0 ? (
-            <div>No Data</div>
+          ) : originData.length === 0 || pagedData.length === 0 ? (
+            <ContentCenterWrapper>
+              <div>{RESULT.NO_DATA}</div>
+            </ContentCenterWrapper>
           ) : (
             <NonSelectableTable<LogTableData>
               columns={columns}

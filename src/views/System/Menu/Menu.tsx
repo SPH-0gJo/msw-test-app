@@ -9,7 +9,7 @@ import { customConfirm } from "@/confirm-lib/util";
 import { useStores } from "@/modules/Store";
 import { useModal } from "@/shared/hooks/modal";
 import { paginateData, searchData } from "@/shared/util/table";
-import { CONFIRM, ERROR, SUCCESS } from "@/shared/var/msg";
+import { CONFIRM, ERROR, RESULT, SUCCESS } from "@/shared/var/msg";
 import {
   MenuTableData,
   getMenuTableData,
@@ -19,6 +19,7 @@ import {
   Menu as TMenu,
 } from "@/shared/var/sysMenu";
 import React, { useCallback, useLayoutEffect, useMemo, useState } from "react";
+import ContentCenterWrapper from "@/component/ui-components/ContentCenterWrapper";
 
 /**
  * 메뉴 관리 화면 컴포넌트
@@ -173,8 +174,10 @@ const Menu = function () {
           <div className="table-wrap">
             {isLoading ? (
               <Loading />
-            ) : originData.length === 0 ? (
-              <div>No Data</div>
+            ) : originData.length === 0 || pagedData.length === 0 ? (
+              <ContentCenterWrapper>
+                <div>{RESULT.NO_DATA}</div>
+              </ContentCenterWrapper>
             ) : (
               <Table<MenuTableData>
                 columns={columns}

@@ -31,3 +31,7 @@ export const VALIDATION_ERROR = {
   LOG_DATE_RANGE:
     "유효하지 않은 조회 기간입니다. 조회 기간을 3개월 이내로 설정해 주세요.",
 };
+
+export const RESULT = {
+  NO_DATA: "조회된 데이터가 없습니다.",
+};
