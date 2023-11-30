@@ -5,7 +5,7 @@ import SysLeftSideMenu from "@/layout/LeftSideMenu/SysLeftSideMenu";
 import FoldableWrapper, {
   FoldableWrapperProps,
 } from "@/layout/FoldableWrapper";
-import { rootPath } from "@/shared/env";
+import { nyjRootPath } from "@/shared/env";
 import Logo from "@/resources/images/logo-light.png";
 
 /**
@@ -33,7 +33,7 @@ const LeftSideMenu = function () {
     <FoldableWrapper {...folderWrapperProps}>
       <div className="logo-box">
         <h1 className="logo">
-          <a href={`/${rootPath}`} className="logo-link">
+          <a href={`/${nyjRootPath}`} className="logo-link">
             <img src={Logo} alt="남양주 Logo" />
             <span className="logo-type">생생 시민소리 분석시스템</span>
           </a>
