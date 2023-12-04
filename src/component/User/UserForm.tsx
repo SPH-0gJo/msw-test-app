@@ -64,7 +64,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
   } = useStores();
 
   useLayoutEffect(() => {
-    if (!isGroupDisabled && accountStore.groups === null) {
+    if (!isGroupDisabled) {
       //그룹 셀렉트 박스에 출력할 그룹 목록 호출 및 세팅
       accountStore
         .findAllGroups()
@@ -124,7 +124,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
           >
             {isGroupDisabled && <option>{groupIdDefaultValue}</option>}
             {!isGroupDisabled && groups === null && (
-              <option>Loading...</option>
+              <option>로딩중</option>
             )}{" "}
             {!isGroupDisabled &&
               groups &&
