@@ -31,14 +31,11 @@ const TableSearch = function <T>({
         }}
         name=""
         id=""
+        value={selectVal as string}
       >
         {optionList.map((opt, i) => {
           return (
-            <option
-              key={`opt-${i}`}
-              selected={opt.value === selectVal}
-              value={opt.value as string}
-            >
+            <option key={`opt-${i}`} value={opt.value as string}>
               {opt.title}
             </option>
           );
