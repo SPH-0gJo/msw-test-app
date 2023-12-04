@@ -50,7 +50,7 @@ const Dashboard = function () {
 
   return loading ? (
     <ContentCenterWrapper>
-      <div>Loading...</div>
+      <div>로딩중</div>
     </ContentCenterWrapper>
   ) : url && ticket ? (
     <TableauViz url={url} ticket={ticket} />

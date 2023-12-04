@@ -124,7 +124,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
           >
             {isGroupDisabled && <option>{groupIdDefaultValue}</option>}
             {!isGroupDisabled && groups === null && (
-              <option>Loading...</option>
+              <option>로딩중</option>
             )}{" "}
             {!isGroupDisabled &&
               groups &&
