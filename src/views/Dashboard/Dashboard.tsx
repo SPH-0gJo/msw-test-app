@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { useStores } from "@/modules/Store";
 import { getTableauUrl } from "@/shared/var/menu";
 import TableauViz from "./TableauViz";
+import ContentCenterWrapper from "@/component/ui-components/ContentCenterWrapper";
 
 const DEFAULT_URL = null; //"https://public.tableau.com/views/_16866371409120/sheet14";
 
@@ -48,13 +49,19 @@ const Dashboard = function () {
   }, [pathname]);
 
   return loading ? (
-    <div>Loading...</div>
+    <ContentCenterWrapper>
+      <div>Loading...</div>
+    </ContentCenterWrapper>
   ) : url && ticket ? (
     <TableauViz url={url} ticket={ticket} />
   ) : !url ? (
-    <div>대시보드 URL이 존재하지 않습니다.</div>
+    <ContentCenterWrapper>
+      <div>대시보드 URL이 존재하지 않습니다.</div>
+    </ContentCenterWrapper>
   ) : (
-    <div>대시보드 인증에 실패하였습니다.</div>
+    <ContentCenterWrapper>
+      <div>대시보드 인증에 실패하였습니다.</div>
+    </ContentCenterWrapper>
   );
 };
 
