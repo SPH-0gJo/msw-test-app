@@ -29,6 +29,8 @@
     "start": "craco start",
     "build": "craco build",
     "build:dev": "cross-env PUBLIC_URL=https://nyjdev.sphinfo.com:8010/voc REACT_APP_BUILD_ENV=dev craco build",
+    "build:nyj1": "cross-env PUBLIC_URL=https://nyjdev.sphinfo.com:8010/voc REACT_APP_BUILD_ENV=nyj1 craco build",
+    "build:nyj2": "cross-env PUBLIC_URL=https://siminsori.nyj.go.kr/voc REACT_APP_BUILD_ENV=nyj2 craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },
