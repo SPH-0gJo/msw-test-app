@@ -26,7 +26,7 @@ export const VALIDATION_ERROR = {
   GROUP_NAME: "한글 또는 영문, 숫자 2자 이상 50자 이내",
   MENU_NAME: "한글, 숫자 또는 영문 2자 이상 20자 이내 띄어쓰기 허용",
   MENU_PATH_NAME: "영문 소문자, 숫자 2자 이상 30자 이내, 하이픈(-)만 사용가능",
-  MENU_SORT_NO: "0 이상의 숫자만 가능합니다.",
+  MENU_SORT_NO: "1 이상의 숫자만 가능합니다.",
   MENU_ETC: "1000자 이내",
   LOG_DATE_RANGE:
     "유효하지 않은 조회 기간입니다. 조회 기간을 3개월 이내로 설정해 주세요.",
