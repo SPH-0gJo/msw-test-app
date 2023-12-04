@@ -1,7 +1,7 @@
 import { Group } from "@/modules/Group/GroupRepository";
 import { ErrorData } from "@/shared/request";
 import { AxiosError } from "axios";
-import React, { useCallback, useLayoutEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { ERROR, SUCCESS } from "@/shared/var/msg";
@@ -38,7 +38,7 @@ const UserRegisterModal = function ({
 
   const [groups, setGroups] = useState<Group[]>([]);
 
-  useLayoutEffect(() => {
+  const formShowHandler = () => {
     //그룹 셀렉트 박스에 출력될 그룹 목록 호출 및 세팅
     groupStore
       .findAll()
@@ -50,7 +50,7 @@ const UserRegisterModal = function ({
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  };
 
   const [userIdResult, setUserIdResult] = useState(false);
 
@@ -128,7 +128,12 @@ const UserRegisterModal = function ({
   );
 
   return (
-    <Modal show={show} onHide={formHideHandler} className="custom-modal">
+    <Modal
+      show={show}
+      onHide={formHideHandler}
+      onShow={formShowHandler}
+      className="custom-modal"
+    >
       <Modal.Header onHide={formHideHandler} closeButton>
         <h4 className="modal-title">등록</h4>
       </Modal.Header>
