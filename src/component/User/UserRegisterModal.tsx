@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import React, { useCallback, useState } from "react";
 import { Button, Modal } from "react-bootstrap";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
-import { ERROR, SUCCESS } from "@/shared/var/msg";
+import { ERROR, SUCCESS, VALIDATION_ERROR } from "@/shared/var/msg";
 import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 import { AccountAddReqData } from "@/modules/Account/AccountRepository";
 import { useStores } from "@/modules/Store";
@@ -165,11 +165,13 @@ const UserRegisterModal = function ({
                 {...register("userName", {
                   required: {
                     value: true,
-                    message: "필수 입력 값입니다.",
+                    message: VALIDATION_ERROR.USER_NAME,
                   },
-                  maxLength: {
-                    value: 20,
-                    message: "최대 20자를 넘을 수 없습니다.",
+                  minLength: { value: 2, message: VALIDATION_ERROR.USER_NAME },
+                  maxLength: { value: 20, message: VALIDATION_ERROR.USER_NAME },
+                  pattern: {
+                    value: /^[a-zA-Z가-힣]*$/,
+                    message: VALIDATION_ERROR.USER_NAME,
                   },
                   onBlur: () => {
                     trigger("userName");
@@ -177,11 +179,14 @@ const UserRegisterModal = function ({
                 })}
               />
             </div>
-            {errors.userName && (
+            {/* {errors.userName && (
               <p className="validation-text">
                 <i className="mdi mdi-alert-outline text-danger" />{" "}
                 {errors.userName.message}
               </p>
+            )} */}
+            {errors.userName?.message && (
+              <FieldErrorBox message={errors.userName?.message} />
             )}
             {/* 영문 또는 숫자 최대 25자 */}
             <div className="mb-2">
@@ -194,15 +199,16 @@ const UserRegisterModal = function ({
                 {...register("userId", {
                   required: {
                     value: true,
-                    message: "필수 입력 값입니다.",
+                    message: VALIDATION_ERROR.USER_ID,
                   },
+                  minLength: { value: 4, message: VALIDATION_ERROR.USER_ID },
                   maxLength: {
-                    value: 20,
-                    message: "최대 25자를 넘을 수 없습니다.",
+                    value: 25,
+                    message: VALIDATION_ERROR.USER_ID,
                   },
                   pattern: {
-                    value: /^[A-Za-z0-9]*$/,
-                    message: "영문 또는 숫자만 입력 가능합니다.",
+                    value: /^[a-zA-Z0-9]*$/,
+                    message: VALIDATION_ERROR.USER_ID,
                   },
                   validate: isUserIdExist,
                   onBlur: () => {
@@ -216,11 +222,8 @@ const UserRegisterModal = function ({
                 })}
               />
             </div>
-            {errors.userId && (
-              <p className="validation-text">
-                <i className="mdi mdi-alert-outline text-danger" />{" "}
-                {errors.userId.message}
-              </p>
+            {errors.userId?.message && (
+              <FieldErrorBox message={errors.userId?.message} />
             )}
             {userIdResult && (
               <p className="validation-text">
@@ -238,12 +241,11 @@ const UserRegisterModal = function ({
                 {...register("password", {
                   required: {
                     value: true,
-                    message: ERROR.REQUIRED,
+                    message: VALIDATION_ERROR.PASSWORD,
                   },
                   pattern: {
                     value: /^(?=.*\d)(?=.*[a-zA-Z])(?=.*\W).{8,25}$/,
-                    message:
-                      "영문, 숫자, 특수문자 포함 8자 이상 25자 이하의 문자열만 허용됩니다.",
+                    message: VALIDATION_ERROR.PASSWORD,
                   },
                   // //focus-out 할 때마다 검증
                   onBlur: () => {
@@ -252,9 +254,10 @@ const UserRegisterModal = function ({
                 })}
               />
             </div>
-            {errors.password && (
-              <FieldErrorBox message={errors.password.message!} />
+            {errors.password?.message && (
+              <FieldErrorBox message={errors.password?.message} />
             )}
+
             <div className="mb-2">
               <label className="form-label">비밀번호 확인</label>
               <input
@@ -264,7 +267,7 @@ const UserRegisterModal = function ({
                 {...register("confirmpassword", {
                   required: {
                     value: true,
-                    message: ERROR.REQUIRED,
+                    message: ERROR.PW_NOT_EQ,
                   },
                   onBlur: () => {
                     trigger("confirmpassword");
@@ -275,8 +278,8 @@ const UserRegisterModal = function ({
                 })}
               />
             </div>
-            {errors.confirmpassword && (
-              <FieldErrorBox message={errors.confirmpassword.message!} />
+            {errors.confirmpassword?.message && (
+              <FieldErrorBox message={errors.confirmpassword?.message} />
             )}
             <div className="mb-2">
               <label className="form-label">관리자</label>

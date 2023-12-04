@@ -21,6 +21,7 @@ export const SUCCESS = {
 };
 
 export const VALIDATION_ERROR = {
+  USER_ID: "4자 이상 25자 이하 영문 대소문자 및 숫자만 가능",
   USER_NAME: "한글 또는 영문 2자 이상 20자 이내",
   PASSWORD: "영문, 숫자, 특수문자 포함 8자 이상 25자 이하",
   GROUP_NAME: "한글 또는 영문, 숫자 2자 이상 50자 이내",
