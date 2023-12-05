@@ -38,7 +38,7 @@ const UserModifyModal = function ({
     //팝업 창 닫기
     toggleShow();
     //팝업 창내 form 리셋
-    formRef.current!.formReset();
+    //formRef.current!.formReset();
   };
 
   //form 필드 기본 설정값
