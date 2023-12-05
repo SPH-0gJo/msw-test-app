@@ -1,4 +1,4 @@
-export const apiBaseUrl = "/nyj-api";
+export const apiBaseUrl = process.env.REACT_APP_API_BASE_URL || "";
 export const rootPath = process.env.REACT_APP_ROOT_PATH || "";
 export const tableauSiteRoot = process.env.REACT_APP_T_SITE_ROOT || "";
 export const tableauHostURL = process.env.REACT_APP_T_HOST_URL || "";
