@@ -8,6 +8,7 @@
     "bootstrap": "^5.2.3",
     "bootstrap-icons": "^1.10.5",
     "classnames": "^2.3.2",
+    "env-cmd": "^10.1.0",
     "jose": "^4.15.4",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
@@ -28,9 +29,8 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "build:dev": "cross-env PUBLIC_URL=https://nyjdev.sphinfo.com:8010/voc REACT_APP_BUILD_ENV=dev craco build",
-    "build:nyj1": "cross-env PUBLIC_URL=https://nyjdev.sphinfo.com:8010/voc REACT_APP_BUILD_ENV=nyj1 craco build",
-    "build:nyj2": "cross-env PUBLIC_URL=https://siminsori.nyj.go.kr/voc REACT_APP_BUILD_ENV=nyj2 craco build",
+    "build:in": "env-cmd -f .env.in craco build",
+    "build:out": "env-cmd -f .env.out craco build",
     "test": "craco test",
     "eject": "react-scripts eject"
   },

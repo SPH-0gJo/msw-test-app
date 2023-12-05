@@ -5,8 +5,12 @@ import SysLeftSideMenu from "@/layout/LeftSideMenu/SysLeftSideMenu";
 import FoldableWrapper, {
   FoldableWrapperProps,
 } from "@/layout/FoldableWrapper";
-import { nyjRootPath } from "@/shared/env";
 import Logo from "@/resources/images/logo-light.png";
+import { rootPath } from "@/shared/env";
+
+const addSlashBack = (path: string) => {
+  return path === "" ? path : path + "/";
+};
 
 /**
  * 화면 전체 레이아웃에서 로고를 포함한 메뉴바 영역을 렌더링하는 컴포넌트
@@ -33,7 +37,7 @@ const LeftSideMenu = function () {
     <FoldableWrapper {...folderWrapperProps}>
       <div className="logo-box">
         <h1 className="logo">
-          <a href={`/${nyjRootPath}`} className="logo-link">
+          <a href={`/${addSlashBack(rootPath)}`} className="logo-link">
             <img src={Logo} alt="남양주 Logo" />
             <span className="logo-type">생생 시민소리 분석시스템</span>
           </a>
