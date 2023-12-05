@@ -65,7 +65,7 @@ const MenuModifyModal = function (props: MenuModifyModalProps) {
 
   const menuFormInputsConfig: MenuFormInputsConfig = {
     upperMenuId: {
-      value: menu?.bigparentId || "",
+      value: menu?.midparentId || menu?.bigparentId || "",
     },
     menupathName: {
       value: menu?.menupathName,
