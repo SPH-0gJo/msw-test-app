@@ -7,4 +7,12 @@ module.exports = {
       options: {},
     },
   ],
+  jest: {
+    configure: (jestConfig, { env, paths, resolve, rootDir }) => {
+      return {
+        ...jestConfig,
+        setupFiles: [`${rootDir}/src/jest.polyfills.ts`], //TextEncoder 문제... 
+      };
+    },
+  },
 };

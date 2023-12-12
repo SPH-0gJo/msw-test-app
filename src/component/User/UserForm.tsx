@@ -144,8 +144,11 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
         </div>
         {/* 이름 */}
         <div className="mb-2">
-          <label className="form-label">이름</label>
+          <label htmlFor="username-input" className="form-label">
+            이름
+          </label>
           <input
+            id={"username-input"}
             placeholder="이름을 입력해주세요."
             type="text"
             className="form-control"
@@ -169,8 +172,11 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
         )}
         {/* 아이디 */}
         <div className="mb-2">
-          <label className="form-label">아이디</label>
+          <label htmlFor="userid-input" className="form-label">
+            아이디
+          </label>
           <input
+            id="userid-input"
             placeholder="아이디를 입력해주세요."
             type="text"
             defaultValue={userFormInputsConfig.userId?.value || ""}
