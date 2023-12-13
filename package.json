@@ -32,7 +32,7 @@
     "build": "craco build",
     "build:in": "env-cmd -f .env.in craco build",
     "build:out": "env-cmd -f .env.out craco build",
-    "test": "craco test",
+    "test": "craco test REACT_APP_API_BASE_URL=http://221.147.56.180:35030",
     "eject": "react-scripts eject"
   },
   "jest": {
@@ -77,9 +77,9 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "msw": "^1.2.1",
+    "msw": "^2.0.4",
     "prettier": "^3.0.3",
-    "react-app-alias": "^2.2.2",
+    "react-app-alias": "^2.0.2",
     "typescript": "^4.9.5"
   }
 }

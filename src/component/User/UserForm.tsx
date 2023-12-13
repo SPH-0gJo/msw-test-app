@@ -4,6 +4,7 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import FieldErrorBox from "@/component/ui-components/FieldErrorBox";
 import { useStores } from "@/modules/Store";
 import { observer } from "mobx-react";
+import { apiBaseUrl } from "@/shared/env";
 
 export interface UserFormInputs {
   userName: string;
@@ -69,6 +70,7 @@ const UserForm = forwardRef<ExternalUserForm, UserFormProps>(function (
       accountStore
         .findAllGroups()
         .then((result) => {
+          console.log("result", result);
           if (result.data) {
             accountStore.setGroups(result.data);
             return;
