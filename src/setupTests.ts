@@ -7,7 +7,7 @@ import { handlers } from "./mocks/handlers";
 const server = setupServer(...handlers);
 
 server.events.on("request:start", ({ request }) => {
-  console.log("MSW intercepted:", request.method, request.url); // <-- this line never runs
+  console.log("MSW intercepted:", request.method, request.url);
 });
 
 server.events.on("response:mocked", ({ request, requestId, response }) => {
